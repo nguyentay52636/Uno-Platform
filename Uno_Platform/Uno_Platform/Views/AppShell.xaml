@@ -71,7 +71,7 @@
 
     <!-- Top AppBar with Acrylic Effect -->
     <Border Grid.Row="0"
-            x:Name="AppBar"
+            x:Name="AppBarBorder"
             Background="{StaticResource AcrylicBrush}"
             Padding="{StaticResource SpacingM}"
             CornerRadius="0,0,16,16">
@@ -83,7 +83,7 @@
       </Border.Background>
       
 
-      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{StaticResource SpacingM}">
+      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{StaticResource SpacingM}">
         <!-- Title -->
         <TextBlock Grid.Column="0"
                    x:Name="AppTitle"
@@ -93,18 +93,35 @@
                    Foreground="{StaticResource PrimaryBrush}"
                    FontWeight="Bold"/>
 
-        <!-- Spacer -->
-        <Grid Grid.Column="1"/>
-
-        <!-- Search Icon Button -->
-        <Button Grid.Column="2"
-                x:Name="SearchButton"
-                Style="{StaticResource IconButtonStyle}"
-                Click="SearchButton_Click"
-                HorizontalAlignment="Right">
-          <SymbolIcon Symbol="Find" 
-                     Foreground="{StaticResource TextPrimaryBrush}"/>
-        </Button>
+        <!-- Search Bar -->
+        <Border Grid.Column="1"
+                Background="{StaticResource SurfaceBrush}"
+                Padding="12,0"
+                CornerRadius="{StaticResource BorderRadiusMedium}"
+                BorderThickness="2"
+                BorderBrush="{StaticResource BorderBrush}"
+                MaxWidth="500"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center">
+          <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+            <SymbolIcon Grid.Column="0"
+                        Symbol="Find"
+                        Foreground="{StaticResource PrimaryBrush}"
+                        Width="18"
+                        Height="18"
+                        VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1"
+                     x:Name="GlobalSearchBox"
+                     PlaceholderText="Search products..."
+                     BorderThickness="0"
+                     Background="Transparent"
+                     FontSize="{StaticResource FontSizeBody}"
+                     Foreground="{StaticResource TextPrimaryBrush}"
+                     VerticalAlignment="Center"
+                     MinHeight="40"
+                     TextChanged="GlobalSearchBox_TextChanged"/>
+          </Grid>
+        </Border>
       </Grid>
     </Border>
 

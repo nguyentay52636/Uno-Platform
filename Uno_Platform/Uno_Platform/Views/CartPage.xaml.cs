@@ -20,7 +20,11 @@ public sealed partial class CartPage : Page
     {
         base.OnNavigatedTo(e);
         ViewModel.LoadCartCommand.Execute(null);
-        // Animation is handled in XAML via Storyboard
+        
+        // Start Enter Animation
+        var anim = Resources["PageEnterAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
+        anim?.Begin();
+
         UpdateEmptyState();
     }
 

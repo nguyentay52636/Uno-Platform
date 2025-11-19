@@ -44,13 +44,13 @@ public sealed partial class ProductListPage : Page
         }
     }
 
-    private void CategoryButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void CategoryButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button button && button.Tag is string category)
+        if (sender is Button btn && btn.Tag is string category)
         {
-            ViewModel.SelectedCategory = category;
-            UpdateEmptyState();
-            UpdateCategoryButtonStyles();
+             ViewModel.SelectedCategory = category;
+             UpdateEmptyState();
+             UpdateCategoryButtonStyles();
         }
     }
 

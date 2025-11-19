@@ -210,57 +210,17 @@
               
               <!-- View Details Button -->
           <Button Grid.Column="0"
-                     Content="Details"
-                  FontSize="13"
-                     Padding="12,10"
-                     CornerRadius="8"
-                  Background="#FFFFFF"
-                  BorderBrush="#6366F1"
-                     BorderThickness="2"
-                  FontWeight="Bold"
-                     Foreground="#6366F1"
+                  Content="Details"
+                  Style="{StaticResource OutlinedButtonStyle}"
                   Command="{x:Bind ViewDetailsCommand}"
-                  CommandParameter="{x:Bind Product, Mode=OneWay}">
-            <Button.Template>
-              <ControlTemplate TargetType="Button">
-                <Border x:Name="RootBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        Padding="{TemplateBinding Padding}">
-                  <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-              </ControlTemplate>
-            </Button.Template>
-          </Button>
+                  CommandParameter="{x:Bind Product, Mode=OneWay}"/>
               
               <!-- Add to Cart Button -->
           <Button Grid.Column="1"
-                     Content="Add Cart"
-                  FontSize="13"
-                     Padding="12,10"
-                     CornerRadius="8"
-                  Background="#6366F1"
-                  BorderBrush="#6366F1"
-                  BorderThickness="2"
-                  Foreground="White"
-                  FontWeight="Bold"
+                  Content="Add Cart"
+                  Style="{StaticResource PrimaryButtonStyle}"
                   Command="{x:Bind AddToCartCommand}"
-                  CommandParameter="{x:Bind Product, Mode=OneWay}">
-            <Button.Template>
-              <ControlTemplate TargetType="Button">
-                <Border x:Name="RootBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        Padding="{TemplateBinding Padding}">
-                  <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-              </ControlTemplate>
-            </Button.Template>
-          </Button>
+                  CommandParameter="{x:Bind Product, Mode=OneWay}"/>
         </Grid>
 
           </Grid>

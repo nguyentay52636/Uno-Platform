@@ -70,18 +70,6 @@
                   Style="{StaticResource Heading2Style}"
                   VerticalAlignment="Center"
                   Foreground="{StaticResource TextPrimaryBrush}"/>
-        
-        <Button Grid.Column="2"
-                Content="💾 Save"
-                Background="#6366F1"
-                Foreground="White"
-                BorderBrush="#6366F1"
-                BorderThickness="2"
-                CornerRadius="8"
-                Padding="24,12"
-                FontSize="16"
-                FontWeight="Bold"
-                Command="{x:Bind ViewModel.SaveCommand}"/>
       </Grid>
     </Border>
 
@@ -210,12 +198,14 @@
                        CornerRadius="{StaticResource BorderRadiusMedium}"
                        BorderThickness="2"
                        BorderBrush="{StaticResource BorderBrush}"
-                       Background="{StaticResource SurfaceBrush}">
+                       Background="{StaticResource SurfaceBrush}"
+                       Foreground="{StaticResource TextPrimaryBrush}">
                 <ComboBox.ItemTemplate>
                   <DataTemplate>
                     <TextBlock Text="{Binding}" 
                               FontSize="{StaticResource FontSizeBody}" 
-                              Padding="4"/>
+                              Padding="4"
+                              Foreground="Black"/>
                   </DataTemplate>
                 </ComboBox.ItemTemplate>
               </ComboBox>
@@ -279,29 +269,15 @@
             <!-- Cancel Button -->
             <Button Grid.Column="0"
                    Content="❌ Cancel"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Padding="24,16"
+                   Style="{StaticResource NeutralButtonStyle}"
                    Height="56"
-                   CornerRadius="12"
-                   Background="#FFFFFF"
-                   BorderBrush="#666666"
-                   BorderThickness="2"
-                   Foreground="#333333"
                    Command="{x:Bind ViewModel.GoBackCommand}"/>
             
             <!-- Save Button -->
             <Button Grid.Column="1"
                    Content="💾 Save Product"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Padding="24,16"
+                   Style="{StaticResource PrimaryButtonStyle}"
                    Height="56"
-                   CornerRadius="12"
-                   Background="#6366F1"
-                   BorderBrush="#6366F1"
-                   BorderThickness="2"
-                   Foreground="White"
                    Command="{x:Bind ViewModel.SaveCommand}"/>
 
           </Grid>

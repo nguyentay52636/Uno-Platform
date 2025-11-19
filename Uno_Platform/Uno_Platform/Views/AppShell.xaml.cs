@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Uno_Platform.Services;
 
 namespace Uno_Platform.Views;
 
@@ -15,8 +16,27 @@ public sealed partial class AppShell : Page
 
     private void InitializeNavigation()
     {
+        // Subscribe to Cart events
+        var cartService = ServiceLocator.CartService;
+        cartService.CartCountChanged += (s, count) =>
+        {
+            DispatcherQueue.TryEnqueue(() => UpdateCartBadge(count));
+        };
+
+        // Initialize badge
+        _ = InitializeCartBadgeAsync();
+
+        // Listen to frame navigation to update header visibility
+        ContentFrame.Navigated += (s, e) => UpdateHeaderVisibility();
+
         // Set initial page
         NavigateToHome();
+    }
+
+    private async Task InitializeCartBadgeAsync()
+    {
+        var count = await ServiceLocator.CartService.GetCartItemCountAsync();
+        DispatcherQueue.TryEnqueue(() => UpdateCartBadge(count));
     }
 
     private void NavigateToHome()
@@ -29,6 +49,7 @@ public sealed partial class AppShell : Page
             ContentFrame.Navigate(typeof(ProductListPage));
         }
         UpdateTabIndicators("Home");
+        UpdateHeaderVisibility();
         PlayPageTransition();
     }
 
@@ -42,6 +63,7 @@ public sealed partial class AppShell : Page
             ContentFrame.Navigate(typeof(CartPage));
         }
         UpdateTabIndicators("Cart");
+        UpdateHeaderVisibility();
         PlayPageTransition();
     }
 
@@ -55,7 +77,21 @@ public sealed partial class AppShell : Page
             ContentFrame.Navigate(typeof(SettingsPage));
         }
         UpdateTabIndicators("Settings");
+        UpdateHeaderVisibility();
         PlayPageTransition();
+    }
+
+    private void UpdateHeaderVisibility()
+    {
+        // Show header only on Home page (ProductListPage)
+        if (ContentFrame.Content is ProductListPage)
+        {
+            AppBarBorder.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        }
+        else
+        {
+            AppBarBorder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        }
     }
 
     private void UpdateTabIndicators(string activeTab)
@@ -118,13 +154,19 @@ public sealed partial class AppShell : Page
         NavigateToSettings();
     }
 
-    private void SearchButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void GlobalSearchBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        // Navigate to home and trigger search if on product list page
-        NavigateToHome();
+        // Navigate to home if not already there
+        if (_currentTab != "Home")
+        {
+            NavigateToHome();
+        }
         
-        // This will be handled by the ProductListPage
-        // For now, just navigate to home tab
+        // Update search in ProductListPage
+        if (ContentFrame.Content is ProductListPage productListPage)
+        {
+            productListPage.ViewModel.SearchKeyword = GlobalSearchBox.Text;
+        }
     }
 
     public void UpdateCartBadge(int count)

@@ -80,18 +80,6 @@
                   Style="{StaticResource Heading2Style}"
                   VerticalAlignment="Center"
                   Foreground="{StaticResource TextPrimaryBrush}"/>
-        
-        <Button Grid.Column="2"
-                Content="✏️ Edit"
-                Background="#6366F1"
-                Foreground="White"
-                BorderBrush="#6366F1"
-                BorderThickness="2"
-                CornerRadius="8"
-                Padding="20,12"
-                FontSize="16"
-                FontWeight="Bold"
-                Command="{x:Bind ViewModel.NavigateToEditCommand}"/>
       </Grid>
     </Border>
 
@@ -251,29 +239,17 @@
             <!-- Edit Product Button -->
             <Button Grid.Column="0"
                    Content="✏️ Edit Product"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Padding="24,16"
-                   Height="60"
-                   CornerRadius="12"
+                   Style="{StaticResource PrimaryButtonStyle}"
                    Background="#6366F1"
-                   BorderBrush="#6366F1"
-                   BorderThickness="2"
-                   Foreground="White"
+                   Height="60"
                    Command="{x:Bind ViewModel.NavigateToEditCommand}"/>
 
             <!-- Add to Cart Button -->
             <Button Grid.Column="1"
                    Content="🛒 Add to Cart"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Padding="24,16"
-                   Height="60"
-                   CornerRadius="12"
+                   Style="{StaticResource PrimaryButtonStyle}"
                    Background="#10B981"
-                   BorderBrush="#10B981"
-                   BorderThickness="2"
-                   Foreground="White"
+                   Height="60"
                    Command="{x:Bind ViewModel.AddToCartCommand}"/>
 
           </Grid>

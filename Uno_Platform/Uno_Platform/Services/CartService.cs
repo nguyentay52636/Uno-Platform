@@ -14,6 +14,8 @@ public class CartService
         _productRepository = productRepository;
     }
 
+    public event EventHandler<int>? CartCountChanged;
+
     public async Task<List<CartItem>> GetCartItemsAsync()
     {
         return await _cartRepository.GetAllCartItemsAsync();
@@ -32,10 +34,11 @@ public class CartService
 
         var existingItem = await _cartRepository.GetCartItemByProductIdAsync(productId);
         
+        bool result;
         if (existingItem != null)
         {
             existingItem.Quantity++;
-            return await _cartRepository.UpdateCartItemAsync(existingItem);
+            result = await _cartRepository.UpdateCartItemAsync(existingItem);
         }
         else
         {
@@ -48,8 +51,15 @@ public class CartService
                 ProductCategory = product.Category,
                 Quantity = 1
             };
-            return await _cartRepository.AddCartItemAsync(newItem);
+            result = await _cartRepository.AddCartItemAsync(newItem);
         }
+
+        if (result)
+        {
+            var count = await GetCartItemCountAsync();
+            CartCountChanged?.Invoke(this, count);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateCartItemQuantityAsync(int cartItemId, int quantity)
@@ -66,17 +76,35 @@ public class CartService
             return false;
 
         item.Quantity = quantity;
-        return await _cartRepository.UpdateCartItemAsync(item);
+        var result = await _cartRepository.UpdateCartItemAsync(item);
+        
+        if (result)
+        {
+            var count = await GetCartItemCountAsync();
+            CartCountChanged?.Invoke(this, count);
+        }
+        return result;
     }
 
     public async Task<bool> RemoveFromCartAsync(int cartItemId)
     {
-        return await _cartRepository.DeleteCartItemAsync(cartItemId);
+        var result = await _cartRepository.DeleteCartItemAsync(cartItemId);
+        if (result)
+        {
+            var count = await GetCartItemCountAsync();
+            CartCountChanged?.Invoke(this, count);
+        }
+        return result;
     }
 
     public async Task<bool> ClearCartAsync()
     {
-        return await _cartRepository.ClearCartAsync();
+        var result = await _cartRepository.ClearCartAsync();
+        if (result)
+        {
+            CartCountChanged?.Invoke(this, 0);
+        }
+        return result;
     }
 
     public async Task<decimal> GetTotalPriceAsync()
