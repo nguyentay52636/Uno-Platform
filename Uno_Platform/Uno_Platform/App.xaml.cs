@@ -16,9 +16,9 @@ public partial class App : Application
     {
         this.InitializeComponent();
         
-#if !__WASM__
-        // Initialize SQLite for non-WebAssembly platforms
-        SQLitePCLRaw.batteries_v2.Batteries_V2.Init();
+#if __ANDROID__ || __IOS__ || __MACOS__
+        // Initialize SQLite for mobile/desktop platforms using bundle_green
+        SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 #endif
     }
 
@@ -53,6 +53,7 @@ public partial class App : Application
 
     private void InitializeDatabase()
     {
+        System.Diagnostics.Debug.WriteLine("=== App: InitializeDatabase called ===");
         // Initialize database asynchronously without blocking UI
         _ = InitializeDatabaseAsync();
     }
@@ -61,11 +62,40 @@ public partial class App : Application
     {
         try
         {
+            System.Diagnostics.Debug.WriteLine("=== App: Starting InitializeDatabaseAsync ===");
+            
+            // Force initialize database connection first
+#if __ANDROID__ || __IOS__ || __MACOS__
+            var dbContext = ServiceLocator.DbContext;
+            System.Diagnostics.Debug.WriteLine($"Database connection initialized: {dbContext != null}");
+#endif
+            
             await ServiceLocator.DataSeedService.SeedDataAsync();
+            System.Diagnostics.Debug.WriteLine("=== App: Database initialization completed ===");
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error initializing database: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"=== App: CRITICAL ERROR initializing database ===");
+            System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+            
+            // Show error to user on Android
+#if __ANDROID__
+            if (MainWindow?.DispatcherQueue != null)
+            {
+                MainWindow.DispatcherQueue.TryEnqueue(async () =>
+                {
+                    var dialog = new Microsoft.UI.Xaml.Controls.ContentDialog
+                    {
+                        Title = "Database Error",
+                        Content = $"Failed to initialize database: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = MainWindow.Content?.XamlRoot
+                    };
+                    await dialog.ShowAsync();
+                });
+            }
+#endif
         }
     }
 

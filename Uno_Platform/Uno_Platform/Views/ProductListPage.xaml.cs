@@ -1,8 +1,11 @@
 using Uno_Platform.ViewModels;
 using Uno_Platform.Models;
+using Uno_Platform.Services;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Dispatching;
+using System;
+using System.Threading.Tasks;
 
 namespace Uno_Platform.Views;
 
@@ -22,10 +25,58 @@ public sealed partial class ProductListPage : Page
         base.OnNavigatedTo(e);
         PageEnterAnimation.Begin();
         UpdateEmptyState();
-        ViewModel.RefreshCommand.Execute(null);
+        _ = ViewModel.RefreshCommand.ExecuteAsync(null);
         
         // Update category button styles after data loads
         this.Loaded += (s, args) => UpdateCategoryButtonStyles();
+    }
+
+    private async void LoadSampleData_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        try
+        {
+            System.Diagnostics.Debug.WriteLine("=== Manual Load Sample Data clicked ===");
+            
+            var button = sender as Button;
+            if (button != null)
+            {
+                button.IsEnabled = false;
+                button.Content = "⏳ Loading...";
+            }
+            
+            // Clear existing products first to force re-seed
+            var products = await ServiceLocator.ProductRepository.GetAllProductsAsync();
+            System.Diagnostics.Debug.WriteLine($"Current products count: {products.Count}");
+            
+            // Force seed data
+            await ServiceLocator.DataSeedService.SeedDataAsync();
+            
+            // Refresh the list
+            await ViewModel.RefreshCommand.ExecuteAsync(null);
+            
+            if (button != null)
+            {
+                button.Content = "✅ Data Loaded!";
+                await Task.Delay(2000);
+                button.Content = "🔄 Load Sample Data";
+                button.IsEnabled = true;
+            }
+            
+            ToastService.Instance.ShowSuccess($"Loaded {ViewModel.FilteredProducts.Count} products!");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"❌ Error loading sample data: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+            ToastService.Instance.ShowError($"Error: {ex.Message}");
+            
+            var button = sender as Button;
+            if (button != null)
+            {
+                button.Content = "❌ Error - Try Again";
+                button.IsEnabled = true;
+            }
+        }
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)

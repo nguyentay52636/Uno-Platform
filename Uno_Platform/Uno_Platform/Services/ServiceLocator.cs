@@ -1,4 +1,7 @@
 using Uno_Platform.Repositories;
+#if !__WASM__
+using Uno_Platform.Database;
+#endif
 
 namespace Uno_Platform.Services;
 
@@ -9,6 +12,24 @@ public static class ServiceLocator
     private static ProductService? _productService;
     private static CartService? _cartService;
     private static NavigationService? _navigationService;
+    private static DataSeedService? _dataSeedService;
+
+#if !__WASM__
+    private static AppDbContext? _dbContext;
+    
+    public static AppDbContext DbContext
+    {
+        get
+        {
+            if (_dbContext == null)
+            {
+                System.Diagnostics.Debug.WriteLine("=== ServiceLocator: Creating new AppDbContext ===");
+                _dbContext = new AppDbContext();
+            }
+            return _dbContext;
+        }
+    }
+#endif
 
     public static IProductRepository ProductRepository
     {
@@ -45,8 +66,6 @@ public static class ServiceLocator
             return _cartService;
         }
     }
-
-    private static DataSeedService? _dataSeedService;
 
     public static NavigationService NavigationService
     {

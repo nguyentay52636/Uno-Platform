@@ -274,7 +274,7 @@ public partial class ProductListViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Refresh()
+    public async Task Refresh()
     {
         await LoadDataAsync();
     }

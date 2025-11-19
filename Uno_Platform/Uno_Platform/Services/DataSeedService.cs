@@ -16,11 +16,18 @@ public class DataSeedService
     {
         try
         {
+            System.Diagnostics.Debug.WriteLine("=== Starting SeedDataAsync ===");
+            
             var existingProducts = await _productRepository.GetAllProductsAsync();
+            System.Diagnostics.Debug.WriteLine($"Existing products count: {existingProducts.Count}");
+            
             if (existingProducts.Count > 0)
             {
+                System.Diagnostics.Debug.WriteLine("Data already seeded, skipping...");
                 return; // Data already seeded
             }
+
+            System.Diagnostics.Debug.WriteLine("No existing products, starting seed...");
 
             var technologyProducts = new List<Product>
             {
@@ -180,11 +187,13 @@ public class DataSeedService
                 await _productRepository.AddProductAsync(product);
             }
 
-            System.Diagnostics.Debug.WriteLine($"Seeded {technologyProducts.Count} technology products");
+            System.Diagnostics.Debug.WriteLine($"✅ Successfully seeded {technologyProducts.Count} technology products");
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error seeding data: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"❌ Error seeding data: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+            throw; // Re-throw to see the error in app
         }
     }
 }
