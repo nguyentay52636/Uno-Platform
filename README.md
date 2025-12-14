@@ -143,13 +143,16 @@ dotnet build
 ### Chạy trên các nền tảng
 ```bash
 # Android
-dotnet run --project Uno_Platform --framework net8.0-android
+dotnet run --project Uno_Platform --framework net9.0-android
+# Build for Android (this should work)
+dotnet build -f net9.0-android
 
-# Windows
-dotnet run --project Uno_Platform --framework net8.0-windows10.0.19041
+# Try to run/deploy (if you have an Android emulator or device connected)
+dotnet build -f net9.0-android -t:Run
 
-# WebAssembly
-dotnet run --project Uno_Platform --framework net8.0-browserwasm
+# Build for WebAssembly (alternative for testing)
+dotnet run -f net9.0-browserwasm
+
 ```
 
 ---
@@ -182,7 +185,7 @@ Dự án này được phân phối dưới giấy phép MIT. Xem `LICENSE` đ�
 
 ## 👥 Tác giả
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Your Name** - *Initial work* - [YourGitHub](https://github.com/nguyentay52636)
 
 ---
 

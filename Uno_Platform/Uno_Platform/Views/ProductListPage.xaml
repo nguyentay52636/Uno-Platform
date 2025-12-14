@@ -22,6 +22,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
     <!-- Filter Section - Đơn giản -->
@@ -72,12 +73,28 @@
         </StackPanel>
 
         <!-- Results Count -->
-        <TextBlock FontSize="14"
-                   FontWeight="SemiBold"
-                   Foreground="#666">
-          <Run Text="{x:Bind ViewModel.FilteredProducts.Count, Mode=OneWay}"/>
-          <Run Text=" sản phẩm"/>
-        </TextBlock>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock FontSize="14"
+                     FontWeight="SemiBold"
+                     Foreground="#666">
+            <Run Text="Tổng: "/>
+            <Run Text="{x:Bind ViewModel.TotalItems, Mode=OneWay}"/>
+            <Run Text=" sản phẩm"/>
+          </TextBlock>
+          <Border Background="{StaticResource PrimaryBrush}"
+                  CornerRadius="8"
+                  Padding="8,4"
+                  Opacity="0.9">
+            <TextBlock FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="White">
+              <Run Text="Trang "/>
+              <Run Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}"/>
+              <Run Text="/"/>
+              <Run Text="{x:Bind ViewModel.TotalPages, Mode=OneWay}"/>
+            </TextBlock>
+          </Border>
+        </StackPanel>
 
       </StackPanel>
     </Border>
@@ -145,8 +162,22 @@
       </Grid>
     </ScrollViewer>
 
+    <!-- Pagination -->
+    <Border Grid.Row="2"
+            Background="White"
+            Padding="16"
+            BorderThickness="0,1,0,0"
+            BorderBrush="#E0E0E0">
+      <components:Pagination x:Name="ProductPagination"
+                             CurrentPage="{x:Bind ViewModel.CurrentPage, Mode=TwoWay}"
+                             TotalPages="{x:Bind ViewModel.TotalPages, Mode=OneWay}"
+                             TotalItems="{x:Bind ViewModel.TotalItems, Mode=OneWay}"
+                             PageSize="{x:Bind ViewModel.PageSize, Mode=OneWay}"
+                             PageChanged="Pagination_PageChanged"/>
+    </Border>
+
     <!-- Loading Overlay -->
-    <components:LoadingIndicator Grid.Row="1"
+    <components:LoadingIndicator Grid.RowSpan="3"
                                 IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
                                 Message="Đang tải sản phẩm..."/>
   </Grid>

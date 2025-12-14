@@ -101,4 +101,10 @@ public sealed partial class ProductListPage : Page
             UpdateButtonStylesRecursive(child);
         }
     }
+
+    private void Pagination_PageChanged(object sender, int pageNumber)
+    {
+        ViewModel.GoToPageCommand.Execute(pageNumber);
+        UpdateEmptyState();
+    }
 }

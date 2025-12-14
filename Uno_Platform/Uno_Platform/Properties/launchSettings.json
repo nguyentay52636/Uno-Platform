@@ -35,6 +35,10 @@
       "commandLineArgs": "{ProjectDir}/bin/Debug/net10.0-desktop/Uno_Platform.dll",
       "distributionName": "",
       "compatibleTargetFramework": "desktop"
+    },
+    "Uno_Platform (Android)": {
+      "commandName": "Project",
+      "compatibleTargetFramework": "android"
     }
   }
 }
