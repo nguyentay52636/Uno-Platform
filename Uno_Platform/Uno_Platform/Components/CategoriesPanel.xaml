@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:Uno_Platform.Models">
 
-  <StackPanel Spacing="10">
+  <StackPanel Spacing="8">
     <TextBlock Text="Danh mục"
-               Style="{StaticResource Heading3Style}"
+               FontSize="16"
+               FontWeight="SemiBold"
                Foreground="#3D5A5B"/>
     
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
@@ -14,7 +15,7 @@
       <ItemsControl x:Name="CategoriesItemsControl">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
-            <StackPanel Orientation="Horizontal" Spacing="10"/>
+            <StackPanel Orientation="Horizontal" Spacing="8"/>
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
@@ -23,18 +24,21 @@
                     Tag="{x:Bind Name}"
                     Background="White"
                     BorderBrush="#3D5A5B"
-                    BorderThickness="1"
-                    CornerRadius="20"
-                    Padding="16,8">
+                    BorderThickness="1.5"
+                    CornerRadius="18"
+                    Padding="12,6"
+                    MinHeight="36">
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
                            VerticalAlignment="Center"
                            Foreground="#3D5A5B"
+                           FontSize="13"
                            FontWeight="SemiBold"/>
                 <Border Background="#3D5A5B"
-                        CornerRadius="10"
-                        Padding="6,3"
-                        MinWidth="24">
+                        CornerRadius="9"
+                        Padding="6,2"
+                        MinWidth="22"
+                        VerticalAlignment="Center">
                   <TextBlock Text="{x:Bind Count, Mode=OneWay}"
                              Foreground="White"
                              FontSize="11"

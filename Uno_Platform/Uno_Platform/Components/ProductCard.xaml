@@ -45,8 +45,8 @@
       
     <Grid>
       <Grid.RowDefinitions>
-          <RowDefinition Height="200"/>
-        <RowDefinition Height="220"/>
+          <RowDefinition Height="180"/>
+        <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
         <!-- Product Image Section with Gradient Background -->
@@ -83,7 +83,7 @@
         <Border Grid.Row="1"
                Background="{StaticResource SurfaceBrush}"
                CornerRadius="0,0,16,16"
-               Padding="16">
+               Padding="12">
           <Grid RowDefinitions="Auto,Auto,*">
             
         <!-- Product Name -->
@@ -92,39 +92,32 @@
                    TextWrapping="Wrap"
                    MaxLines="2"
                    TextTrimming="CharacterEllipsis"
-                   FontSize="18"
+                   FontSize="16"
                    FontWeight="Bold"
-                   LineHeight="24"
+                   LineHeight="22"
                    Foreground="#3D5A5B"
-                   Margin="0,0,0,8"/>
+                   Margin="0,0,0,6"/>
 
         <!-- Price -->
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal" 
-                    Spacing="8"
-                    Margin="0,0,0,12">
-              <Border Background="#3D5A5B"
-                     CornerRadius="10"
-                     Padding="10,6"
-                     HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                  <TextBlock Text="💰"
-                            FontSize="16"
-                            VerticalAlignment="Center"/>
-                  <TextBlock Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
-                             Foreground="White"
-                             FontSize="18"
-                             FontWeight="Bold"/>
-                </StackPanel>
-              </Border>
-        </StackPanel>
+        <Border Grid.Row="1"
+                Background="#3D5A5B"
+                CornerRadius="8"
+                Padding="8,5"
+                HorizontalAlignment="Left"
+                Margin="0,0,0,10">
+          <TextBlock Foreground="White"
+                     FontSize="16"
+                     FontWeight="Bold">
+            <Run Text="💰 "/>
+            <Run Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"/>
+          </TextBlock>
+        </Border>
 
         <!-- Action Buttons -->
         <Grid Grid.Row="2"
               ColumnDefinitions="*,*" 
-              ColumnSpacing="10" 
-              VerticalAlignment="Bottom"
-              Margin="0,0,0,0">
+              ColumnSpacing="8" 
+              VerticalAlignment="Bottom">
               
               <!-- View Details Button -->
           <Button Grid.Column="0"
@@ -132,9 +125,10 @@
                   Background="White"
                   Foreground="#3D5A5B"
                   BorderBrush="#3D5A5B"
-                  BorderThickness="2"
-                  CornerRadius="10"
-                  Padding="12,10"
+                  BorderThickness="1.5"
+                  CornerRadius="8"
+                  Padding="8,8"
+                  FontSize="13"
                   FontWeight="SemiBold"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind ViewDetailsCommand}"
@@ -146,8 +140,9 @@
                   Background="#3D5A5B"
                   Foreground="White"
                   BorderThickness="0"
-                  CornerRadius="10"
-                  Padding="12,10"
+                  CornerRadius="8"
+                  Padding="8,8"
+                  FontSize="13"
                   FontWeight="Bold"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind AddToCartCommand}"

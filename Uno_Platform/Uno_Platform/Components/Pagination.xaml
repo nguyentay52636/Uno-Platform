@@ -8,11 +8,11 @@
       <Setter Property="Background" Value="Transparent"/>
       <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
       <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="CornerRadius" Value="8"/>
       <Setter Property="Padding" Value="0"/>
-      <Setter Property="Width" Value="40"/>
-      <Setter Property="Height" Value="40"/>
-      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Width" Value="32"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="FontSize" Value="13"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="Template">
         <Setter.Value>
@@ -59,14 +59,14 @@
 
     <!-- Active Page Button Style -->
     <Style x:Key="ActivePageButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}"/>
+      <Setter Property="Background" Value="#3D5A5B"/>
       <Setter Property="Foreground" Value="White"/>
       <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="CornerRadius" Value="8"/>
       <Setter Property="Padding" Value="0"/>
-      <Setter Property="Width" Value="40"/>
-      <Setter Property="Height" Value="40"/>
-      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Width" Value="32"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="FontSize" Value="13"/>
       <Setter Property="FontWeight" Value="Bold"/>
       <Setter Property="Template">
         <Setter.Value>
@@ -105,14 +105,14 @@
 
     <!-- Navigation Arrow Button Style -->
     <Style x:Key="NavArrowButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="Foreground" Value="#3D5A5B"/>
       <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="BorderBrush" Value="#3D5A5B"/>
+      <Setter Property="CornerRadius" Value="8"/>
       <Setter Property="Padding" Value="0"/>
-      <Setter Property="Width" Value="40"/>
-      <Setter Property="Height" Value="40"/>
+      <Setter Property="Width" Value="36"/>
+      <Setter Property="Height" Value="36"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
@@ -159,67 +159,60 @@
     </Style>
   </UserControl.Resources>
 
-  <!-- Main Pagination Container -->
-  <Border Background="{StaticResource SurfaceBrush}"
-          CornerRadius="16"
-          Padding="16,12"
-          BorderBrush="{StaticResource BorderBrush}"
-          BorderThickness="1"
-          HorizontalAlignment="Center">
-    
-    <Grid ColumnDefinitions="Auto,*,Auto">
+  <!-- Main Pagination Container - Compact for Mobile -->
+  <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Disabled"
+                HorizontalScrollMode="Auto">
+    <StackPanel Orientation="Horizontal" 
+                Spacing="8"
+                HorizontalAlignment="Center">
       
-      <!-- Page Info (Left) -->
-      <StackPanel Grid.Column="0" 
-                  Orientation="Horizontal" 
-                  Spacing="8"
-                  VerticalAlignment="Center"
-                  Margin="0,0,20,0">
-        <TextBlock Text="Hiển thị"
-                   FontSize="13"
-                   Foreground="{StaticResource TextSecondaryBrush}"
-                   VerticalAlignment="Center"/>
-        <Border Background="{StaticResource PrimaryLightBrush}"
-                CornerRadius="6"
-                Padding="8,4"
-                Opacity="0.15">
+      <!-- Page Info -->
+      <Border Background="#F0F7F7"
+              CornerRadius="8"
+              Padding="10,6"
+              BorderThickness="1"
+              BorderBrush="#3D5A5B"
+              VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Spacing="4">
+          <TextBlock Text="Hiển thị"
+                     FontSize="12"
+                     Foreground="#666"
+                     VerticalAlignment="Center"/>
           <TextBlock x:Name="CurrentRangeText"
                      Text="1-5"
-                     FontSize="13"
+                     FontSize="12"
                      FontWeight="Bold"
-                     Foreground="{StaticResource PrimaryBrush}"
+                     Foreground="#3D5A5B"
                      VerticalAlignment="Center"/>
-        </Border>
-        <TextBlock Text="/"
-                   FontSize="13"
-                   Foreground="{StaticResource TextSecondaryBrush}"
-                   VerticalAlignment="Center"/>
-        <TextBlock x:Name="TotalItemsText"
-                   Text="20"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Foreground="{StaticResource TextPrimaryBrush}"
-                   VerticalAlignment="Center"/>
-        <TextBlock Text="sản phẩm"
-                   FontSize="13"
-                   Foreground="{StaticResource TextSecondaryBrush}"
-                   VerticalAlignment="Center"/>
-      </StackPanel>
+          <TextBlock Text="/"
+                     FontSize="12"
+                     Foreground="#666"
+                     VerticalAlignment="Center"/>
+          <TextBlock x:Name="TotalItemsText"
+                     Text="20"
+                     FontSize="12"
+                     FontWeight="SemiBold"
+                     Foreground="#3D5A5B"
+                     VerticalAlignment="Center"/>
+          <TextBlock Text="sản phẩm"
+                     FontSize="12"
+                     Foreground="#666"
+                     VerticalAlignment="Center"/>
+        </StackPanel>
+      </Border>
 
-      <!-- Page Numbers (Center) -->
-      <StackPanel Grid.Column="1" 
-                  Orientation="Horizontal" 
-                  HorizontalAlignment="Center"
-                  Spacing="6">
-        
+      <!-- Navigation Buttons -->
+      <StackPanel Orientation="Horizontal" Spacing="4">
         <!-- First Page Button -->
         <Button x:Name="FirstPageButton"
                 Style="{StaticResource NavArrowButtonStyle}"
-                Click="FirstPage_Click"
-                ToolTipService.ToolTip="Trang đầu">
+                Width="36"
+                Height="36"
+                Click="FirstPage_Click">
           <SymbolIcon Symbol="Previous" RenderTransformOrigin="0.5,0.5">
             <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
             </SymbolIcon.RenderTransform>
           </SymbolIcon>
         </Button>
@@ -227,11 +220,12 @@
         <!-- Previous Button -->
         <Button x:Name="PrevButton"
                 Style="{StaticResource NavArrowButtonStyle}"
-                Click="PrevPage_Click"
-                ToolTipService.ToolTip="Trang trước">
+                Width="36"
+                Height="36"
+                Click="PrevPage_Click">
           <SymbolIcon Symbol="Back" RenderTransformOrigin="0.5,0.5">
             <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
             </SymbolIcon.RenderTransform>
           </SymbolIcon>
         </Button>
@@ -244,11 +238,12 @@
         <!-- Next Button -->
         <Button x:Name="NextButton"
                 Style="{StaticResource NavArrowButtonStyle}"
-                Click="NextPage_Click"
-                ToolTipService.ToolTip="Trang sau">
+                Width="36"
+                Height="36"
+                Click="NextPage_Click">
           <SymbolIcon Symbol="Forward" RenderTransformOrigin="0.5,0.5">
             <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
             </SymbolIcon.RenderTransform>
           </SymbolIcon>
         </Button>
@@ -256,48 +251,45 @@
         <!-- Last Page Button -->
         <Button x:Name="LastPageButton"
                 Style="{StaticResource NavArrowButtonStyle}"
-                Click="LastPage_Click"
-                ToolTipService.ToolTip="Trang cuối">
+                Width="36"
+                Height="36"
+                Click="LastPage_Click">
           <SymbolIcon Symbol="Next" RenderTransformOrigin="0.5,0.5">
             <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
             </SymbolIcon.RenderTransform>
           </SymbolIcon>
         </Button>
       </StackPanel>
 
-      <!-- Quick Jump (Right) -->
-      <StackPanel Grid.Column="2" 
-                  Orientation="Horizontal" 
-                  Spacing="8"
-                  VerticalAlignment="Center"
-                  Margin="20,0,0,0">
+      <!-- Quick Jump -->
+      <StackPanel Orientation="Horizontal" Spacing="6">
         <TextBlock Text="Đến trang"
-                   FontSize="13"
-                   Foreground="{StaticResource TextSecondaryBrush}"
+                   FontSize="12"
+                   Foreground="#666"
                    VerticalAlignment="Center"/>
         <TextBox x:Name="PageJumpTextBox"
-                 Width="50"
-                 Height="36"
-                 FontSize="13"
+                 Width="45"
+                 Height="32"
+                 FontSize="12"
                  TextAlignment="Center"
-                 CornerRadius="8"
-                 BorderBrush="{StaticResource BorderBrush}"
+                 CornerRadius="6"
+                 BorderBrush="#3D5A5B"
                  BorderThickness="1"
-                 Padding="8,6"
+                 Padding="6,4"
                  KeyDown="PageJump_KeyDown"/>
         <Button Content="Đi"
-                Width="44"
-                Height="36"
-                FontSize="13"
+                Width="36"
+                Height="32"
+                FontSize="12"
                 FontWeight="Bold"
                 Background="#3D5A5B"
                 Foreground="White"
-                CornerRadius="10"
+                CornerRadius="8"
                 Click="GoToPage_Click"/>
       </StackPanel>
       
-    </Grid>
-  </Border>
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>
 
