@@ -146,7 +146,7 @@
                 CornerRadius="12"
                 BorderThickness="1"
                 BorderBrush="#E0E0E0"
-                Visibility="{x:Bind ViewModel.FilteredProducts.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Inverse}">
+                Visibility="{x:Bind ViewModel.HasNoProducts, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="15" HorizontalAlignment="Center">
             <TextBlock Text="🔍"
                        FontSize="60"

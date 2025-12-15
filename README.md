@@ -145,7 +145,8 @@ dotnet build
 # Android
 dotnet run --project Uno_Platform --framework net9.0-android
 # Build for Android (this should work)
-dotnet build -f net9.0-android
+dotnet build -f net9.0-android -t:Run
+
 
 # Try to run/deploy (if you have an Android emulator or device connected)
 dotnet build -f net9.0-android -t:Run

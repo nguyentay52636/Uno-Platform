@@ -7,6 +7,7 @@ namespace Uno_Platform.Views;
 public sealed partial class AppShell : Page
 {
     private string _currentTab = "Home";
+    private bool _isSidebarOpen = false;
 
     public AppShell()
     {
@@ -61,7 +62,95 @@ public sealed partial class AppShell : Page
 
     private void HeaderLoginButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        CloseSidebar();
         NavigateToLogin();
+    }
+
+    private void HeaderRegisterButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        CloseSidebar();
+        NavigateToRegister();
+    }
+
+    // Sidebar Toggle Button Click
+    private void SidebarToggleButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        if (_isSidebarOpen)
+        {
+            CloseSidebar();
+        }
+        else
+        {
+            OpenSidebar();
+        }
+    }
+
+    // Sidebar Overlay Tapped (close sidebar)
+    private void SidebarOverlay_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        CloseSidebar();
+    }
+
+    private void OpenSidebar()
+    {
+        _isSidebarOpen = true;
+        SidebarOverlay.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        
+        // Animate sidebar slide in
+        var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+        var animation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = -280,
+            To = 0,
+            Duration = TimeSpan.FromMilliseconds(250),
+            EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase()
+            {
+                EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut
+            }
+        };
+        
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(animation, SidebarTransform);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(animation, "X");
+        storyboard.Children.Add(animation);
+        storyboard.Begin();
+    }
+
+    private void CloseSidebar()
+    {
+        if (!_isSidebarOpen) return;
+        
+        _isSidebarOpen = false;
+        
+        // Animate sidebar slide out
+        var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+        var animation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = 0,
+            To = -280,
+            Duration = TimeSpan.FromMilliseconds(250),
+            EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase()
+            {
+                EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseIn
+            }
+        };
+        
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(animation, SidebarTransform);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(animation, "X");
+        storyboard.Children.Add(animation);
+        
+        storyboard.Completed += (s, e) =>
+        {
+            SidebarOverlay.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        };
+        
+        storyboard.Begin();
+    }
+
+    private void NavigateToRegister()
+    {
+        // Navigate to Register page
+        ContentFrame.Navigate(typeof(RegisterPage));
+        PlayPageTransition();
     }
 
     private void NavigateToLogin()
@@ -116,8 +205,8 @@ public sealed partial class AppShell : Page
     private void UpdateHeaderVisibility()
     {
         // Show header only on Home page (ProductListPage)
-        // Hide on Login page
-        if (ContentFrame.Content is LoginPage)
+        // Hide on Login/Register pages
+        if (ContentFrame.Content is LoginPage || ContentFrame.Content is RegisterPage)
         {
             AppBarBorder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
@@ -133,8 +222,8 @@ public sealed partial class AppShell : Page
 
     private void UpdateTabBarVisibility()
     {
-        // Hide TabBar on Login page
-        if (ContentFrame.Content is LoginPage)
+        // Hide TabBar on Login/Register pages
+        if (ContentFrame.Content is LoginPage || ContentFrame.Content is RegisterPage)
         {
             TabBar.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
@@ -191,16 +280,19 @@ public sealed partial class AppShell : Page
 
     private void HomeTab_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        CloseSidebar();
         NavigateToHome();
     }
 
     private void CartTab_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        CloseSidebar();
         NavigateToCart();
     }
 
     private void SettingsTab_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        CloseSidebar();
         NavigateToSettings();
     }
 
@@ -221,14 +313,28 @@ public sealed partial class AppShell : Page
 
     public void UpdateCartBadge(int count)
     {
+        var badgeText = count > 99 ? "99+" : count.ToString();
+        
+        // Update bottom tab cart badge
         if (count > 0)
         {
             CartBadge.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-            CartBadgeText.Text = count > 99 ? "99+" : count.ToString();
+            CartBadgeText.Text = badgeText;
         }
         else
         {
             CartBadge.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        }
+        
+        // Update header cart badge
+        if (count > 0)
+        {
+            HeaderCartBadge.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            HeaderCartBadgeText.Text = badgeText;
+        }
+        else
+        {
+            HeaderCartBadge.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
     }
 

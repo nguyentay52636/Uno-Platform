@@ -139,13 +139,13 @@
                   </Border>
                   
                   <TextBlock x:Name="WelcomeText"
-                             Text="Welcome Back" 
+                             Text="Chào mừng trở lại" 
                              Style="{StaticResource Heading2Style}"
                              HorizontalAlignment="Center"
                              TextAlignment="Center"/>
                   
                   <TextBlock x:Name="SubtitleText"
-                             Text="Sign in to continue" 
+                             Text="Đăng nhập để tiếp tục" 
                              Style="{StaticResource SecondaryTextStyle}"
                              HorizontalAlignment="Center"
                              TextAlignment="Center"/>
@@ -156,12 +156,12 @@
             <StackPanel Spacing="16">
               <!-- Username -->
               <StackPanel Spacing="8">
-                <TextBlock Text="Username" 
+                <TextBlock Text="Tên đăng nhập" 
                            Style="{StaticResource BodyTextStyle}" 
                            FontWeight="SemiBold"/>
                 <TextBox x:Name="UsernameTextBox"
                          Text="{x:Bind ViewModel.Username, Mode=TwoWay}"
-                         PlaceholderText="Enter your username"
+                         PlaceholderText="Nhập tên đăng nhập"
                          Style="{StaticResource ModernTextBoxStyle}"
                          HorizontalAlignment="Stretch"
                          MinHeight="44"/>
@@ -169,12 +169,12 @@
 
               <!-- Password -->
               <StackPanel Spacing="8">
-                <TextBlock Text="Password" 
+                <TextBlock Text="Mật khẩu" 
                            Style="{StaticResource BodyTextStyle}" 
                            FontWeight="SemiBold"/>
                 <PasswordBox x:Name="PasswordInputBox"
                              PasswordChanged="PasswordBox_PasswordChanged"
-                             PlaceholderText="Enter your password"
+                             PlaceholderText="Nhập mật khẩu"
                              Height="48"
                              BorderBrush="{StaticResource BorderBrush}"
                              BorderThickness="2"
@@ -195,15 +195,32 @@
                        Margin="0,8,0,0"/>
 
             <!-- Login Button -->
-            <Button Content="Sign In" 
+            <Button Content="Đăng nhập" 
                     Command="{x:Bind ViewModel.LoginCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"
                     HorizontalAlignment="Stretch"
                     MinHeight="48"
                     Margin="0,8,0,0"/>
             
+            <!-- Register Link -->
+            <StackPanel Spacing="8" Margin="0,12,0,0">
+              <TextBlock Text="Chưa có tài khoản?" 
+                         FontSize="{StaticResource FontSizeSmall}"
+                         Foreground="{StaticResource TextSecondaryBrush}"
+                         HorizontalAlignment="Center"
+                         TextAlignment="Center"/>
+              <Button x:Name="RegisterLinkButton"
+                      Content="Đăng ký ngay"
+                      Click="RegisterLinkButton_Click"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Foreground="{StaticResource PrimaryBrush}"
+                      FontWeight="SemiBold"
+                      HorizontalAlignment="Center"/>
+            </StackPanel>
+            
             <!-- Footer -->
-            <TextBlock Text="Demo Account: Any username/password (min 3 chars)" 
+            <TextBlock Text="Tài khoản demo: Nhập bất kỳ (tối thiểu 3 ký tự)" 
                        FontSize="{StaticResource FontSizeTiny}"
                        Foreground="{StaticResource TextSecondaryBrush}"
                        HorizontalAlignment="Center"

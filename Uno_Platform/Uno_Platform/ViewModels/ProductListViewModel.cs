@@ -73,6 +73,9 @@ public partial class ProductListViewModel : ObservableObject
     [ObservableProperty]
     private int pageSize = 5;
 
+    [ObservableProperty]
+    private bool hasNoProducts = true;
+
     public ProductListViewModel()
     {
         _productService = ServiceLocator.ProductService;
@@ -226,6 +229,7 @@ public partial class ProductListViewModel : ObservableObject
             TotalItems = 0;
             TotalPages = 1;
             CurrentPage = 1;
+            HasNoProducts = true;
         }
     }
 
@@ -245,10 +249,14 @@ public partial class ProductListViewModel : ObservableObject
             {
                 FilteredProducts.Add(product);
             }
+            
+            // Update HasNoProducts flag
+            HasNoProducts = FilteredProducts.Count == 0;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error applying pagination: {ex.Message}");
+            HasNoProducts = true;
         }
     }
 

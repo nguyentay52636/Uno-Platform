@@ -83,9 +83,23 @@
       </Border.Background>
       
 
-      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{StaticResource SpacingM}">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="12">
+        <!-- Toggle Button (☰) -->
+        <Button Grid.Column="0"
+                x:Name="SidebarToggleButton"
+                Content="☰"
+                Click="SidebarToggleButton_Click"
+                Width="40"
+                Height="40"
+                FontSize="20"
+                Background="Transparent"
+                Foreground="{StaticResource PrimaryBrush}"
+                BorderThickness="0"
+                CornerRadius="8"
+                VerticalAlignment="Center"/>
+
         <!-- Title -->
-        <TextBlock Grid.Column="0"
+        <TextBlock Grid.Column="1"
                    x:Name="AppTitle"
                    Text="Tech Store"
                    Style="{StaticResource Heading2Style}"
@@ -94,7 +108,7 @@
                    FontWeight="Bold"/>
 
         <!-- Search Bar -->
-        <Border Grid.Column="1"
+        <Border Grid.Column="2"
                 Background="{StaticResource SurfaceBrush}"
                 Padding="12,0"
                 CornerRadius="{StaticResource BorderRadiusMedium}"
@@ -112,7 +126,7 @@
                         VerticalAlignment="Center"/>
             <TextBox Grid.Column="1"
                      x:Name="GlobalSearchBox"
-                     PlaceholderText="Search products..."
+                     PlaceholderText="Tìm kiếm sản phẩm..."
                      BorderThickness="0"
                      Background="Transparent"
                      FontSize="{StaticResource FontSizeBody}"
@@ -123,15 +137,34 @@
           </Grid>
         </Border>
 
-        <!-- Login Button -->
-        <Button Grid.Column="2"
-                x:Name="HeaderLoginButton"
-                Content="Login"
-                Click="HeaderLoginButton_Click"
-                Style="{StaticResource PrimaryButtonStyle}"
-                Padding="16,8"
-                MinHeight="36"
-                FontSize="{StaticResource FontSizeSmall}"/>
+        <!-- Cart Icon (Right side) -->
+        <Button Grid.Column="3"
+                x:Name="HeaderCartButton"
+                Click="CartTab_Click"
+                Background="Transparent"
+                BorderThickness="0"
+                Padding="8"
+                VerticalAlignment="Center">
+          <Grid>
+            <SymbolIcon Symbol="Shop" Foreground="{StaticResource PrimaryBrush}"/>
+            <Border x:Name="HeaderCartBadge"
+                    Background="{StaticResource SecondaryBrush}"
+                    CornerRadius="10"
+                    Padding="4,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,-8,-8,0"
+                    Visibility="Collapsed">
+              <TextBlock x:Name="HeaderCartBadgeText"
+                        Text="0"
+                        Foreground="White"
+                        FontSize="9"
+                        FontWeight="Bold"
+                        MinWidth="14"
+                        TextAlignment="Center"/>
+            </Border>
+          </Grid>
+        </Button>
       </Grid>
     </Border>
 
@@ -270,6 +303,144 @@
                    Margin="0,4,0,0"/>
           </StackPanel>
         </Button>
+      </Grid>
+    </Border>
+
+    <!-- Sidebar Overlay (click to close) -->
+    <Border x:Name="SidebarOverlay"
+            Grid.RowSpan="3"
+            Background="#80000000"
+            Visibility="Collapsed"
+            Canvas.ZIndex="100"
+            Tapped="SidebarOverlay_Tapped"/>
+
+    <!-- Sidebar (Navigation Drawer) -->
+    <Border x:Name="Sidebar"
+            Grid.RowSpan="3"
+            Background="#FAFBFC"
+            Width="280"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            BorderBrush="#E5E7EB"
+            BorderThickness="0,0,1,0"
+            Canvas.ZIndex="200">
+      <Border.RenderTransform>
+        <TranslateTransform x:Name="SidebarTransform" X="-280"/>
+      </Border.RenderTransform>
+      
+      <Grid RowDefinitions="Auto,*">
+        <!-- Sidebar Header -->
+        <Border Grid.Row="0" 
+                Padding="20"
+                Background="{StaticResource PrimaryGradientBrush}">
+          <StackPanel Spacing="12">
+            <Border Width="70" 
+                    Height="70" 
+                    CornerRadius="35" 
+                    Background="White"
+                    HorizontalAlignment="Center">
+              <SymbolIcon Symbol="Contact" 
+                          Foreground="{StaticResource PrimaryBrush}"
+                          RenderTransformOrigin="0.5,0.5">
+                <SymbolIcon.RenderTransform>
+                  <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </SymbolIcon.RenderTransform>
+              </SymbolIcon>
+            </Border>
+            
+            <TextBlock Text="Chào mừng!" 
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+            
+            <TextBlock Text="Đăng nhập để tiếp tục" 
+                       FontSize="14"
+                       Foreground="#E0E0E0"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+          </StackPanel>
+        </Border>
+        
+        <!-- Sidebar Content -->
+        <StackPanel Grid.Row="1" Padding="20" Spacing="20">
+          <!-- Authentication Buttons (2 buttons on same row - Horizontal) -->
+          <Grid ColumnDefinitions="*,12,*">
+            <Button x:Name="SidebarLoginButton"
+                    Grid.Column="0"
+                    Content="Đăng nhập"
+                    Click="HeaderLoginButton_Click"
+                    HorizontalAlignment="Stretch"
+                    Height="44"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    CornerRadius="8"
+                    BorderThickness="0"
+                    Foreground="White"
+                    Background="{StaticResource PrimaryBrush}"/>
+            
+            <Button x:Name="SidebarRegisterButton"
+                    Grid.Column="2"
+                    Content="Đăng ký"
+                    Click="HeaderRegisterButton_Click"
+                    HorizontalAlignment="Stretch"
+                    Height="44"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Background="Transparent"
+                    Foreground="{StaticResource PrimaryBrush}"
+                    CornerRadius="8"
+                    BorderBrush="{StaticResource PrimaryBrush}"
+                    BorderThickness="2"/>
+          </Grid>
+          
+          <!-- Divider -->
+          <Border Height="1" Background="#E5E7EB"/>
+          
+          <!-- Menu Items -->
+          <StackPanel Spacing="4">
+            <Button Content="🏠  Trang chủ"
+                    Click="HomeTab_Click"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Background="#EBF5FF"
+                    BorderThickness="0"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    Foreground="{StaticResource PrimaryBrush}"
+                    FontWeight="SemiBold"/>
+            
+            <Button Content="🛍️  Sản phẩm"
+                    Click="HomeTab_Click"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    Foreground="#374151"/>
+            
+            <Button Content="🛒  Giỏ hàng"
+                    Click="CartTab_Click"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    Foreground="#374151"/>
+            
+            <Button Content="⚙️  Cài đặt"
+                    Click="SettingsTab_Click"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="16,12"
+                    CornerRadius="8"
+                    Foreground="#374151"/>
+          </StackPanel>
+        </StackPanel>
       </Grid>
     </Border>
   </Grid>

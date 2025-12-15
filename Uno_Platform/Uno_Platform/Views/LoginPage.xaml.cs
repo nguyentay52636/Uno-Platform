@@ -24,8 +24,21 @@ public sealed partial class LoginPage : Page
 
     private void BackButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        // Navigate back to Home
-        Frame.Navigate(typeof(Uno_Platform.Views.ProductListPage));
+        // Navigate back
+        if (Frame.CanGoBack)
+        {
+            Frame.GoBack();
+        }
+        else
+        {
+            Frame.Navigate(typeof(ProductListPage));
+        }
+    }
+
+    private void RegisterLinkButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        // Navigate to Register page
+        Frame.Navigate(typeof(RegisterPage));
     }
 }
 

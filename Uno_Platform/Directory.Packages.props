@@ -10,8 +10,8 @@
     <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageVersion Include="Uno.Toolkit.UI" Version="8.3.2" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)' != 'net9.0-browserwasm'">
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
   </ItemGroup>
