@@ -29,7 +29,7 @@
                     <Storyboard>
                       <ColorAnimation Storyboard.TargetName="RootBorder"
                                       Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#156366F1"
+                                      To="#153D5A5B"
                                       Duration="0:0:0.15"/>
                     </Storyboard>
                   </VisualState>
@@ -37,7 +37,7 @@
                     <Storyboard>
                       <ColorAnimation Storyboard.TargetName="RootBorder"
                                       Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#306366F1"
+                                      To="#303D5A5B"
                                       Duration="0:0:0.1"/>
                     </Storyboard>
                   </VisualState>
@@ -287,13 +287,13 @@
                  Padding="8,6"
                  KeyDown="PageJump_KeyDown"/>
         <Button Content="Đi"
-                Width="40"
+                Width="44"
                 Height="36"
-                FontSize="12"
-                FontWeight="SemiBold"
-                Background="{StaticResource PrimaryBrush}"
+                FontSize="13"
+                FontWeight="Bold"
+                Background="#3D5A5B"
                 Foreground="White"
-                CornerRadius="8"
+                CornerRadius="10"
                 Click="GoToPage_Click"/>
       </StackPanel>
       

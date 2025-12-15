@@ -1,0 +1,51 @@
+<UserControl x:Class="Uno_Platform.Components.CategoriesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:Uno_Platform.Models">
+
+  <StackPanel Spacing="10">
+    <TextBlock Text="Danh mục"
+               Style="{StaticResource Heading3Style}"
+               Foreground="#3D5A5B"/>
+    
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Disabled"
+                  HorizontalScrollMode="Auto">
+      <ItemsControl x:Name="CategoriesItemsControl">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal" Spacing="10"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="models:CategoryWithCount">
+            <Button Click="CategoryButton_Click"
+                    Tag="{x:Bind Name}"
+                    Background="White"
+                    BorderBrush="#3D5A5B"
+                    BorderThickness="1"
+                    CornerRadius="20"
+                    Padding="16,8">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
+                           VerticalAlignment="Center"
+                           Foreground="#3D5A5B"
+                           FontWeight="SemiBold"/>
+                <Border Background="#3D5A5B"
+                        CornerRadius="10"
+                        Padding="6,3"
+                        MinWidth="24">
+                  <TextBlock Text="{x:Bind Count, Mode=OneWay}"
+                             Foreground="White"
+                             FontSize="11"
+                             FontWeight="Bold"
+                             HorizontalAlignment="Center"/>
+                </Border>
+              </StackPanel>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>

@@ -84,19 +84,19 @@
       
 
       <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="12">
-        <!-- Toggle Button (☰) -->
+        <!-- Toggle Button -->
         <Button Grid.Column="0"
                 x:Name="SidebarToggleButton"
-                Content="☰"
                 Click="SidebarToggleButton_Click"
                 Width="40"
                 Height="40"
-                FontSize="20"
                 Background="Transparent"
-                Foreground="{StaticResource PrimaryBrush}"
                 BorderThickness="0"
                 CornerRadius="8"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center"
+                Padding="0">
+          <FontIcon Glyph="&#xE700;" FontSize="20" Foreground="#3D5A5B"/>
+        </Button>
 
         <!-- Title -->
         <TextBlock Grid.Column="1"
@@ -104,7 +104,7 @@
                    Text="Tech Store"
                    Style="{StaticResource Heading2Style}"
                    VerticalAlignment="Center"
-                   Foreground="{StaticResource PrimaryBrush}"
+                   Foreground="#3D5A5B"
                    FontWeight="Bold"/>
 
         <!-- Search Bar -->
@@ -120,7 +120,7 @@
           <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
             <SymbolIcon Grid.Column="0"
                         Symbol="Find"
-                        Foreground="{StaticResource PrimaryBrush}"
+                        Foreground="#3D5A5B"
                         Width="18"
                         Height="18"
                         VerticalAlignment="Center"/>
@@ -146,7 +146,7 @@
                 Padding="8"
                 VerticalAlignment="Center">
           <Grid>
-            <SymbolIcon Symbol="Shop" Foreground="{StaticResource PrimaryBrush}"/>
+            <SymbolIcon Symbol="Shop" Foreground="#3D5A5B"/>
             <Border x:Name="HeaderCartBadge"
                     Background="{StaticResource SecondaryBrush}"
                     CornerRadius="10"
@@ -224,7 +224,7 @@
             <Border x:Name="HomeIndicator"
                    Height="3"
                    Width="30"
-                   Background="{StaticResource PrimaryBrush}"
+                   Background="#3D5A5B"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="1"
@@ -270,7 +270,7 @@
             <Border x:Name="CartIndicator"
                    Height="3"
                    Width="30"
-                   Background="{StaticResource PrimaryBrush}"
+                   Background="#3D5A5B"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -296,7 +296,7 @@
             <Border x:Name="SettingsIndicator"
                    Height="3"
                    Width="30"
-                   Background="{StaticResource PrimaryBrush}"
+                   Background="#3D5A5B"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -332,7 +332,7 @@
         <!-- Sidebar Header -->
         <Border Grid.Row="0" 
                 Padding="20"
-                Background="{StaticResource PrimaryGradientBrush}">
+                Background="#3D5A5B">
           <StackPanel Spacing="12">
             <Border Width="70" 
                     Height="70" 
@@ -340,7 +340,7 @@
                     Background="White"
                     HorizontalAlignment="Center">
               <SymbolIcon Symbol="Contact" 
-                          Foreground="{StaticResource PrimaryBrush}"
+                          Foreground="#3D5A5B"
                           RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon.RenderTransform>
                   <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -377,7 +377,7 @@
                     CornerRadius="8"
                     BorderThickness="0"
                     Foreground="White"
-                    Background="{StaticResource PrimaryBrush}"/>
+                    Background="#3D5A5B"/>
             
             <Button x:Name="SidebarRegisterButton"
                     Grid.Column="2"
@@ -388,9 +388,9 @@
                     FontSize="14"
                     FontWeight="SemiBold"
                     Background="Transparent"
-                    Foreground="{StaticResource PrimaryBrush}"
+                    Foreground="#3D5A5B"
                     CornerRadius="8"
-                    BorderBrush="{StaticResource PrimaryBrush}"
+                    BorderBrush="#3D5A5B"
                     BorderThickness="2"/>
           </Grid>
           
@@ -403,11 +403,11 @@
                     Click="HomeTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Background="#EBF5FF"
+                    Background="#E8F4F4"
                     BorderThickness="0"
                     Padding="16,12"
                     CornerRadius="8"
-                    Foreground="{StaticResource PrimaryBrush}"
+                    Foreground="#3D5A5B"
                     FontWeight="SemiBold"/>
             
             <Button Content="🛍️  Sản phẩm"

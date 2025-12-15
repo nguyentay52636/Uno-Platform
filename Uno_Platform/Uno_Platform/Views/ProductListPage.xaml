@@ -25,76 +25,65 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <!-- Filter Section - Đơn giản -->
+    <!-- Filter Section - Modern Design -->
     <Border Grid.Row="0"
             Background="White"
-            Padding="20"
+            Padding="24"
+            CornerRadius="0,0,16,16"
             BorderThickness="0,0,0,1"
-            BorderBrush="#E0E0E0">
-      <StackPanel Spacing="15">
+            BorderBrush="#E8E8E8">
+      <Border.Shadow>
+        <ThemeShadow/>
+      </Border.Shadow>
+      <StackPanel Spacing="16">
+        
+        <!-- Header với Title -->
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          
+          <TextBlock Text="🛍️ Danh sách sản phẩm"
+                     FontSize="22"
+                     FontWeight="Bold"
+                     Foreground="#3D5A5B"
+                     VerticalAlignment="Center"/>
+          
+          <!-- Results Badge -->
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+            <Border Background="#F0F7F7"
+                    CornerRadius="12"
+                    Padding="12,8"
+                    BorderThickness="1"
+                    BorderBrush="#3D5A5B">
+              <TextBlock FontSize="14"
+                         FontWeight="SemiBold"
+                         Foreground="#3D5A5B">
+                <Run Text="📦 "/>
+                <Run Text="{x:Bind ViewModel.TotalItems, Mode=OneWay}"/>
+                <Run Text=" sản phẩm"/>
+              </TextBlock>
+            </Border>
+            <Border Background="#3D5A5B"
+                    CornerRadius="12"
+                    Padding="12,8">
+              <TextBlock FontSize="14"
+                         FontWeight="Bold"
+                         Foreground="White">
+                <Run Text="📄 Trang "/>
+                <Run Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}"/>
+                <Run Text=" / "/>
+                <Run Text="{x:Bind ViewModel.TotalPages, Mode=OneWay}"/>
+              </TextBlock>
+            </Border>
+          </StackPanel>
+        </Grid>
         
         <!-- Categories -->
-        <StackPanel Spacing="10">
-          <TextBlock Text="Categories"
-                     Style="{StaticResource Heading3Style}"/>
-          <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                       VerticalScrollBarVisibility="Disabled"
-                       HorizontalScrollMode="Auto">
-            <ItemsControl x:Name="CategoriesItemsControl" ItemsSource="{x:Bind ViewModel.CategoriesWithCount, Mode=OneWay}">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Horizontal" Spacing="10"/>
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="models:CategoryWithCount">
-                  <Button Click="CategoryButton_Click"
-                         Tag="{x:Bind Name}"
-                         Style="{StaticResource CategoryButtonStyle}"
-                         x:Name="CategoryBtn">
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                      <TextBlock Text="{x:Bind Name, Mode=OneWay}" VerticalAlignment="Center"/>
-                      <Border Background="{StaticResource SecondaryBrush}"
-                             CornerRadius="10"
-                             Padding="6,3"
-                             MinWidth="24">
-                        <TextBlock Text="{x:Bind Count, Mode=OneWay}"
-                                 Foreground="White"
-                                 FontSize="{StaticResource FontSizeTiny}"
-                                 FontWeight="Bold"
-                                 HorizontalAlignment="Center"/>
-                      </Border>
-                    </StackPanel>
-                  </Button>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-          </ScrollViewer>
-        </StackPanel>
-
-        <!-- Results Count -->
-        <StackPanel Orientation="Horizontal" Spacing="8">
-          <TextBlock FontSize="14"
-                     FontWeight="SemiBold"
-                     Foreground="#666">
-            <Run Text="Tổng: "/>
-            <Run Text="{x:Bind ViewModel.TotalItems, Mode=OneWay}"/>
-            <Run Text=" sản phẩm"/>
-          </TextBlock>
-          <Border Background="{StaticResource PrimaryBrush}"
-                  CornerRadius="8"
-                  Padding="8,4"
-                  Opacity="0.9">
-            <TextBlock FontSize="12"
-                       FontWeight="Bold"
-                       Foreground="White">
-              <Run Text="Trang "/>
-              <Run Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}"/>
-              <Run Text="/"/>
-              <Run Text="{x:Bind ViewModel.TotalPages, Mode=OneWay}"/>
-            </TextBlock>
-          </Border>
-        </StackPanel>
+        <components:CategoriesPanel x:Name="CategoriesPanel"
+                                    Categories="{x:Bind ViewModel.CategoriesWithCount, Mode=OneWay}"
+                                    CategorySelected="CategoriesPanel_CategorySelected"/>
 
       </StackPanel>
     </Border>
@@ -137,37 +126,51 @@
           </GridView.ItemTemplate>
         </GridView>
 
-        <!-- Empty State -->
+        <!-- Empty State - Modern Design -->
         <Border x:Name="EmptyStateBorder"
                 Background="White"
-                Padding="40"
-                HorizontalAlignment="Stretch"
+                Padding="60"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                CornerRadius="12"
-                BorderThickness="1"
-                BorderBrush="#E0E0E0"
+                CornerRadius="20"
+                BorderThickness="2"
+                BorderBrush="#3D5A5B"
                 Visibility="{x:Bind ViewModel.HasNoProducts, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-          <StackPanel Spacing="15" HorizontalAlignment="Center">
-            <TextBlock Text="🔍"
-                       FontSize="60"
-                       HorizontalAlignment="Center"
-                       Opacity="0.5"/>
+          <StackPanel Spacing="20" HorizontalAlignment="Center">
+            <Border Background="#F0F7F7"
+                    CornerRadius="50"
+                    Width="100"
+                    Height="100"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="🔍"
+                         FontSize="50"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
+            </Border>
             <TextBlock Text="Không tìm thấy sản phẩm"
-                       FontSize="20"
+                       FontSize="22"
                        FontWeight="Bold"
-                       Foreground="#333"
+                       Foreground="#3D5A5B"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Thử tìm kiếm với từ khóa khác"
+                       FontSize="14"
+                       Foreground="#666"
                        HorizontalAlignment="Center"/>
           </StackPanel>
         </Border>
       </Grid>
     </ScrollViewer>
 
-    <!-- Pagination -->
+    <!-- Pagination - Modern Design -->
     <Border Grid.Row="2"
             Background="White"
-            Padding="16"
+            Padding="20"
+            CornerRadius="16,16,0,0"
             BorderThickness="0,1,0,0"
-            BorderBrush="#E0E0E0">
+            BorderBrush="#E8E8E8">
+      <Border.Shadow>
+        <ThemeShadow/>
+      </Border.Shadow>
       <components:Pagination x:Name="ProductPagination"
                              CurrentPage="{x:Bind ViewModel.CurrentPage, Mode=TwoWay}"
                              TotalPages="{x:Bind ViewModel.TotalPages, Mode=OneWay}"

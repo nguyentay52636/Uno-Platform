@@ -164,25 +164,7 @@ dotnet run -f net9.0-browserwasm
 |---------|-----|---------|
 | ![Android](docs/screenshots/android.png) | ![iOS](docs/screenshots/ios.png) | ![Windows](docs/screenshots/windows.png) |
 
----
 
-## 🤝 Đóng góp
-
-Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
-
-1. Fork dự án
-2. Tạo feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Mở Pull Request
-
----
-
-## 📄 License
-
-Dự án này được phân phối dưới giấy phép MIT. Xem `LICENSE` để biết thêm thông tin.
-
----
 
 ## 👥 Tác giả
 
