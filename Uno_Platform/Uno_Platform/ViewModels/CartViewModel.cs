@@ -22,7 +22,11 @@ public partial class CartViewModel : ObservableObject
     [ObservableProperty]
     private int totalItems;
 
-    public string TotalItemsFormatted => $"{TotalItems} item(s) in your cart";
+    public string TotalItemsFormatted => $"{TotalItems} sản phẩm trong giỏ";
+    
+    public bool IsCartEmpty => CartItems.Count == 0;
+    
+    public bool HasCartItems => CartItems.Count > 0;
 
     public CartViewModel()
     {
@@ -160,5 +164,7 @@ public partial class CartViewModel : ObservableObject
         TotalItems = CartItems.Sum(item => item.Quantity);
         TotalPrice = CartItems.Sum(item => item.TotalPrice);
         OnPropertyChanged(nameof(TotalItemsFormatted));
+        OnPropertyChanged(nameof(IsCartEmpty));
+        OnPropertyChanged(nameof(HasCartItems));
     }
 }

@@ -1,192 +1,270 @@
 <Page x:Class="Uno_Platform.Views.CheckoutPage"
+      x:Name="PageRoot"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:Uno_Platform.Views"
-      xmlns:vm="using:Uno_Platform.ViewModels"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      xmlns:models="using:Uno_Platform.Models"
+      xmlns:converters="using:Uno_Platform.Converters"
+      xmlns:components="using:Uno_Platform.Components"
+      Background="#F5F5F5">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Border Grid.Row="0" 
-                Background="{ThemeResource SystemAccentColor}"
-                Padding="16">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <Button Grid.Column="0"
-                        Command="{x:Bind ViewModel.GoBackCommand}"
-                        Style="{StaticResource GhostButtonStyle}"
-                        Content="&#xE72B;" 
-                        FontFamily="Segoe MDL2 Assets"
-                        Foreground="White"
-                        FontSize="20"
-                        Margin="0,0,16,0"/>
-                
-                <TextBlock Grid.Column="1"
-                           Text="Thanh toán"
-                           FontSize="24"
-                           FontWeight="SemiBold"
-                           Foreground="White"
-                           VerticalAlignment="Center"/>
-            </Grid>
+    <!-- Header -->
+    <Border Grid.Row="0"
+            Background="#3D5A5B"
+            Padding="16">
+      <Grid ColumnDefinitions="Auto,*">
+        <Button Grid.Column="0"
+                Background="Transparent"
+                Padding="8"
+                MinWidth="0"
+                MinHeight="0"
+                Command="{x:Bind ViewModel.GoBackCommand}">
+          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="White"/>
+        </Button>
+        
+        <TextBlock Grid.Column="1"
+                   Text="Thanh toán"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   VerticalAlignment="Center"
+                   Margin="12,0,0,0"/>
+      </Grid>
+    </Border>
+
+    <!-- Content -->
+    <ScrollViewer Grid.Row="1" 
+                  Padding="12"
+                  VerticalScrollBarVisibility="Auto">
+      <StackPanel Spacing="16">
+        
+        <!-- Section: Shipping Info -->
+        <Border Background="White"
+                Padding="16"
+                CornerRadius="16">
+          <StackPanel Spacing="16">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <Border Background="#F0F7F7" 
+                      CornerRadius="10" 
+                      Width="36" Height="36">
+                <FontIcon Glyph="&#xE77B;" FontSize="18" Foreground="#3D5A5B"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <TextBlock Text="Thông tin giao hàng"
+                         FontSize="18"
+                         FontWeight="Bold"
+                         Foreground="#3D5A5B"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <TextBox Header="Họ và tên"
+                     Text="{x:Bind ViewModel.CustomerName, Mode=TwoWay}"
+                     PlaceholderText="Nguyễn Văn A"
+                     FontSize="15"
+                     CornerRadius="10"
+                     Padding="12"/>
+
+            <TextBox Header="Số điện thoại"
+                     Text="{x:Bind ViewModel.CustomerPhone, Mode=TwoWay}"
+                     PlaceholderText="0901234567"
+                     InputScope="TelephoneNumber"
+                     FontSize="15"
+                     CornerRadius="10"
+                     Padding="12"/>
+
+            <TextBox Header="Địa chỉ nhận hàng"
+                     Text="{x:Bind ViewModel.CustomerAddress, Mode=TwoWay}"
+                     PlaceholderText="Số nhà, đường, phường/xã..."
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     MinHeight="80"
+                     FontSize="15"
+                     CornerRadius="10"
+                     Padding="12"/>
+          </StackPanel>
         </Border>
 
-        <!-- Content -->
-        <ScrollViewer Grid.Row="1" Padding="16">
-            <Grid MaxWidth="1000" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <!-- Responsive layout: Stack on mobile, side-by-side on desktop (min-width 800) -->
-                    <ColumnDefinition Width="Auto"/> 
-                </Grid.ColumnDefinitions>
-                
-                <!-- Use VisualStateManager for responsive layout if needed, 
-                     but for simplicity we'll use a StackPanel for now or a Grid with wrapping logic.
-                     Here we assume a single column flow for mobile-first. -->
-                
-                <StackPanel Spacing="24">
-                    
-                    <!-- Section: Shipping Info -->
-                    <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            Padding="24"
-                            CornerRadius="12"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <StackPanel Spacing="20">
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE77B;" FontSize="24" Foreground="{ThemeResource SystemAccentColor}"/>
-                                <TextBlock Text="Thông tin giao hàng"
-                                           FontSize="20"
-                                           FontWeight="SemiBold"/>
-                            </StackPanel>
-                            
-                            <TextBox Header="Họ và tên"
-                                     Text="{x:Bind ViewModel.CustomerName, Mode=TwoWay}"
-                                     PlaceholderText="Nguyễn Văn A"
-                                     FontSize="16"/>
+        <!-- Section: Order Items -->
+        <Border Background="White"
+                Padding="16"
+                CornerRadius="16">
+          <StackPanel Spacing="16">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <Border Background="#F0F7F7" 
+                      CornerRadius="10" 
+                      Width="36" Height="36">
+                <FontIcon Glyph="&#xE7BF;" FontSize="18" Foreground="#3D5A5B"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <TextBlock Text="Đơn hàng của bạn"
+                         FontSize="18"
+                         FontWeight="Bold"
+                         Foreground="#3D5A5B"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
 
-                            <TextBox Header="Số điện thoại"
-                                     Text="{x:Bind ViewModel.CustomerPhone, Mode=TwoWay}"
-                                     PlaceholderText="0901234567"
-                                     InputScope="TelephoneNumber"
-                                     FontSize="16"/>
+            <!-- Cart Items List -->
+            <ItemsControl ItemsSource="{x:Bind ViewModel.CartItems, Mode=OneWay}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Spacing="12"/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:CartItem">
+                  <Border Background="#FAFAFA"
+                          CornerRadius="12"
+                          Padding="12">
+                    <Grid ColumnDefinitions="Auto,*">
+                      
+                      <!-- Product Image -->
+                      <Border Grid.Column="0"
+                              Width="80"
+                              Height="80"
+                              Background="#FDF5F0"
+                              CornerRadius="10"
+                              Margin="0,0,12,0">
+                        <Image Source="{x:Bind ProductImage, Mode=OneWay}"
+                               Stretch="Uniform"
+                               MaxHeight="60"
+                               MaxWidth="60"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                      </Border>
 
-                            <TextBox Header="Địa chỉ nhận hàng"
-                                     Text="{x:Bind ViewModel.CustomerAddress, Mode=TwoWay}"
-                                     PlaceholderText="Số nhà, đường, phường/xã..."
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     MinHeight="80"
-                                     FontSize="16"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Section: Order Summary -->
-                    <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            Padding="24"
-                            CornerRadius="12"
-                            BorderThickness="1"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <StackPanel Spacing="20">
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE7BF;" FontSize="24" Foreground="{ThemeResource SystemAccentColor}"/>
-                                <TextBlock Text="Đơn hàng của bạn"
-                                           FontSize="20"
-                                           FontWeight="SemiBold"/>
-                            </StackPanel>
-
-                            <!-- Cart Items List -->
-                            <ItemsControl ItemsSource="{x:Bind ViewModel.CartItems, Mode=OneWay}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,0,0,12">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <StackPanel Grid.Column="0" Spacing="4">
-                                                <TextBlock Text="{Binding ProductName}"
-                                                           FontWeight="Medium"
-                                                           FontSize="16"
-                                                           TextTrimming="CharacterEllipsis"/>
-                                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                                    <TextBlock Text="{Binding ProductPrice, Converter={StaticResource PriceFormatConverter}}"
-                                                               Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                                                    <TextBlock Text="x" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                                                    <TextBlock Text="{Binding Quantity}"
-                                                               FontWeight="Bold"/>
-                                                </StackPanel>
-                                            </StackPanel>
-                                            
-                                            <TextBlock Grid.Column="1"
-                                                       Text="{Binding TotalPrice, Converter={StaticResource PriceFormatConverter}}"
-                                                       FontWeight="Bold"
-                                                       VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <MenuFlyoutSeparator/>
-
-                            <!-- Total -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Tổng cộng"
-                                           FontSize="18"
-                                           FontWeight="Bold"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="{x:Bind ViewModel.TotalPriceFormatted, Mode=OneWay}"
-                                           FontSize="24"
-                                           FontWeight="Bold"
-                                           Foreground="{ThemeResource SystemAccentColor}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Error Message -->
-                    <InfoBar IsOpen="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToBooleanConverter}, Mode=OneWay}"
-                             Severity="Error"
-                             Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
-                             IsClosable="False"/>
-
-                    <!-- Submit Button -->
-                    <Button Command="{x:Bind ViewModel.SubmitOrderCommand}"
-                            Style="{StaticResource AccentButtonStyle}"
-                            HorizontalAlignment="Stretch"
-                            Padding="0,16">
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <ProgressRing Grid.Column="0"
-                                          IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
-                                          Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                          Width="20" Height="20"
-                                          Foreground="White"/>
-                            <TextBlock Grid.Column="1" 
-                                       Text="Xác nhận đặt hàng" 
-                                       FontSize="18" 
+                      <!-- Product Info -->
+                      <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto">
+                        
+                        <!-- Product Name -->
+                        <TextBlock Grid.Row="0"
+                                   Text="{x:Bind ProductName, Mode=OneWay}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="#1A1A1A"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxLines="2"/>
+                        
+                        <!-- Price x Quantity -->
+                        <StackPanel Grid.Row="1" 
+                                    Orientation="Horizontal" 
+                                    Spacing="6"
+                                    Margin="0,4,0,0">
+                          <TextBlock Text="{x:Bind ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                                     FontSize="13"
+                                     Foreground="#3D5A5B"
+                                     FontWeight="SemiBold"/>
+                          <TextBlock Text="×" FontSize="13" Foreground="#888"/>
+                          <Border Background="#3D5A5B"
+                                  CornerRadius="6"
+                                  Padding="8,2">
+                            <TextBlock Text="{x:Bind Quantity, Mode=OneWay}"
+                                       FontSize="13"
                                        FontWeight="Bold"
-                                       HorizontalAlignment="Center"/>
-                        </Grid>
-                    </Button>
-                    
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
-    </Grid>
+                                       Foreground="White"/>
+                          </Border>
+                        </StackPanel>
+                        
+                        <!-- Item Total -->
+                        <StackPanel Grid.Row="2" 
+                                    Orientation="Horizontal"
+                                    Margin="0,8,0,0">
+                          <TextBlock Text="Thành tiền: "
+                                     FontSize="13"
+                                     Foreground="#666"/>
+                          <TextBlock Text="{x:Bind TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                                     FontSize="15"
+                                     FontWeight="Bold"
+                                     Foreground="#3D5A5B"/>
+                        </StackPanel>
+                      </Grid>
+                      
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </Border>
+
+        <!-- Error Message -->
+        <Border Background="#FEE2E2"
+                CornerRadius="12"
+                Padding="16"
+                Visibility="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToVisibilityConverter}, Mode=OneWay}">
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <FontIcon Glyph="&#xE783;" FontSize="18" Foreground="#EF4444"/>
+            <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                       FontSize="14"
+                       Foreground="#EF4444"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"/>
+          </StackPanel>
+        </Border>
+        
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Bottom Summary & Submit -->
+    <Border Grid.Row="2"
+            Background="White"
+            Padding="16"
+            BorderThickness="0,1,0,0"
+            BorderBrush="#E8E8E8">
+      <Grid RowDefinitions="Auto,Auto">
+        
+        <!-- Total Row -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+          <StackPanel Grid.Column="0">
+            <TextBlock Text="Tổng cộng"
+                       FontSize="14"
+                       Foreground="#666"/>
+            <TextBlock FontSize="12" Foreground="#888">
+              <Run Text="{x:Bind ViewModel.CartItems.Count, Mode=OneWay}"/>
+              <Run Text=" sản phẩm"/>
+            </TextBlock>
+          </StackPanel>
+          <TextBlock Grid.Column="1"
+                     Text="{x:Bind ViewModel.TotalPriceFormatted, Mode=OneWay}"
+                     FontSize="24"
+                     FontWeight="Bold"
+                     Foreground="#3D5A5B"
+                     VerticalAlignment="Center"/>
+        </Grid>
+        
+        <!-- Submit Button -->
+        <Button Grid.Row="1"
+                Background="#3D5A5B"
+                Foreground="White"
+                CornerRadius="12"
+                Padding="0,14"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind ViewModel.SubmitOrderCommand}">
+          <Grid ColumnDefinitions="Auto,*">
+            <ProgressRing Grid.Column="0"
+                          IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+                          Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          Width="20" Height="20"
+                          Foreground="White"
+                          Margin="0,0,10,0"/>
+            <TextBlock Grid.Column="1" 
+                       Text="✓ Xác nhận đặt hàng" 
+                       FontSize="16" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+          </Grid>
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- Loading Overlay -->
+    <components:LoadingIndicator Grid.RowSpan="3"
+                                IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+                                Message="Đang xử lý..."/>
+  </Grid>
 </Page>

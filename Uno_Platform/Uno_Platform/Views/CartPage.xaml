@@ -5,20 +5,14 @@
       xmlns:components="using:Uno_Platform.Components"
       xmlns:models="using:Uno_Platform.Models"
       xmlns:converters="using:Uno_Platform.Converters"
-      Background="{StaticResource BackgroundGradientBrush}">
+      Background="#F5F5F5">
   
   <Page.Resources>
-    <!-- Page Enter Animation -->
     <Storyboard x:Name="PageEnterAnimation">
       <DoubleAnimation Storyboard.TargetName="ContentGrid"
                       Storyboard.TargetProperty="Opacity"
-                      From="0"
-                      To="1"
-                      Duration="0:0:0.5">
-        <DoubleAnimation.EasingFunction>
-          <CubicEase EasingMode="EaseOut"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
+                      From="0" To="1"
+                      Duration="0:0:0.3"/>
     </Storyboard>
   </Page.Resources>
 
@@ -26,200 +20,157 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     
-    <!-- Header with Acrylic Background -->
+    <!-- Header -->
     <Border Grid.Row="0"
-            Background="{StaticResource AcrylicBrush}"
-            Padding="{StaticResource SpacingL}"
+            Background="White"
+            Padding="16"
             BorderThickness="0,0,0,1"
-            BorderBrush="{StaticResource BorderBrush}">
-      <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{StaticResource SpacingM}">
+            BorderBrush="#E8E8E8">
+      <Grid ColumnDefinitions="Auto,*,Auto">
         <Button Grid.Column="0"
-                Style="{StaticResource IconButtonStyle}"
-                Background="{StaticResource SurfaceBrush}"
-                Foreground="{StaticResource PrimaryBrush}"
-                CornerRadius="{StaticResource BorderRadiusMedium}"
-                Width="48"
-                Height="48"
+                Background="Transparent"
+                Padding="8"
+                MinWidth="0"
+                MinHeight="0"
                 Command="{x:Bind ViewModel.GoBackCommand}">
-          <SymbolIcon Symbol="Back"/>
+          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="#3D5A5B"/>
         </Button>
         
-        <StackPanel Grid.Column="1"
-                   VerticalAlignment="Center">
-          <TextBlock Text="🛒 Shopping Cart"
-                  Style="{StaticResource Heading2Style}"
-                    Foreground="{StaticResource TextPrimaryBrush}"/>
+        <StackPanel Grid.Column="1" Margin="12,0">
+          <TextBlock Text="🛒 Giỏ hàng"
+                     FontSize="20"
+                     FontWeight="Bold"
+                     Foreground="#3D5A5B"/>
           <TextBlock Text="{x:Bind ViewModel.TotalItemsFormatted, Mode=OneWay}"
-                    Style="{StaticResource SecondaryTextStyle}"
-                    Margin="0,4,0,0"
-                    Foreground="{StaticResource TextSecondaryBrush}"/>
+                     FontSize="13"
+                     Foreground="#666"/>
         </StackPanel>
+        
+        <Button Grid.Column="2"
+                Content="Xóa tất cả"
+                Background="Transparent"
+                Foreground="#EF4444"
+                FontSize="13"
+                Padding="8"
+                MinWidth="0"
+                MinHeight="0"
+                Command="{x:Bind ViewModel.ClearCartCommand}"/>
       </Grid>
     </Border>
 
-    <!-- Main Content Area -->
-    <Grid Grid.Row="1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
+    <!-- Cart Items List -->
+    <ScrollViewer Grid.Row="1" 
+                  Padding="12"
+                  VerticalScrollBarVisibility="Auto">
+      <Grid>
+        <!-- Items List -->
+        <ItemsControl ItemsSource="{x:Bind ViewModel.CartItems, Mode=OneWay}"
+                      x:Name="CartItemsControl">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="0"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:CartItem">
+              <components:CartItemCard CartItem="{x:Bind}"
+                                      IncreaseQuantityCommand="{Binding ViewModel.UpdateQuantityCommand, ElementName=PageRoot}"
+                                      DecreaseQuantityCommand="{Binding ViewModel.UpdateQuantityCommand, ElementName=PageRoot}"
+                                      RemoveItemCommand="{Binding ViewModel.RemoveItemCommand, ElementName=PageRoot}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-        <!-- Cart Items -->
-        <ScrollViewer Grid.Column="0" 
-                      Padding="{StaticResource SpacingL}"
-                      ZoomMode="Disabled"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-          <Grid>
-            <!-- Items List -->
-            <ItemsControl ItemsSource="{x:Bind ViewModel.CartItems, Mode=OneWay}"
-                         x:Name="CartItemsControl">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Spacing="{StaticResource SpacingL}"/>
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="models:CartItem">
-                  <components:CartItemCard CartItem="{x:Bind}"
-                                          IncreaseQuantityCommand="{Binding ViewModel.UpdateQuantityCommand, ElementName=PageRoot}"
-                                          DecreaseQuantityCommand="{Binding ViewModel.UpdateQuantityCommand, ElementName=PageRoot}"
-                                          RemoveItemCommand="{Binding ViewModel.RemoveItemCommand, ElementName=PageRoot}"/>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-            <!-- Empty State -->
-            <Border x:Name="EmptyStateBorder"
-                    Background="{StaticResource AcrylicBrush}"
-                    Padding="{StaticResource SpacingXXL}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    CornerRadius="{StaticResource BorderRadiusXLarge}"
-                    BorderThickness="2"
-                    BorderBrush="{StaticResource BorderBrush}"
-                    Visibility="{x:Bind ViewModel.CartItems.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Inverse}">
-              <StackPanel Spacing="{StaticResource SpacingL}" HorizontalAlignment="Center">
-                <TextBlock Text="🛒"
-                          FontSize="96"
-                          HorizontalAlignment="Center"
-                          Opacity="0.6"/>
-                <TextBlock Text="Your cart is empty"
-                           Style="{StaticResource Heading2Style}"
-                           HorizontalAlignment="Center"/>
-                <TextBlock Text="Add some amazing products to get started shopping!"
-                           Style="{StaticResource SecondaryTextStyle}"
-                          HorizontalAlignment="Center"
-                          TextAlignment="Center"
-                          TextWrapping="Wrap"
-                          MaxWidth="400"/>
-                <Button Content="🛍️ Browse Products"
-                       Style="{StaticResource PrimaryButtonStyle}"
-                       Margin="0,16,0,0"
-                       Padding="32,16"
-                       FontSize="{StaticResource FontSizeBody}"
-                       FontWeight="SemiBold"
-                       HorizontalAlignment="Center"
-                       Command="{x:Bind ViewModel.ContinueShoppingCommand}"/>
-              </StackPanel>
+        <!-- Empty State -->
+        <Border x:Name="EmptyStateBorder"
+                Background="White"
+                Padding="40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="20"
+                BorderThickness="2"
+                BorderBrush="#3D5A5B"
+                Visibility="{x:Bind ViewModel.IsCartEmpty, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <StackPanel Spacing="16" HorizontalAlignment="Center">
+            <Border Background="#F0F7F7"
+                    CornerRadius="40"
+                    Width="80"
+                    Height="80"
+                    HorizontalAlignment="Center">
+              <TextBlock Text="🛒"
+                         FontSize="40"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
             </Border>
-          </Grid>
-        </ScrollViewer>
-
-        <!-- Total and Checkout Panel - Sidebar -->
-        <Border Grid.Column="1"
-                Background="{StaticResource SurfaceBrush}"
-                Padding="{StaticResource SpacingXL}"
-                Margin="0,24,24,24"
-                CornerRadius="{StaticResource BorderRadiusXLarge}"
-                BorderThickness="1"
-                BorderBrush="{StaticResource BorderBrush}"
-                VerticalAlignment="Top">
-          
-          <Grid>
-            <!-- Main Content -->
-            <StackPanel Spacing="{StaticResource SpacingL}">
-              <TextBlock Text="Order Summary" 
-                         Style="{StaticResource Heading3Style}"
-                         Margin="0,0,0,8"/>
-
-              <!-- Total Section -->
-              <Border Background="{StaticResource BackgroundBrush}"
-                     Padding="{StaticResource SpacingM}"
-                     CornerRadius="{StaticResource BorderRadiusMedium}">
-                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
-                  
-                  <!-- Subtotal Row -->
-                  <TextBlock Grid.Row="0" Grid.Column="0"
-                            Text="Subtotal"
-                            Style="{StaticResource BodyTextStyle}"
-                            Foreground="{StaticResource TextSecondaryBrush}"/>
-                  <TextBlock Grid.Row="0" Grid.Column="1"
-                            Text="{x:Bind ViewModel.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
-                            Style="{StaticResource BodyTextStyle}"
-                            FontWeight="SemiBold"
-                            HorizontalAlignment="Right"/>
-                  
-                  <!-- Tax Row (Placeholder) -->
-                   <TextBlock Grid.Row="1" Grid.Column="0"
-                            Text="Tax (Estimated)"
-                            Style="{StaticResource BodyTextStyle}"
-                            Foreground="{StaticResource TextSecondaryBrush}"
-                            Margin="0,8,0,0"/>
-                  <TextBlock Grid.Row="1" Grid.Column="1"
-                            Text="$0.00"
-                            Style="{StaticResource BodyTextStyle}"
-                            FontWeight="SemiBold"
-                            HorizontalAlignment="Right"
-                            Margin="0,8,0,0"/>
-
-                  <!-- Divider -->
-                  <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                         Height="1"
-                         Background="{StaticResource BorderBrush}"
-                         Margin="0,16,0,16"
-                         HorizontalAlignment="Stretch"/>
-                </Grid>
-              </Border>
-
-               <Grid ColumnDefinitions="*,*">
-                  <TextBlock Grid.Column="0"
-                        Text="Total"
-                        Style="{StaticResource Heading2Style}"
-                        VerticalAlignment="Center"/>
-                  <TextBlock Grid.Column="1"
-                            Text="{x:Bind ViewModel.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
-                            Style="{StaticResource Heading2Style}"
-                            Foreground="{StaticResource PrimaryBrush}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"/>
-               </Grid>
-
-              <!-- Checkout Button -->
-              <Button Content="Proceed to Checkout"
-                   Style="{StaticResource PrimaryButtonStyle}"
-                     HorizontalAlignment="Stretch"
-                   Command="{x:Bind ViewModel.CheckoutCommand}"
-                     IsEnabled="{x:Bind ViewModel.CartItems.Count, Mode=OneWay}"
-                     Margin="0,8,0,0"/>
-
-              <!-- Clear Cart Button -->
-              <Button Content="Clear Cart"
-                     Style="{StaticResource GhostButtonStyle}"
-                     Command="{x:Bind ViewModel.ClearCartCommand}"
-                     IsEnabled="{x:Bind ViewModel.CartItems.Count, Mode=OneWay}"
-                     HorizontalAlignment="Center"/>
-
+            <TextBlock Text="Giỏ hàng trống"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#3D5A5B"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Hãy thêm sản phẩm vào giỏ hàng"
+                       FontSize="14"
+                       Foreground="#666"
+                       HorizontalAlignment="Center"/>
+            <Button Content="🛍️ Mua sắm ngay"
+                    Background="#3D5A5B"
+                    Foreground="White"
+                    CornerRadius="12"
+                    Padding="24,12"
+                    FontWeight="SemiBold"
+                    HorizontalAlignment="Center"
+                    Command="{x:Bind ViewModel.ContinueShoppingCommand}"/>
           </StackPanel>
-          </Grid>
         </Border>
-    </Grid>
+      </Grid>
+    </ScrollViewer>
+
+    <!-- Bottom Summary -->
+    <Border Grid.Row="2"
+            Background="White"
+            Padding="16"
+            BorderThickness="0,1,0,0"
+            BorderBrush="#E8E8E8">
+      <Grid RowDefinitions="Auto,Auto">
+        
+        <!-- Total Row -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+          <StackPanel Grid.Column="0">
+            <TextBlock Text="Tổng cộng"
+                       FontSize="14"
+                       Foreground="#666"/>
+            <TextBlock Text="{x:Bind ViewModel.TotalItemsFormatted, Mode=OneWay}"
+                       FontSize="12"
+                       Foreground="#888"/>
+          </StackPanel>
+          <TextBlock Grid.Column="1"
+                     Text="{x:Bind ViewModel.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                     FontSize="24"
+                     FontWeight="Bold"
+                     Foreground="#3D5A5B"
+                     VerticalAlignment="Center"/>
+        </Grid>
+        
+        <!-- Checkout Button -->
+        <Button Grid.Row="1"
+                Content="Thanh toán"
+                Background="#3D5A5B"
+                Foreground="White"
+                CornerRadius="12"
+                Padding="0,14"
+                FontSize="16"
+                FontWeight="Bold"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind ViewModel.CheckoutCommand}"
+                IsEnabled="{x:Bind ViewModel.HasCartItems, Mode=OneWay}"/>
+      </Grid>
+    </Border>
 
     <!-- Loading Overlay -->
-    <components:LoadingIndicator Grid.Row="1"
+    <components:LoadingIndicator Grid.RowSpan="3"
                                 IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
-                               Message="Loading cart..."/>
+                                Message="Đang tải..."/>
   </Grid>
 </Page>

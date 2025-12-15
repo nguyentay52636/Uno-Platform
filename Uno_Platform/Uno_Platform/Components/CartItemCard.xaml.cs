@@ -65,15 +65,9 @@ public sealed partial class CartItemCard : UserControl
 
     private void IncreaseQuantity_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        if (CartItem == null) return;
+        
         CartItem.Quantity++;
-        
-        // Play quantity change animation
-        var quantityAnimation = Resources["QuantityChangeAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        quantityAnimation?.Begin();
-        
-        // Play subtotal update animation
-        var subtotalAnimation = Resources["SubtotalUpdateAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        subtotalAnimation?.Begin();
         
         if (IncreaseQuantityCommand != null && IncreaseQuantityCommand.CanExecute(CartItem))
         {
@@ -83,17 +77,11 @@ public sealed partial class CartItemCard : UserControl
 
     private void DecreaseQuantity_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        if (CartItem == null) return;
+        
         if (CartItem.Quantity > 1)
         {
             CartItem.Quantity--;
-            
-            // Play quantity change animation
-            var quantityAnimation = Resources["QuantityChangeAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-            quantityAnimation?.Begin();
-            
-            // Play subtotal update animation
-            var subtotalAnimation = Resources["SubtotalUpdateAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-            subtotalAnimation?.Begin();
             
             if (DecreaseQuantityCommand != null && DecreaseQuantityCommand.CanExecute(CartItem))
             {
@@ -104,20 +92,11 @@ public sealed partial class CartItemCard : UserControl
 
     private void Remove_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        // Play remove animation
-        var removeAnimation = Resources["RemoveAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        removeAnimation?.Begin();
+        if (CartItem == null) return;
         
-        // Delay command execution to allow animation to play
-        System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
-        {
-            Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() =>
-            {
         if (RemoveItemCommand != null && RemoveItemCommand.CanExecute(CartItem))
         {
             RemoveItemCommand.Execute(CartItem);
         }
-            });
-        });
     }
 }

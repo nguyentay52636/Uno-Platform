@@ -3,309 +3,135 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:Uno_Platform.Models"
              xmlns:converters="using:Uno_Platform.Converters">
-  
-  <UserControl.Resources>
-    <!-- Remove Animation -->
-    <Storyboard x:Name="RemoveAnimation">
-      <DoubleAnimation Storyboard.TargetName="ItemCard"
-                      Storyboard.TargetProperty="Opacity"
-                      To="0"
-                      Duration="0:0:0.3">
-        <DoubleAnimation.EasingFunction>
-          <CubicEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="ItemCard"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                      To="-200"
-                      Duration="0:0:0.3">
-        <DoubleAnimation.EasingFunction>
-          <CubicEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="ItemCard"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                      To="0.8"
-                      Duration="0:0:0.3">
-        <DoubleAnimation.EasingFunction>
-          <CubicEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-    </Storyboard>
 
-    <!-- Quantity Change Animation -->
-    <Storyboard x:Key="QuantityChangeAnimation">
-      <DoubleAnimation Storyboard.TargetName="QuantityDisplay"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                      To="1.2"
-                      Duration="0:0:0.15">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseOut"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="QuantityDisplay"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                      To="1.2"
-                      Duration="0:0:0.15">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseOut"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="QuantityDisplay"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                      To="1.0"
-                      BeginTime="0:0:0.15"
-                      Duration="0:0:0.15">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="QuantityDisplay"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                      To="1.0"
-                      BeginTime="0:0:0.15"
-                      Duration="0:0:0.15">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-    </Storyboard>
-
-    <!-- Subtotal Update Animation -->
-    <Storyboard x:Key="SubtotalUpdateAnimation">
-      <DoubleAnimation Storyboard.TargetName="SubtotalBadge"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                      To="1.05"
-                      Duration="0:0:0.2">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseOut"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="SubtotalBadge"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                      To="1.05"
-                      Duration="0:0:0.2">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseOut"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="SubtotalBadge"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                      To="1.0"
-                      BeginTime="0:0:0.2"
-                      Duration="0:0:0.2">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-      <DoubleAnimation Storyboard.TargetName="SubtotalBadge"
-                      Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                      To="1.0"
-                      BeginTime="0:0:0.2"
-                      Duration="0:0:0.2">
-        <DoubleAnimation.EasingFunction>
-          <BackEase EasingMode="EaseIn"/>
-        </DoubleAnimation.EasingFunction>
-      </DoubleAnimation>
-    </Storyboard>
-  </UserControl.Resources>
-
-  <!-- Shadow Effect -->
-  <Grid Margin="0,0,0,16">
-    <!-- Shadow Border -->
-    <Border Background="#20000000"
-           CornerRadius="{StaticResource BorderRadiusLarge}"
-           Margin="0,4,0,0"
-           Opacity="0.4"/>
-    
-    <!-- Main Card with Acrylic Background -->
+  <!-- Cart Item Card - Mobile Friendly -->
   <Border x:Name="ItemCard"
-          Background="{StaticResource AcrylicBrush}"
-            Padding="{StaticResource SpacingL}"
-            CornerRadius="{StaticResource BorderRadiusLarge}"
-            BorderThickness="2"
-            BorderBrush="{StaticResource BorderBrush}"
-          Opacity="1">
-    <Border.RenderTransform>
-      <CompositeTransform/>
-    </Border.RenderTransform>
+          Background="White"
+          CornerRadius="16"
+          Margin="0,0,0,12"
+          Padding="12">
+    
+    <Grid ColumnDefinitions="Auto,*">
       
-    <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
-            ColumnSpacing="{StaticResource SpacingL}">
-        
       <!-- Product Image -->
       <Border Grid.Column="0"
-                Width="120"
-                Height="120"
-                Background="{StaticResource PrimaryGradientBrush}"
-                CornerRadius="{StaticResource BorderRadiusLarge}"
-                Padding="4">
-          <Border Background="{StaticResource SurfaceBrush}"
-              CornerRadius="{StaticResource BorderRadiusMedium}">
-        <Image Source="Assets/img/caby.png"
-               Stretch="UniformToFill"
+              Width="100"
+              Height="100"
+              Background="#FDF5F0"
+              CornerRadius="12"
+              Margin="0,0,12,0">
+        <Image Source="{x:Bind CartItem.ProductImage, Mode=OneWay}"
+               Stretch="Uniform"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-          </Border>
-      </Border>
-
-        <!-- Product Info Section -->
-      <StackPanel Grid.Column="1" 
-                  VerticalAlignment="Center"
-                   Spacing="{StaticResource SpacingS}">
-          
-          <!-- Product Name -->
-        <TextBlock Text="{x:Bind CartItem.ProductName, Mode=OneWay}"
-                   Style="{StaticResource Heading3Style}"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    TextWrapping="Wrap"
-                    Foreground="{StaticResource TextPrimaryBrush}"
-                    MaxLines="2"
-                    TextTrimming="CharacterEllipsis"/>
-          
-          <!-- Category Badge -->
-          <Border Background="{StaticResource PrimaryBrush}"
-                 CornerRadius="12"
-                 Padding="10,6"
-                 HorizontalAlignment="Left"
-                 Opacity="0.9">
-        <TextBlock Text="{x:Bind CartItem.ProductCategory, Mode=OneWay}"
-                      Foreground="White"
-                      FontSize="12"
-                      FontWeight="SemiBold"/>
-          </Border>
-          
-          <!-- Unit Price -->
-          <StackPanel Orientation="Horizontal" 
-                     Spacing="6" 
-                     Margin="0,8,0,0">
-            <TextBlock Text="Price:"
-                   Style="{StaticResource SecondaryTextStyle}"
-                      FontSize="13"
-                    VerticalAlignment="Center"/>
-          <TextBlock Text="{x:Bind CartItem.ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
-                    Style="{StaticResource PriceTextStyle}"
-                    FontSize="16"
-                      FontWeight="SemiBold"
-                      VerticalAlignment="Center"/>
-            <TextBlock Text="each"
-                    Style="{StaticResource SecondaryTextStyle}"
-                    FontSize="12"
-                    VerticalAlignment="Center"
-                    Margin="4,0,0,0"/>
-        </StackPanel>
-          
-      </StackPanel>
-
-        <!-- Quantity Selector Section -->
-      <Border Grid.Column="2"
-               Background="{StaticResource SurfaceBrush}"
-               CornerRadius="{StaticResource BorderRadiusLarge}"
-               Padding="{StaticResource SpacingS}"
                VerticalAlignment="Center"
-               BorderThickness="2"
-               BorderBrush="{StaticResource BorderBrush}">
-          <StackPanel Orientation="Horizontal"
-                    Spacing="{StaticResource SpacingS}"
-                    HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-            
-            <!-- Decrease Button -->
-          <Button Content="−"
-                   Width="44"
-                   Height="44"
-                  Style="{StaticResource IconButtonStyle}"
-                  Background="{StaticResource PrimaryBrush}"
-                  Foreground="White"
-                   CornerRadius="{StaticResource BorderRadiusMedium}"
-                   FontSize="24"
-                  FontWeight="Bold"
-                  Click="DecreaseQuantity_Click"/>
-            
-            <!-- Quantity Display -->
-            <Border x:Name="QuantityDisplay"
-                   Background="{StaticResource SurfaceBrush}"
-                   Padding="16,8"
-                   CornerRadius="{StaticResource BorderRadiusMedium}"
-                   MinWidth="50"
-                   BorderThickness="2"
-                   BorderBrush="{StaticResource PrimaryBrush}"
-                   VerticalAlignment="Center">
-              <Border.RenderTransform>
-                <ScaleTransform CenterX="0.5" CenterY="0.5"/>
-              </Border.RenderTransform>
-            <TextBlock Text="{x:Bind CartItem.Quantity, Mode=OneWay}"
-                      Style="{StaticResource Heading3Style}"
-                        FontSize="20"
-                      FontWeight="Bold"
-                      HorizontalAlignment="Center"
-                        Foreground="{StaticResource PrimaryBrush}"/>
-          </Border>
-            
-            <!-- Increase Button -->
-          <Button Content="+"
-                   Width="44"
-                   Height="44"
-                  Style="{StaticResource IconButtonStyle}"
-                  Background="{StaticResource PrimaryBrush}"
-                  Foreground="White"
-                   CornerRadius="{StaticResource BorderRadiusMedium}"
-                   FontSize="24"
-                  FontWeight="Bold"
-                  Click="IncreaseQuantity_Click"/>
-        </StackPanel>
+               MaxHeight="80"
+               MaxWidth="80"/>
       </Border>
 
-        <!-- Subtotal and Remove Section -->
-      <StackPanel Grid.Column="3"
-                  VerticalAlignment="Center"
-                   Spacing="{StaticResource SpacingM}"
-                   MinWidth="140">
-          
-          <!-- Subtotal Badge -->
-          <Border x:Name="SubtotalBadge"
-                 Background="{StaticResource PrimaryGradientBrush}"
-                 Padding="16,12"
-                 CornerRadius="{StaticResource BorderRadiusLarge}"
-                 HorizontalAlignment="Right"
-                 BorderThickness="2"
-                 BorderBrush="{StaticResource BorderBrush}"
-                 RenderTransformOrigin="0.5,0.5">
-            <Border.RenderTransform>
-              <ScaleTransform/>
-            </Border.RenderTransform>
-            <StackPanel Spacing="4">
-              <TextBlock Text="Subtotal"
-                        Foreground="White"
-                        FontSize="11"
-                        FontWeight="SemiBold"
-                        Opacity="0.9"
-                        HorizontalAlignment="Center"/>
-          <TextBlock Text="{x:Bind CartItem.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
-                    Foreground="White"
-                        FontSize="22"
-                    FontWeight="Bold"
-                        HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Border>
-          
-          <!-- Remove Button -->
-        <Button Content="🗑️ Remove"
-                Style="{StaticResource SecondaryButtonStyle}"
-                 FontSize="{StaticResource FontSizeSmall}"
-                 Padding="12,10"
-                 CornerRadius="{StaticResource BorderRadiusMedium}"
-                Background="#FFFEE2E2"
-                BorderBrush="{StaticResource ErrorBrush}"
-                 BorderThickness="2"
-                Foreground="{StaticResource ErrorBrush}"
-                FontWeight="SemiBold"
-                Click="Remove_Click"
-                 HorizontalAlignment="Right"/>
-      </StackPanel>
+      <!-- Product Info -->
+      <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto">
         
+        <!-- Product Name -->
+        <TextBlock Grid.Row="0"
+                   Text="{x:Bind CartItem.ProductName, Mode=OneWay}"
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Foreground="#1A1A1A"
+                   TextTrimming="CharacterEllipsis"
+                   MaxLines="2"/>
+        
+        <!-- Category -->
+        <TextBlock Grid.Row="1"
+                   Text="{x:Bind CartItem.ProductCategory, Mode=OneWay}"
+                   FontSize="12"
+                   Foreground="#888"
+                   Margin="0,2,0,8"/>
+        
+        <!-- Price per item -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="4">
+          <TextBlock Text="Đơn giá:"
+                     FontSize="12"
+                     Foreground="#666"
+                     VerticalAlignment="Center"/>
+          <TextBlock Text="{x:Bind CartItem.ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                     FontSize="14"
+                     FontWeight="SemiBold"
+                     Foreground="#3D5A5B"
+                     VerticalAlignment="Center"/>
+        </StackPanel>
+        
+        <!-- Quantity Stepper + Total -->
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,*" Margin="0,10,0,0">
+          
+          <!-- Quantity Stepper -->
+          <Border Grid.Column="0"
+                  Background="#F5F5F5"
+                  CornerRadius="10"
+                  Padding="4">
+            <StackPanel Orientation="Horizontal" Spacing="0">
+              <!-- Decrease Button -->
+              <Button Width="36"
+                      Height="36"
+                      Background="#3D5A5B"
+                      Foreground="White"
+                      CornerRadius="8"
+                      Padding="0"
+                      MinWidth="0"
+                      MinHeight="0"
+                      Click="DecreaseQuantity_Click">
+                <TextBlock Text="−" FontSize="18" FontWeight="Bold"/>
+              </Button>
+              
+              <!-- Quantity Display -->
+              <Border MinWidth="44" Padding="8,0">
+                <TextBlock Text="{x:Bind CartItem.Quantity, Mode=OneWay}"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#3D5A5B"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+              </Border>
+              
+              <!-- Increase Button -->
+              <Button Width="36"
+                      Height="36"
+                      Background="#3D5A5B"
+                      Foreground="White"
+                      CornerRadius="8"
+                      Padding="0"
+                      MinWidth="0"
+                      MinHeight="0"
+                      Click="IncreaseQuantity_Click">
+                <TextBlock Text="+" FontSize="18" FontWeight="Bold"/>
+              </Button>
+            </StackPanel>
+          </Border>
+          
+          <!-- Total Price + Remove -->
+          <StackPanel Grid.Column="1" 
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center">
+            <TextBlock FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="#3D5A5B"
+                       HorizontalAlignment="Right">
+              <Run Text="$ "/>
+              <Run Text="{x:Bind CartItem.TotalPrice, Mode=OneWay}"/>
+            </TextBlock>
+            <Button Content="🗑️ Xóa"
+                    Background="Transparent"
+                    Foreground="#EF4444"
+                    FontSize="12"
+                    Padding="8,4"
+                    MinWidth="0"
+                    MinHeight="0"
+                    HorizontalAlignment="Right"
+                    Click="Remove_Click"/>
+          </StackPanel>
+          
+        </Grid>
+      </Grid>
+      
     </Grid>
   </Border>
-  </Grid>
 </UserControl>
