@@ -71,7 +71,7 @@ public partial class ProductListViewModel : ObservableObject
     private int totalItems;
 
     [ObservableProperty]
-    private int pageSize = 5;
+    private int pageSize = 6;
 
     [ObservableProperty]
     private bool hasNoProducts = true;

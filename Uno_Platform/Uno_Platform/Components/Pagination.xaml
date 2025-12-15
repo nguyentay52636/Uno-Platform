@@ -3,58 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   
   <UserControl.Resources>
-    <!-- Pagination Button Style -->
-    <Style x:Key="PaginationButtonStyle" TargetType="Button">
+    <!-- Nav Button Style -->
+    <Style x:Key="NavButtonStyle" TargetType="Button">
+      <Setter Property="Background" Value="#3D5A5B"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="16,10"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    
+    <!-- Page Number Button Style -->
+    <Style x:Key="PaginationButtonStyle" TargetType="Button"> 
       <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+      <Setter Property="Foreground" Value="#3D5A5B"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="CornerRadius" Value="8"/>
-      <Setter Property="Padding" Value="0"/>
-      <Setter Property="Width" Value="32"/>
-      <Setter Property="Height" Value="32"/>
-      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="Width" Value="36"/>
+      <Setter Property="Height" Value="36"/>
+      <Setter Property="FontSize" Value="14"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="RootBorder"
-                    Background="{TemplateBinding Background}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    Padding="{TemplateBinding Padding}">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal"/>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="RootBorder"
-                                      Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#153D5A5B"
-                                      Duration="0:0:0.15"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="RootBorder"
-                                      Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#303D5A5B"
-                                      Duration="0:0:0.1"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled">
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="RootBorder"
-                                       Storyboard.TargetProperty="Opacity"
-                                       To="0.4"
-                                       Duration="0:0:0.1"/>
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
     </Style>
 
     <!-- Active Page Button Style -->
@@ -63,233 +32,65 @@
       <Setter Property="Foreground" Value="White"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="CornerRadius" Value="8"/>
-      <Setter Property="Padding" Value="0"/>
-      <Setter Property="Width" Value="32"/>
-      <Setter Property="Height" Value="32"/>
-      <Setter Property="FontSize" Value="13"/>
-      <Setter Property="FontWeight" Value="Bold"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="RootBorder"
-                    Background="{TemplateBinding Background}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    Padding="{TemplateBinding Padding}">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal"/>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="RootBorder"
-                                       Storyboard.TargetProperty="Opacity"
-                                       To="0.9"
-                                       Duration="0:0:0.15"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="RootBorder"
-                                       Storyboard.TargetProperty="Opacity"
-                                       To="0.8"
-                                       Duration="0:0:0.1"/>
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <!-- Navigation Arrow Button Style -->
-    <Style x:Key="NavArrowButtonStyle" TargetType="Button">
-      <Setter Property="Background" Value="White"/>
-      <Setter Property="Foreground" Value="#3D5A5B"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="BorderBrush" Value="#3D5A5B"/>
-      <Setter Property="CornerRadius" Value="8"/>
-      <Setter Property="Padding" Value="0"/>
       <Setter Property="Width" Value="36"/>
       <Setter Property="Height" Value="36"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="RootBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    Padding="{TemplateBinding Padding}">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal"/>
-                  <VisualState x:Name="PointerOver">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="RootBorder"
-                                      Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#F1F5F9"
-                                      Duration="0:0:0.15"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ColorAnimation Storyboard.TargetName="RootBorder"
-                                      Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                      To="#E2E8F0"
-                                      Duration="0:0:0.1"/>
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Disabled">
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="RootBorder"
-                                       Storyboard.TargetProperty="Opacity"
-                                       To="0.4"
-                                       Duration="0:0:0.1"/>
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
     </Style>
   </UserControl.Resources>
 
-  <!-- Main Pagination Container - Compact for Mobile -->
-  <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Disabled"
-                HorizontalScrollMode="Auto">
+  <!-- Simple Mobile Pagination -->
+  <Grid HorizontalAlignment="Center">
     <StackPanel Orientation="Horizontal" 
-                Spacing="8"
-                HorizontalAlignment="Center">
+                Spacing="12"
+                VerticalAlignment="Center">
       
-      <!-- Page Info -->
+      <!-- Previous Button -->
+      <Button x:Name="PrevButton"
+              Style="{StaticResource NavButtonStyle}"
+              Click="PrevPage_Click">
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <FontIcon Glyph="&#xE76B;" FontSize="16"/>
+          <TextBlock Text="Trước" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Button>
+
+      <!-- Page Info Badge -->
       <Border Background="#F0F7F7"
-              CornerRadius="8"
-              Padding="10,6"
-              BorderThickness="1"
+              CornerRadius="12"
+              Padding="16,10"
+              BorderThickness="2"
               BorderBrush="#3D5A5B"
               VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal" Spacing="4">
-          <TextBlock Text="Hiển thị"
-                     FontSize="12"
-                     Foreground="#666"
-                     VerticalAlignment="Center"/>
-          <TextBlock x:Name="CurrentRangeText"
-                     Text="1-5"
-                     FontSize="12"
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <FontIcon Glyph="&#xE7C3;" FontSize="14" Foreground="#3D5A5B"/>
+          <TextBlock FontSize="14"
                      FontWeight="Bold"
                      Foreground="#3D5A5B"
-                     VerticalAlignment="Center"/>
-          <TextBlock Text="/"
-                     FontSize="12"
-                     Foreground="#666"
-                     VerticalAlignment="Center"/>
-          <TextBlock x:Name="TotalItemsText"
-                     Text="20"
-                     FontSize="12"
-                     FontWeight="SemiBold"
-                     Foreground="#3D5A5B"
-                     VerticalAlignment="Center"/>
-          <TextBlock Text="sản phẩm"
-                     FontSize="12"
-                     Foreground="#666"
-                     VerticalAlignment="Center"/>
+                     VerticalAlignment="Center">
+            <Run x:Name="CurrentRangeText" Text="1-5"/>
+            <Run Text=" / "/>
+            <Run x:Name="TotalItemsText" Text="20"/>
+          </TextBlock>
         </StackPanel>
       </Border>
 
-      <!-- Navigation Buttons -->
-      <StackPanel Orientation="Horizontal" Spacing="4">
-        <!-- First Page Button -->
-        <Button x:Name="FirstPageButton"
-                Style="{StaticResource NavArrowButtonStyle}"
-                Width="36"
-                Height="36"
-                Click="FirstPage_Click">
-          <SymbolIcon Symbol="Previous" RenderTransformOrigin="0.5,0.5">
-            <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-            </SymbolIcon.RenderTransform>
-          </SymbolIcon>
-        </Button>
-
-        <!-- Previous Button -->
-        <Button x:Name="PrevButton"
-                Style="{StaticResource NavArrowButtonStyle}"
-                Width="36"
-                Height="36"
-                Click="PrevPage_Click">
-          <SymbolIcon Symbol="Back" RenderTransformOrigin="0.5,0.5">
-            <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-            </SymbolIcon.RenderTransform>
-          </SymbolIcon>
-        </Button>
-
-        <!-- Page Numbers Container -->
-        <StackPanel x:Name="PageNumbersPanel" 
-                    Orientation="Horizontal" 
-                    Spacing="4"/>
-
-        <!-- Next Button -->
-        <Button x:Name="NextButton"
-                Style="{StaticResource NavArrowButtonStyle}"
-                Width="36"
-                Height="36"
-                Click="NextPage_Click">
-          <SymbolIcon Symbol="Forward" RenderTransformOrigin="0.5,0.5">
-            <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-            </SymbolIcon.RenderTransform>
-          </SymbolIcon>
-        </Button>
-
-        <!-- Last Page Button -->
-        <Button x:Name="LastPageButton"
-                Style="{StaticResource NavArrowButtonStyle}"
-                Width="36"
-                Height="36"
-                Click="LastPage_Click">
-          <SymbolIcon Symbol="Next" RenderTransformOrigin="0.5,0.5">
-            <SymbolIcon.RenderTransform>
-              <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-            </SymbolIcon.RenderTransform>
-          </SymbolIcon>
-        </Button>
-      </StackPanel>
-
-      <!-- Quick Jump -->
-      <StackPanel Orientation="Horizontal" Spacing="6">
-        <TextBlock Text="Đến trang"
-                   FontSize="12"
-                   Foreground="#666"
-                   VerticalAlignment="Center"/>
-        <TextBox x:Name="PageJumpTextBox"
-                 Width="45"
-                 Height="32"
-                 FontSize="12"
-                 TextAlignment="Center"
-                 CornerRadius="6"
-                 BorderBrush="#3D5A5B"
-                 BorderThickness="1"
-                 Padding="6,4"
-                 KeyDown="PageJump_KeyDown"/>
-        <Button Content="Đi"
-                Width="36"
-                Height="32"
-                FontSize="12"
-                FontWeight="Bold"
-                Background="#3D5A5B"
-                Foreground="White"
-                CornerRadius="8"
-                Click="GoToPage_Click"/>
-      </StackPanel>
+      <!-- Next Button -->
+      <Button x:Name="NextButton"
+              Style="{StaticResource NavButtonStyle}"
+              Click="NextPage_Click">
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <TextBlock Text="Sau" VerticalAlignment="Center"/>
+          <FontIcon Glyph="&#xE76C;" FontSize="16"/>
+        </StackPanel>
+      </Button>
       
     </StackPanel>
-  </ScrollViewer>
+    
+    <!-- Hidden elements for compatibility -->
+    <StackPanel x:Name="PageNumbersPanel" Visibility="Collapsed"/>
+    <Button x:Name="FirstPageButton" Visibility="Collapsed" Click="FirstPage_Click"/>
+    <Button x:Name="LastPageButton" Visibility="Collapsed" Click="LastPage_Click"/>
+    <TextBox x:Name="PageJumpTextBox" Visibility="Collapsed" KeyDown="PageJump_KeyDown"/>
+  </Grid>
 </UserControl>
-
