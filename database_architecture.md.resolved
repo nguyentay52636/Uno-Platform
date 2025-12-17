@@ -1,0 +1,453 @@
+# 🗄️ KIẾN TRÚC DATABASE - UNO PLATFORM
+
+## 📋 Tổng Quan
+
+Ứng dụng Uno Platform của bạn sử dụng **2 hệ thống database khác nhau** tùy theo platform:
+
+| Platform | Database Type | Lý Do |
+|----------|--------------|-------|
+| **WebAssembly** | In-Memory (RAM) | WASM không hỗ trợ SQLite/EF Core |
+| **Android/iOS/Windows** | SQLite + Entity Framework Core | Có thể lưu trữ persistent data |
+
+---
+
+## 🔄 ĐƯỜNG ĐI CỦA CODE
+
+### 1️⃣ **Khởi Động Ứng Dụng**
+
+```mermaid
+graph TD
+    A[App.xaml.cs - OnLaunched] --> B{Platform?}
+    B -->|WebAssembly| C[Skip EF Core Init]
+    B -->|Android/iOS/Windows| D[Initialize EF Core]
+    C --> E[ServiceLocator.DataSeedService.SeedDataAsync]
+    D --> E
+    E --> F[App Ready]
+```
+
+#### 📄 File: [App.xaml.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/App.xaml.cs)
+
+```csharp
+protected override void OnLaunched(LaunchActivatedEventArgs args)
+{
+    // ...
+    InitializeDatabase();  // ← BẮT ĐẦU TẠI ĐÂY
+    // ...
+}
+
+private async Task InitializeDatabaseAsync()
+{
+#if !__WASM__
+    // CHỈ CHẠY TRÊN ANDROID/iOS/WINDOWS
+    using (var dbContext = new Database.EfAppDbContext())
+    {
+        await dbContext.Database.EnsureCreatedAsync();
+    }
+#endif
+    
+    // CHẠY TRÊN TẤT CẢ PLATFORMS
+    await ServiceLocator.DataSeedService.SeedDataAsync();
+}
+```
+
+> [!IMPORTANT]
+> Directive `#if !__WASM__` là chìa khóa! Code bên trong chỉ compile cho non-WASM platforms.
+
+---
+
+### 2️⃣ **Cấu Trúc Database Layer**
+
+```mermaid
+graph LR
+    A[Repository Layer] --> B{Platform Check}
+    B -->|__WASM__| C[InMemoryDbContext]
+    B -->|!__WASM__| D[AppDbContext SQLite]
+    B -->|!__WASM__| E[EfAppDbContext EF Core]
+    
+    C --> F[List in RAM]
+    D --> G[SQLite File]
+    E --> H[SQLite File via EF]
+```
+
+---
+
+## 📁 CÁC FILE DATABASE QUAN TRỌNG
+
+### 🔵 **1. InMemoryDbContext.cs** (CHỈ CHO WASM)
+
+📍 [Database/InMemoryDbContext.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/InMemoryDbContext.cs)
+
+```csharp
+// KHÔNG CÓ #if directive - luôn compile
+// NHƯNG chỉ được sử dụng trong DatabaseService khi __WASM__
+
+public class InMemoryDbContext
+{
+    private readonly List<Product> _products = new();
+    private readonly List<CartItem> _cartItems = new();
+    
+    // Tất cả data lưu trong RAM
+    // Mất hết khi refresh browser!
+}
+```
+
+**Đặc điểm:**
+- ✅ Data lưu trong `List<T>` trong RAM
+- ❌ Mất data khi refresh page
+- ✅ Nhanh, không cần file I/O
+- ✅ Hoạt động trong browser
+
+---
+
+### 🟢 **2. AppDbContext.cs** (CHỈ CHO ANDROID/iOS/WINDOWS)
+
+📍 [Database/AppDbContext.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/AppDbContext.cs)
+
+```csharp
+#if !__WASM__  // ← CHỈ COMPILE KHI KHÔNG PHẢI WASM
+using SQLite;
+
+public class AppDbContext
+{
+    private SQLiteConnection? _connection;
+    private const string DatabaseFileName = "unoplatform.db";
+    
+    private string GetDatabasePath()
+    {
+#if __ANDROID__
+        // Android: /data/data/com.companyname.uno-platform/files/
+        string personalFolder = Environment.GetFolderPath(
+            Environment.SpecialFolder.Personal);
+        return Path.Combine(personalFolder, DatabaseFileName);
+#else
+        // Windows: C:\Users\...\AppData\Local\Packages\...\LocalState\
+        string localFolder = ApplicationData.Current.LocalFolder.Path;
+        return Path.Combine(localFolder, DatabaseFileName);
+#endif
+    }
+}
+#endif  // ← KẾT THÚC BLOCK !__WASM__
+```
+
+**Đặc điểm:**
+- ✅ Data persistent (lưu vĩnh viễn)
+- ✅ Sử dụng SQLite native
+- ✅ File `.db` trên disk
+- ❌ Không compile cho WASM
+
+---
+
+### 🟡 **3. EfAppDbContext.cs** (CHỈ CHO ANDROID/iOS/WINDOWS)
+
+📍 [Database/EfAppDbContext.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/EfAppDbContext.cs)
+
+```csharp
+#if !__WASM__  // ← CHỈ COMPILE KHI KHÔNG PHẢI WASM
+using Microsoft.EntityFrameworkCore;
+
+public class EfAppDbContext : DbContext
+{
+    public DbSet<CartItem> CartItems { get; set; }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        string dbPath = GetDatabasePath();
+        optionsBuilder.UseSqlite($"Data Source={dbPath}");
+    }
+    
+    private string GetDatabasePath()
+    {
+#if __ANDROID__
+        // Android: /data/data/.../files/cart.db
+        string personalFolder = Environment.GetFolderPath(
+            Environment.SpecialFolder.Personal);
+        return Path.Combine(personalFolder, "cart.db");
+#else
+        // Windows: AppData\Local\...\cart.db
+        string localFolder = ApplicationData.Current.LocalFolder.Path;
+        return Path.Combine(localFolder, "cart.db");
+#endif
+    }
+}
+#endif
+```
+
+**Đặc điểm:**
+- ✅ Sử dụng Entity Framework Core
+- ✅ LINQ queries
+- ✅ Migrations support
+- ❌ Không compile cho WASM
+
+---
+
+## 🎯 SERVICE LAYER - NƠI QUYẾT ĐỊNH SỬ DỤNG DB NÀO
+
+### 📄 [Services/DatabaseService.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Services/DatabaseService.cs)
+
+Đây là file **QUAN TRỌNG NHẤT** - nơi quyết định dùng DB nào!
+
+```csharp
+public class DatabaseService
+{
+#if __WASM__
+    // ========== WASM VERSION ==========
+    private readonly InMemoryDbContext _dbContext;
+    
+    public DatabaseService()
+    {
+        _dbContext = new InMemoryDbContext();  // ← RAM only
+    }
+    
+    public List<Product> GetAllProducts()
+    {
+        return _dbContext.GetAllProducts();  // ← Từ List<T>
+    }
+    
+#else
+    // ========== ANDROID/iOS/WINDOWS VERSION ==========
+    private readonly AppDbContext _dbContext;
+    
+    public DatabaseService()
+    {
+        _dbContext = new AppDbContext();  // ← SQLite
+    }
+    
+    public List<Product> GetAllProducts()
+    {
+        return _dbContext.Connection.Table<Product>().ToList();  // ← Từ SQLite
+    }
+#endif
+}
+```
+
+> [!CAUTION]
+> Cùng 1 class [DatabaseService](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Services/DatabaseService.cs#6-235) nhưng có **2 implementations hoàn toàn khác nhau** dựa vào platform!
+
+---
+
+## 🔧 CẤU HÌNH TRONG .CSPROJ
+
+📍 [Uno_Platform.csproj](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Uno_Platform.csproj)
+
+```xml
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <!-- Định nghĩa 3 platforms -->
+    <TargetFrameworks>
+      net9.0-android;
+      net9.0-browserwasm;
+      net9.0-windows10.0.19041.0
+    </TargetFrameworks>
+  </PropertyGroup>
+
+  <!-- Packages cho TẤT CẢ platforms -->
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="sqlite-net-pcl" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
+  
+  <!-- Package CHỈ CHO non-WASM platforms -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'net9.0-browserwasm'">
+    <PackageReference Include="SQLitePCLRaw.bundle_green" />
+  </ItemGroup>
+</Project>
+```
+
+**Giải thích:**
+- `sqlite-net-pcl`: Wrapper cho SQLite (nhưng không hoạt động trên WASM)
+- `Microsoft.EntityFrameworkCore.Sqlite`: EF Core cho SQLite (không hoạt động trên WASM)
+- `SQLitePCLRaw.bundle_green`: Native SQLite binaries (**CHỈ** cho Android/iOS/Windows)
+
+---
+
+## 🔀 REPOSITORY PATTERN
+
+### 📄 [Repositories/ProductRepository.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Repositories)
+
+```csharp
+public class ProductRepository : IProductRepository
+{
+    private readonly DatabaseService _databaseService;
+    
+    public ProductRepository()
+    {
+        _databaseService = new DatabaseService();
+        // ↑ DatabaseService tự động chọn implementation dựa vào platform
+    }
+    
+    public async Task<List<Product>> GetAllAsync()
+    {
+        return await Task.Run(() => _databaseService.GetAllProducts());
+        // ↑ Trên WASM: lấy từ List<T> trong RAM
+        // ↑ Trên Android: lấy từ SQLite file
+    }
+}
+```
+
+---
+
+## 📊 SO SÁNH CHI TIẾT
+
+| Tính Năng | WebAssembly | Android/iOS/Windows |
+|-----------|-------------|---------------------|
+| **Database Type** | In-Memory List | SQLite File |
+| **Persistence** | ❌ Mất khi refresh | ✅ Lưu vĩnh viễn |
+| **File Location** | N/A (RAM only) | `/data/data/.../files/` (Android)<br>`AppData\Local\...` (Windows) |
+| **DbContext** | [InMemoryDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/InMemoryDbContext.cs#5-79) | [AppDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/AppDbContext.cs#9-58) + [EfAppDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/EfAppDbContext.cs#9-67) |
+| **Query Method** | LINQ on `List<T>` | SQLite queries |
+| **Package Dependencies** | Không cần SQLite packages | `SQLitePCLRaw.bundle_green` |
+| **Compile Directives** | `#if __WASM__` | `#if !__WASM__` |
+
+---
+
+## 🚀 FLOW KHI THÊM SẢN PHẨM MỚI
+
+````carousel
+### WebAssembly Flow
+
+```mermaid
+sequenceDiagram
+    participant UI as ProductPage
+    participant Repo as ProductRepository
+    participant DB as DatabaseService
+    participant Mem as InMemoryDbContext
+    
+    UI->>Repo: AddAsync(product)
+    Repo->>DB: AddProduct(product)
+    DB->>Mem: AddProduct(product)
+    Mem->>Mem: _products.Add(product)
+    Note over Mem: Lưu trong RAM
+    Mem-->>DB: true
+    DB-->>Repo: true
+    Repo-->>UI: Success
+```
+
+<!-- slide -->
+
+### Android Flow
+
+```mermaid
+sequenceDiagram
+    participant UI as ProductPage
+    participant Repo as ProductRepository
+    participant DB as DatabaseService
+    participant SQLite as AppDbContext
+    participant File as SQLite File
+    
+    UI->>Repo: AddAsync(product)
+    Repo->>DB: AddProduct(product)
+    DB->>SQLite: Connection.Insert(product)
+    SQLite->>File: Write to unoplatform.db
+    Note over File: Persistent storage
+    File-->>SQLite: Success
+    SQLite-->>DB: rows > 0
+    DB-->>Repo: true
+    Repo-->>UI: Success
+```
+````
+
+---
+
+## 🎓 TÓM TẮT ĐƯỜNG ĐI CODE
+
+### 1. **Khởi động app** → [App.xaml.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/App.xaml.cs)
+   - Platform check: WASM hay Android?
+   - WASM: Skip EF Core init
+   - Android: Initialize EF Core database
+
+### 2. **Service Locator** → [ServiceLocator.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Services/ServiceLocator.cs)
+   - Tạo singleton instances
+   - `ProductRepository` → [DatabaseService](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Services/DatabaseService.cs#6-235)
+
+### 3. **Database Service** → [DatabaseService.cs](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Services/DatabaseService.cs)
+   - `#if __WASM__`: Dùng [InMemoryDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/InMemoryDbContext.cs#5-79)
+   - `#else`: Dùng [AppDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/AppDbContext.cs#9-58) (SQLite)
+
+### 4. **Database Context**
+   - **WASM**: [InMemoryDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/InMemoryDbContext.cs#5-79) → `List<T>` trong RAM
+   - **Android**: [AppDbContext](file:///C:/Users/T480s/Desktop/Uno-Platform/Uno_Platform/Uno_Platform/Database/AppDbContext.cs#9-58) → SQLite file trên disk
+
+### 5. **UI Layer** → Views/ViewModels
+   - Gọi Repository
+   - Repository gọi DatabaseService
+   - DatabaseService tự động dùng đúng implementation
+
+---
+
+## 💡 VÍ DỤ THỰC TẾ
+
+### Khi user click "Thêm sản phẩm" trên WebAssembly:
+
+```
+ProductPage.xaml.cs
+  ↓
+ProductViewModel.AddProductCommand
+  ↓
+ServiceLocator.ProductRepository.AddAsync()
+  ↓
+DatabaseService.AddProduct()  [WASM version]
+  ↓
+InMemoryDbContext.AddProduct()
+  ↓
+_products.Add(product)  ← Lưu trong RAM
+```
+
+### Khi user click "Thêm sản phẩm" trên Android:
+
+```
+ProductPage.xaml.cs
+  ↓
+ProductViewModel.AddProductCommand
+  ↓
+ServiceLocator.ProductRepository.AddAsync()
+  ↓
+DatabaseService.AddProduct()  [Android version]
+  ↓
+AppDbContext.Connection.Insert(product)
+  ↓
+SQLite writes to /data/data/.../unoplatform.db  ← Lưu vĩnh viễn
+```
+
+---
+
+## 🔍 DEBUG TIPS
+
+### Kiểm tra platform hiện tại:
+
+```csharp
+#if __WASM__
+    Debug.WriteLine("Running on WebAssembly - Using InMemory DB");
+#elif __ANDROID__
+    Debug.WriteLine("Running on Android - Using SQLite");
+#elif WINDOWS
+    Debug.WriteLine("Running on Windows - Using SQLite");
+#endif
+```
+
+### Xem database path (Android only):
+
+```csharp
+#if __ANDROID__
+var dbPath = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+    "unoplatform.db"
+);
+Debug.WriteLine($"Database location: {dbPath}");
+#endif
+```
+
+---
+
+> [!TIP]
+> **Tại sao cần 2 hệ thống khác nhau?**
+> - WebAssembly chạy trong browser sandbox, không có quyền truy cập file system
+> - SQLite cần native code, không thể compile sang WebAssembly
+> - In-memory là giải pháp duy nhất cho WASM, nhưng mất data khi refresh
+
+> [!WARNING]
+> **Lưu ý quan trọng:**
+> - Data trên WASM **không persistent** - mất khi refresh
+> - Nếu cần lưu data trên WASM, phải dùng `localStorage` hoặc `IndexedDB`
+> - Android và WASM có **2 databases hoàn toàn riêng biệt**

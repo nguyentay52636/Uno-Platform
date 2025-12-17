@@ -6,19 +6,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Uno_Platform.Repositories;
 
+/// <summary>
+/// Repository cho Cart CRUD operations. Có 2 implementations: EF Core (Android/Windows) và InMemory (WASM).
+/// </summary>
 public class CartRepository : ICartRepository
 {
 #if !__WASM__
+    // ========== ANDROID/WINDOWS VERSION (EF CORE) ==========
     private readonly EfAppDbContext _dbContext;
     private bool _isInitialized = false;
     private readonly SemaphoreSlim _initLock = new SemaphoreSlim(1, 1);
 
+    /// <summary>
+    /// [Android/Windows] Constructor - sử dụng EF Core với SQLite
+    /// </summary>
     public CartRepository()
     {
         _dbContext = new EfAppDbContext();
         System.Diagnostics.Debug.WriteLine("=== CartRepository: Using EF Core SQLite ===");
     }
 
+    /// <summary>
+    /// [Android/Windows] Đảm bảo database đã được khởi tạo. Thread-safe với SemaphoreSlim.
+    /// </summary>
     private async Task EnsureDatabaseInitializedAsync()
     {
         if (_isInitialized) return;
@@ -44,6 +54,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Lấy tất cả cart items từ EF Core SQLite. Returns empty list nếu có lỗi.
+    /// </summary>
     public async Task<List<CartItem>> GetAllCartItemsAsync()
     {
         await EnsureDatabaseInitializedAsync();
@@ -58,6 +71,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Tìm cart item theo Product ID. Returns null nếu không tìm thấy hoặc có lỗi.
+    /// </summary>
     public async Task<CartItem?> GetCartItemByProductIdAsync(int productId)
     {
         await EnsureDatabaseInitializedAsync();
@@ -73,6 +89,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Thêm cart item vào EF Core SQLite. Tự động set ảnh mặc định.
+    /// </summary>
     public async Task<bool> AddCartItemAsync(CartItem item)
     {
         await EnsureDatabaseInitializedAsync();
@@ -90,6 +109,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Cập nhật cart item trong EF Core SQLite. Tự động set ảnh mặc định.
+    /// </summary>
     public async Task<bool> UpdateCartItemAsync(CartItem item)
     {
         await EnsureDatabaseInitializedAsync();
@@ -107,6 +129,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Xóa cart item khỏi EF Core SQLite theo ID. Returns false nếu không tìm thấy.
+    /// </summary>
     public async Task<bool> DeleteCartItemAsync(int id)
     {
         await EnsureDatabaseInitializedAsync();
@@ -128,6 +153,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Xóa toàn bộ cart từ EF Core SQLite (sau khi checkout thành công)
+    /// </summary>
     public async Task<bool> ClearCartAsync()
     {
         await EnsureDatabaseInitializedAsync();
@@ -145,6 +173,9 @@ public class CartRepository : ICartRepository
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Tính tổng số items trong cart (sum của quantities). Returns 0 nếu có lỗi.
+    /// </summary>
     public async Task<int> GetCartItemCountAsync()
     {
         await EnsureDatabaseInitializedAsync();
@@ -160,25 +191,37 @@ public class CartRepository : ICartRepository
         }
     }
 #else
-    // WebAssembly: Sử dụng InMemory
+    // ========== WEBASSEMBLY VERSION (IN-MEMORY) ==========
     private readonly InMemoryDbContext _dbContext;
 
+    /// <summary>
+    /// [WASM] Constructor - sử dụng InMemoryDbContext (data trong RAM)
+    /// </summary>
     public CartRepository()
     {
         _dbContext = new InMemoryDbContext();
         System.Diagnostics.Debug.WriteLine("=== CartRepository: Using InMemoryDbContext (WASM) ===");
     }
 
+    /// <summary>
+    /// [WASM] Lấy tất cả cart items từ RAM
+    /// </summary>
     public Task<List<CartItem>> GetAllCartItemsAsync()
     {
         return Task.FromResult(_dbContext.GetAllCartItems());
     }
 
+    /// <summary>
+    /// [WASM] Tìm cart item theo Product ID từ RAM
+    /// </summary>
     public Task<CartItem?> GetCartItemByProductIdAsync(int productId)
     {
         return Task.FromResult(_dbContext.GetCartItemByProductId(productId));
     }
 
+    /// <summary>
+    /// [WASM] Thêm cart item vào RAM. Tự động set ảnh mặc định.
+    /// </summary>
     public Task<bool> AddCartItemAsync(CartItem item)
     {
         item.ProductImage = "Assets/img/caby.png";
@@ -186,6 +229,9 @@ public class CartRepository : ICartRepository
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// [WASM] Cập nhật cart item trong RAM. Tự động set ảnh mặc định.
+    /// </summary>
     public Task<bool> UpdateCartItemAsync(CartItem item)
     {
         item.ProductImage = "Assets/img/caby.png";
@@ -193,18 +239,27 @@ public class CartRepository : ICartRepository
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// [WASM] Xóa cart item khỏi RAM theo ID
+    /// </summary>
     public Task<bool> DeleteCartItemAsync(int id)
     {
         _dbContext.DeleteCartItem(id);
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// [WASM] Xóa toàn bộ cart khỏi RAM (sau khi checkout thành công)
+    /// </summary>
     public Task<bool> ClearCartAsync()
     {
         _dbContext.ClearCart();
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// [WASM] Tính tổng số items trong cart (sum của quantities)
+    /// </summary>
     public Task<int> GetCartItemCountAsync()
     {
         var items = _dbContext.GetAllCartItems();

@@ -6,10 +6,19 @@ using Windows.Storage;
 
 namespace Uno_Platform.Database;
 
+/// <summary>
+/// Entity Framework Core database context cho Cart items. Dùng SQLite làm backend.
+/// </summary>
 public class EfAppDbContext : DbContext
 {
+    /// <summary>
+    /// DbSet cho CartItem table
+    /// </summary>
     public DbSet<CartItem> CartItems { get; set; }
 
+    /// <summary>
+    /// Cấu hình EF Core sử dụng SQLite với đường dẫn file tự động theo platform
+    /// </summary>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -19,6 +28,9 @@ public class EfAppDbContext : DbContext
         }
     }
 
+    /// <summary>
+    /// Lấy đường dẫn file cart.db theo platform. Tự động tạo thư mục nếu chưa tồn tại.
+    /// </summary>
     private string GetDatabasePath()
     {
         string dbPath;
@@ -49,6 +61,9 @@ public class EfAppDbContext : DbContext
         return dbPath;
     }
 
+    /// <summary>
+    /// Cấu hình model: định nghĩa primary key, required fields, data types cho CartItem
+    /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

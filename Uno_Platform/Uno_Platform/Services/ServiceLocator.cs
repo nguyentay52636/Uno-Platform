@@ -5,6 +5,9 @@ using Uno_Platform.Database;
 
 namespace Uno_Platform.Services;
 
+/// <summary>
+/// Service Locator pattern - Singleton container cho tất cả services. Tránh dependency injection complexity.
+/// </summary>
 public static class ServiceLocator
 {
     private static IProductRepository? _productRepository;
@@ -18,6 +21,9 @@ public static class ServiceLocator
 #if !__WASM__
     private static AppDbContext? _dbContext;
     
+    /// <summary>
+    /// [Android/Windows Only] Singleton SQLite database context
+    /// </summary>
     public static AppDbContext DbContext
     {
         get
@@ -32,6 +38,9 @@ public static class ServiceLocator
     }
 #endif
 
+    /// <summary>
+    /// Singleton ProductRepository instance
+    /// </summary>
     public static IProductRepository ProductRepository
     {
         get
@@ -41,6 +50,9 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton CartRepository instance
+    /// </summary>
     public static ICartRepository CartRepository
     {
         get
@@ -50,6 +62,9 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton ProductService instance (với ProductRepository dependency)
+    /// </summary>
     public static ProductService ProductService
     {
         get
@@ -59,6 +74,9 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton CartService instance (với CartRepository và ProductRepository dependencies)
+    /// </summary>
     public static ICartService CartService
     {
         get
@@ -68,6 +86,9 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton NavigationService instance - quản lý navigation giữa các pages
+    /// </summary>
     public static NavigationService NavigationService
     {
         get
@@ -77,6 +98,9 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton DataSeedService instance - tạo dữ liệu mẫu khi app khởi động
+    /// </summary>
     public static DataSeedService DataSeedService
     {
         get
@@ -86,8 +110,14 @@ public static class ServiceLocator
         }
     }
 
+    /// <summary>
+    /// Singleton ToastService instance - hiển thị toast notifications
+    /// </summary>
     public static ToastService ToastService => ToastService.Instance;
 
+    /// <summary>
+    /// Singleton ApiService instance - gọi REST API backend
+    /// </summary>
     public static ApiService ApiService
     {
         get

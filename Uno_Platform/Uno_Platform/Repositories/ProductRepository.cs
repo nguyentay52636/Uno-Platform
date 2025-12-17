@@ -4,6 +4,9 @@ using Uno_Platform.Services;
 
 namespace Uno_Platform.Repositories;
 
+/// <summary>
+/// Repository cho Product CRUD operations. Ưu tiên gọi API, fallback về InMemory nếu API fail.
+/// </summary>
 public class ProductRepository : IProductRepository
 {
     private readonly InMemoryDbContext _dbContext;
@@ -16,6 +19,9 @@ public class ProductRepository : IProductRepository
         System.Diagnostics.Debug.WriteLine("=== ProductRepository: Initialized with API Service ===");
     }
 
+    /// <summary>
+    /// Lấy tất cả sản phẩm. Ưu tiên từ API, nếu fail thì dùng InMemory fallback.
+    /// </summary>
     public async Task<List<Product>> GetAllProductsAsync()
     {
         // Ưu tiên gọi API, nếu thất bại thì dùng InMemory
@@ -39,6 +45,9 @@ public class ProductRepository : IProductRepository
         return fallbackProducts;
     }
 
+    /// <summary>
+    /// Tìm sản phẩm theo ID từ InMemory database
+    /// </summary>
     public Task<Product?> GetProductByIdAsync(int id)
     {
         var p = _dbContext.GetProductById(id);
@@ -46,6 +55,9 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(p);
     }
 
+    /// <summary>
+    /// Tìm kiếm sản phẩm theo keyword (tìm trong Name, Category, Description). Case-insensitive.
+    /// </summary>
     public Task<List<Product>> SearchProductsAsync(string keyword)
     {
         var all = _dbContext.GetAllProducts();
@@ -61,6 +73,9 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(results);
     }
 
+    /// <summary>
+    /// Lấy tất cả sản phẩm thuộc category. Case-insensitive comparison.
+    /// </summary>
     public Task<List<Product>> GetProductsByCategoryAsync(string category)
     {
         var all = _dbContext.GetAllProducts();
@@ -68,6 +83,9 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(results);
     }
 
+    /// <summary>
+    /// Lấy sản phẩm trong khoảng giá từ minPrice đến maxPrice (inclusive)
+    /// </summary>
     public Task<List<Product>> GetProductsByPriceRangeAsync(decimal minPrice, decimal maxPrice)
     {
         var all = _dbContext.GetAllProducts();
@@ -75,6 +93,9 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(results);
     }
 
+    /// <summary>
+    /// Thêm sản phẩm mới vào database. Tự động set ảnh mặc định.
+    /// </summary>
     public Task<bool> AddProductAsync(Product product)
     {
         product.Image = "Assets/img/caby.png"; // Always use default image
@@ -83,6 +104,9 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Cập nhật sản phẩm. Tự động set ảnh mặc định.
+    /// </summary>
     public Task<bool> UpdateProductAsync(Product product)
     {
         product.Image = "Assets/img/caby.png"; // Always use default image
@@ -90,12 +114,18 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Xóa sản phẩm theo ID
+    /// </summary>
     public Task<bool> DeleteProductAsync(int id)
     {
         _dbContext.DeleteProduct(id);
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Lấy danh sách tất cả categories (unique, sorted alphabetically)
+    /// </summary>
     public Task<List<string>> GetAllCategoriesAsync()
     {
         var all = _dbContext.GetAllProducts();

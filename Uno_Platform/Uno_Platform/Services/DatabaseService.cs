@@ -3,26 +3,41 @@ using Uno_Platform.Models;
 
 namespace Uno_Platform.Services;
 
+/// <summary>
+/// Service layer cho database operations. Tự động chọn InMemory (WASM) hoặc SQLite (Android/Windows).
+/// </summary>
 public class DatabaseService
 {
 #if __WASM__
     private readonly InMemoryDbContext _dbContext;
 
+    /// <summary>
+    /// Constructor cho WebAssembly - sử dụng InMemoryDbContext (data trong RAM)
+    /// </summary>
     public DatabaseService()
     {
         _dbContext = new InMemoryDbContext();
     }
 
+    /// <summary>
+    /// [WASM] Lấy tất cả sản phẩm từ RAM
+    /// </summary>
     public List<Product> GetAllProducts()
     {
         return _dbContext.GetAllProducts();
     }
 
+    /// <summary>
+    /// [WASM] Tìm sản phẩm theo ID từ RAM
+    /// </summary>
     public Product? GetProductById(int id)
     {
         return _dbContext.GetProductById(id);
     }
 
+    /// <summary>
+    /// [WASM] Thêm sản phẩm vào RAM. Returns true nếu thành công.
+    /// </summary>
     public bool AddProduct(Product product)
     {
         try
@@ -37,6 +52,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [WASM] Cập nhật sản phẩm trong RAM
+    /// </summary>
     public bool UpdateProduct(Product product)
     {
         try
@@ -51,6 +69,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [WASM] Xóa sản phẩm khỏi RAM
+    /// </summary>
     public bool DeleteProduct(int id)
     {
         try
@@ -65,6 +86,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [WASM] Tạo dữ liệu mẫu nếu database trống (chỉ chạy lần đầu)
+    /// </summary>
     public void SeedSampleData()
     {
         try
@@ -95,11 +119,17 @@ public class DatabaseService
 #else
     private readonly AppDbContext _dbContext;
 
+    /// <summary>
+    /// Constructor cho Android/Windows - sử dụng AppDbContext (SQLite persistent storage)
+    /// </summary>
     public DatabaseService()
     {
         _dbContext = new AppDbContext();
     }
 
+    /// <summary>
+    /// [Android/Windows] Lấy tất cả sản phẩm từ SQLite database. Hiển thị toast nếu có lỗi.
+    /// </summary>
     public List<Product> GetAllProducts()
     {
         try
@@ -120,6 +150,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Tìm sản phẩm theo ID từ SQLite. Returns null nếu không tìm thấy hoặc có lỗi.
+    /// </summary>
     public Product? GetProductById(int id)
     {
         try
@@ -140,6 +173,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Thêm sản phẩm vào SQLite. Returns true nếu insert thành công (affected rows > 0).
+    /// </summary>
     public bool AddProduct(Product product)
     {
         try
@@ -161,6 +197,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Cập nhật sản phẩm trong SQLite. Returns true nếu update thành công.
+    /// </summary>
     public bool UpdateProduct(Product product)
     {
         try
@@ -182,6 +221,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Xóa sản phẩm khỏi SQLite theo ID. Returns true nếu delete thành công.
+    /// </summary>
     public bool DeleteProduct(int id)
     {
         try
@@ -203,6 +245,9 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// [Android/Windows] Tạo dữ liệu mẫu nếu SQLite database trống (chỉ chạy lần đầu)
+    /// </summary>
     public void SeedSampleData()
     {
         try

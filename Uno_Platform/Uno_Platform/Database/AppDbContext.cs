@@ -6,11 +6,17 @@ using Uno_Platform.Models;
 
 namespace Uno_Platform.Database;
 
+/// <summary>
+/// SQLite database context cho Android/iOS/Windows. Data lưu persistent trên disk.
+/// </summary>
 public class AppDbContext
 {
     private SQLiteConnection? _connection;
     private const string DatabaseFileName = "unoplatform.db";
 
+    /// <summary>
+    /// SQLite connection. Tự động khởi tạo database nếu chưa tồn tại.
+    /// </summary>
     public SQLiteConnection Connection
     {
         get
@@ -23,6 +29,9 @@ public class AppDbContext
         }
     }
 
+    /// <summary>
+    /// Khởi tạo database: mở connection và tạo tables
+    /// </summary>
     private void InitializeDatabase()
     {
         string dbPath = GetDatabasePath();
@@ -30,6 +39,9 @@ public class AppDbContext
         CreateTables();
     }
 
+    /// <summary>
+    /// Lấy đường dẫn file database theo platform (Android: /data/data/.../files/, Windows: AppData/Local)
+    /// </summary>
     private string GetDatabasePath()
     {
 #if __ANDROID__
@@ -43,12 +55,18 @@ public class AppDbContext
 #endif
     }
 
+    /// <summary>
+    /// Tạo tables Product và CartItem nếu chưa tồn tại
+    /// </summary>
     private void CreateTables()
     {
         Connection.CreateTable<Product>();
         Connection.CreateTable<CartItem>();
     }
 
+    /// <summary>
+    /// Đóng connection và giải phóng resources
+    /// </summary>
     public void CloseConnection()
     {
         _connection?.Close();
