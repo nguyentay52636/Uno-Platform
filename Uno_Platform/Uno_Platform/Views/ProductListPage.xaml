@@ -27,32 +27,46 @@
     <!-- Filter Section - Responsive Design -->
     <Border Grid.Row="0"
             Background="White"
-            Padding="16"
+            Padding="16,20,16,16"
             BorderThickness="0,0,0,1"
             BorderBrush="#E8E8E8">
-      <StackPanel Spacing="12">
+      <StackPanel Spacing="16">
         
-        <!-- Header Row - Responsive -->
-        <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Disabled"
-                      HorizontalScrollMode="Auto">
-          <StackPanel Orientation="Horizontal" Spacing="8">
-            <!-- Results Badge -->
-            <Border Background="#F0F7F7"
-                    CornerRadius="10"
-                    Padding="10,6"
-                    BorderThickness="1"
-                    BorderBrush="#3D5A5B">
-              <TextBlock FontSize="13"
-                         FontWeight="SemiBold"
-                         Foreground="#3D5A5B">
-                <Run Text="📦 "/>
-                <Run Text="{x:Bind ViewModel.TotalItems, Mode=OneWay}"/>
-                <Run Text=" sản phẩm"/>
-              </TextBlock>
-            </Border>
-          </StackPanel>
-        </ScrollViewer>
+        <!-- Brand Name - Centered -->
+        <TextBlock Text="Tech Store"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Foreground="#3D5A5B"
+                   HorizontalAlignment="Center"
+                   Margin="0,8,0,4"/>
+        
+        <!-- Search Box -->
+        <Border Background="#F8F9FA"
+                CornerRadius="12"
+                Padding="14,0"
+                BorderThickness="2"
+                BorderBrush="#E0E0E0"
+                HorizontalAlignment="Stretch"
+                MaxWidth="600">
+          <Grid ColumnDefinitions="Auto,*">
+            <FontIcon Grid.Column="0"
+                      Glyph="&#xE721;"
+                      FontSize="18"
+                      Foreground="#888"
+                      VerticalAlignment="Center"
+                      Margin="0,0,12,0"/>
+            <TextBox Grid.Column="1"
+                     x:Name="SearchTextBox"
+                     PlaceholderText="Tìm kiếm sản phẩm..."
+                     Text="{x:Bind ViewModel.SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     FontSize="15"
+                     Foreground="#333"
+                     VerticalAlignment="Center"
+                     MinHeight="44"/>
+          </Grid>
+        </Border>
         
         <!-- Categories -->
         <components:CategoriesPanel x:Name="CategoriesPanel"
