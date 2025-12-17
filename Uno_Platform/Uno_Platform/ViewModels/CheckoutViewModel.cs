@@ -69,25 +69,38 @@ public partial class CheckoutViewModel : ObservableObject
         // Validate input
         if (string.IsNullOrWhiteSpace(CustomerName))
         {
-            ErrorMessage = "Vui lòng nhập tên khách hàng";
+            ToastService.Instance.ShowError("Vui lòng nhập tên khách hàng");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(CustomerAddress))
         {
-            ErrorMessage = "Vui lòng nhập địa chỉ";
+            ToastService.Instance.ShowError("Vui lòng nhập địa chỉ giao hàng");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(CustomerPhone))
         {
-            ErrorMessage = "Vui lòng nhập số điện thoại";
+            ToastService.Instance.ShowError("Vui lòng nhập số điện thoại");
+            return;
+        }
+
+        // Validate phone number: starts with 0, 10-11 digits
+        var phoneDigits = new string(CustomerPhone.Where(char.IsDigit).ToArray());
+        if (!phoneDigits.StartsWith("0"))
+        {
+            ToastService.Instance.ShowError("Số điện thoại phải bắt đầu bằng số 0");
+            return;
+        }
+        if (phoneDigits.Length < 10 || phoneDigits.Length > 11)
+        {
+            ToastService.Instance.ShowError("Số điện thoại phải có 10-11 chữ số");
             return;
         }
 
         if (CartItems == null || !CartItems.Any())
         {
-            ErrorMessage = "Giỏ hàng trống";
+            ToastService.Instance.ShowError("Giỏ hàng trống");
             return;
         }
 

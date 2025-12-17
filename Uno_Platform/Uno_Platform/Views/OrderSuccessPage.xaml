@@ -11,16 +11,16 @@
                     Spacing="24"
                     MaxWidth="400">
             
-            <!-- Success Icon (Simulated with Text/Border) -->
+            <!-- Success Icon -->
             <Border Width="100" Height="100" 
                     CornerRadius="50" 
-                    Background="#4CAF50"
+                    Background="#367419"
                     HorizontalAlignment="Center">
-                <TextBlock Text="✓" 
-                           FontSize="60" 
-                           Foreground="White" 
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center"/>
+                <FontIcon Glyph="&#xE73E;"
+                          FontSize="50"
+                          Foreground="White"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
             </Border>
 
             <TextBlock Text="Đặt hàng thành công!" 

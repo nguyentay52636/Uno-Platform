@@ -140,96 +140,12 @@
                       Margin="0,-8,0,0"/>
             
             <!-- Description -->
-            <StackPanel Margin="0,8,0,0">
-              <TextBlock Text="{x:Bind ViewModel.Product.Description, Mode=OneWay}"
-                        FontSize="14"
-                        Foreground="#666"
-                        LineHeight="22"
-                        TextWrapping="Wrap"
-                        MaxLines="3"
-                        TextTrimming="WordEllipsis"/>
-              <TextBlock Text="Read More"
-                        FontSize="14"
-                        FontWeight="SemiBold"
-                        Foreground="#367419"
-                        Margin="0,4,0,0"/>
-            </StackPanel>
-            
-            <!-- Thumbnail Images -->
-            <StackPanel Orientation="Horizontal" 
-                        Spacing="12" 
-                        Margin="0,16,0,0">
-              <Border Background="#F0F0F0" 
-                      CornerRadius="12" 
-                      Width="60" Height="60"
-                      BorderThickness="2"
-                      BorderBrush="#367419">
-                <Image Source="{x:Bind ViewModel.Product.Image, Mode=OneWay}"
-                       Stretch="Uniform" Margin="8"/>
-              </Border>
-              <Border Background="#F0F0F0" 
-                      CornerRadius="12" 
-                      Width="60" Height="60">
-                <Image Source="{x:Bind ViewModel.Product.Image, Mode=OneWay}"
-                       Stretch="Uniform" Margin="8"/>
-              </Border>
-              <Border Background="#F0F0F0" 
-                      CornerRadius="12" 
-                      Width="60" Height="60">
-                <Image Source="{x:Bind ViewModel.Product.Image, Mode=OneWay}"
-                       Stretch="Uniform" Margin="8"/>
-              </Border>
-              <Border Background="#367419" 
-                      CornerRadius="12" 
-                      Width="60" Height="60">
-                <Image Source="{x:Bind ViewModel.Product.Image, Mode=OneWay}"
-                       Stretch="Uniform" Margin="8" Opacity="0.7"/>
-              </Border>
-            </StackPanel>
-            
-            <!-- Color + Quantity Row -->
-            <Grid Margin="0,20,0,0">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-              </Grid.ColumnDefinitions>
-              
-              <!-- Color Options -->
-              <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
-                <TextBlock Text="Color" 
-                           FontSize="14" 
-                           Foreground="#666"
-                           VerticalAlignment="Center"/>
-                <Border Width="28" Height="28" CornerRadius="14" 
-                        Background="#E8E8E8" BorderThickness="2" BorderBrush="#367419"/>
-                <Border Width="28" Height="28" CornerRadius="14" 
-                        Background="#367419"/>
-                <Border Width="28" Height="28" CornerRadius="14" 
-                        Background="#5A7A7B"/>
-              </StackPanel>
-              
-              <!-- Quantity Selector -->
-              <Border Grid.Column="1"
-                      Background="#F5F5F5"
-                      CornerRadius="8"
-                      Padding="4">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                  <Button Style="{StaticResource NoHoverIconButtonStyle}"
-                          Width="32" Height="32">
-                    <TextBlock Text="−" FontSize="18" FontWeight="Bold" Foreground="#367419"/>
-                  </Button>
-                  <TextBlock Text="1" 
-                             FontSize="16" 
-                             FontWeight="SemiBold"
-                             Foreground="#367419"
-                             VerticalAlignment="Center"/>
-                  <Button Style="{StaticResource NoHoverIconButtonStyle}"
-                          Width="32" Height="32">
-                    <TextBlock Text="+" FontSize="18" FontWeight="Bold" Foreground="#367419"/>
-                  </Button>
-                </StackPanel>
-              </Border>
-            </Grid>
+            <TextBlock Text="{x:Bind ViewModel.Product.Description, Mode=OneWay}"
+                      FontSize="14"
+                      Foreground="#666"
+                      LineHeight="22"
+                      TextWrapping="Wrap"
+                      Margin="0,8,0,0"/>
             
           </StackPanel>
         </Border>
