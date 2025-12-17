@@ -22,7 +22,6 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
     <!-- Filter Section - Responsive Design -->
@@ -50,19 +49,6 @@
                 <Run Text="📦 "/>
                 <Run Text="{x:Bind ViewModel.TotalItems, Mode=OneWay}"/>
                 <Run Text=" sản phẩm"/>
-              </TextBlock>
-            </Border>
-            <!-- Page Badge -->
-            <Border Background="#3D5A5B"
-                    CornerRadius="10"
-                    Padding="10,6">
-              <TextBlock FontSize="13"
-                         FontWeight="Bold"
-                         Foreground="White">
-                <Run Text="📄 Trang "/>
-                <Run Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}"/>
-                <Run Text=" / "/>
-                <Run Text="{x:Bind ViewModel.TotalPages, Mode=OneWay}"/>
               </TextBlock>
             </Border>
           </StackPanel>
@@ -150,22 +136,8 @@
       </Grid>
     </ScrollViewer>
 
-    <!-- Pagination - Compact Design -->
-    <Border Grid.Row="2"
-            Background="White"
-            Padding="12,10"
-            BorderThickness="0,1,0,0"
-            BorderBrush="#E8E8E8">
-      <components:Pagination x:Name="ProductPagination"
-                             CurrentPage="{x:Bind ViewModel.CurrentPage, Mode=TwoWay}"
-                             TotalPages="{x:Bind ViewModel.TotalPages, Mode=OneWay}"
-                             TotalItems="{x:Bind ViewModel.TotalItems, Mode=OneWay}"
-                             PageSize="{x:Bind ViewModel.PageSize, Mode=OneWay}"
-                             PageChanged="Pagination_PageChanged"/>
-    </Border>
-
     <!-- Loading Overlay -->
-    <components:LoadingIndicator Grid.RowSpan="3"
+    <components:LoadingIndicator Grid.RowSpan="2"
                                 IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
                                 Message="Đang tải sản phẩm..."/>
   </Grid>

@@ -51,10 +51,4 @@ public sealed partial class ProductListPage : Page
         ViewModel.SelectedCategory = categoryName;
         UpdateEmptyState();
     }
-
-    private void Pagination_PageChanged(object sender, int pageNumber)
-    {
-        ViewModel.GoToPageCommand.Execute(pageNumber);
-        UpdateEmptyState();
-    }
 }

@@ -12,7 +12,6 @@ public partial class ProductListViewModel : ObservableObject
     private readonly ProductService _productService;
     private readonly ICartService _cartService;
     private System.Threading.Timer? _searchDebounceTimer;
-    private List<Product> _allFilteredProducts = new();
 
     ~ProductListViewModel()
     {
@@ -60,18 +59,8 @@ public partial class ProductListViewModel : ObservableObject
     [ObservableProperty]
     private int cartItemCount;
 
-    // Pagination properties
-    [ObservableProperty]
-    private int currentPage = 1;
-
-    [ObservableProperty]
-    private int totalPages = 1;
-
     [ObservableProperty]
     private int totalItems;
-
-    [ObservableProperty]
-    private int pageSize = 6;
 
     [ObservableProperty]
     private bool hasNoProducts = true;
@@ -205,47 +194,15 @@ public partial class ProductListViewModel : ObservableObject
                 );
             }
 
-            // Store all filtered products for pagination
-            _allFilteredProducts = filtered.ToList();
+            // Get all filtered products
+            var filteredList = filtered.ToList();
             
-            // Update pagination info
-            TotalItems = _allFilteredProducts.Count;
-            TotalPages = Math.Max(1, (int)Math.Ceiling((double)TotalItems / PageSize));
-            
-            // Reset to page 1 when filters change
-            if (CurrentPage > TotalPages)
-            {
-                CurrentPage = 1;
-            }
-            
-            // Apply pagination
-            ApplyPagination();
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error applying filters: {ex.Message}");
-            FilteredProducts.Clear();
-            _allFilteredProducts.Clear();
-            TotalItems = 0;
-            TotalPages = 1;
-            CurrentPage = 1;
-            HasNoProducts = true;
-        }
-    }
-
-    private void ApplyPagination()
-    {
-        try
-        {
-            // Get items for current page
-            var pagedProducts = _allFilteredProducts
-                .Skip((CurrentPage - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
+            // Update total items count
+            TotalItems = filteredList.Count;
             
             // Update FilteredProducts collection
             FilteredProducts.Clear();
-            foreach (var product in pagedProducts)
+            foreach (var product in filteredList)
             {
                 FilteredProducts.Add(product);
             }
@@ -255,24 +212,11 @@ public partial class ProductListViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error applying pagination: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Error applying filters: {ex.Message}");
+            FilteredProducts.Clear();
+            TotalItems = 0;
             HasNoProducts = true;
         }
-    }
-
-    [RelayCommand]
-    public void GoToPage(int pageNumber)
-    {
-        if (pageNumber >= 1 && pageNumber <= TotalPages && pageNumber != CurrentPage)
-        {
-            CurrentPage = pageNumber;
-            ApplyPagination();
-        }
-    }
-
-    partial void OnCurrentPageChanged(int value)
-    {
-        // Pagination will be applied from GoToPage command
     }
 
     [RelayCommand]
