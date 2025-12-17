@@ -16,14 +16,11 @@
 
     <!-- Header -->
     <Border Grid.Row="0"
-            Background="#3D5A5B"
+            Background="#367419"
             Padding="16">
       <Grid ColumnDefinitions="Auto,*">
         <Button Grid.Column="0"
-                Background="Transparent"
-                Padding="8"
-                MinWidth="0"
-                MinHeight="0"
+                Style="{StaticResource NoHoverIconButtonStyle}"
                 Command="{x:Bind ViewModel.GoBackCommand}">
           <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="White"/>
         </Button>
@@ -53,13 +50,13 @@
               <Border Background="#F0F7F7" 
                       CornerRadius="10" 
                       Width="36" Height="36">
-                <FontIcon Glyph="&#xE77B;" FontSize="18" Foreground="#3D5A5B"
+                <FontIcon Glyph="&#xE77B;" FontSize="18" Foreground="#367419"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
               <TextBlock Text="Thông tin giao hàng"
                          FontSize="18"
                          FontWeight="Bold"
-                         Foreground="#3D5A5B"
+                         Foreground="#367419"
                          VerticalAlignment="Center"/>
             </StackPanel>
             
@@ -99,13 +96,13 @@
               <Border Background="#F0F7F7" 
                       CornerRadius="10" 
                       Width="36" Height="36">
-                <FontIcon Glyph="&#xE7BF;" FontSize="18" Foreground="#3D5A5B"
+                <FontIcon Glyph="&#xE7BF;" FontSize="18" Foreground="#367419"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
               <TextBlock Text="Đơn hàng của bạn"
                          FontSize="18"
                          FontWeight="Bold"
-                         Foreground="#3D5A5B"
+                         Foreground="#367419"
                          VerticalAlignment="Center"/>
             </StackPanel>
 
@@ -157,10 +154,10 @@
                                     Margin="0,4,0,0">
                           <TextBlock Text="{x:Bind ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                                      FontSize="13"
-                                     Foreground="#3D5A5B"
+                                     Foreground="#367419"
                                      FontWeight="SemiBold"/>
                           <TextBlock Text="×" FontSize="13" Foreground="#888"/>
-                          <Border Background="#3D5A5B"
+                          <Border Background="#367419"
                                   CornerRadius="6"
                                   Padding="8,2">
                             <TextBlock Text="{x:Bind Quantity, Mode=OneWay}"
@@ -180,7 +177,7 @@
                           <TextBlock Text="{x:Bind TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                                      FontSize="15"
                                      FontWeight="Bold"
-                                     Foreground="#3D5A5B"/>
+                                     Foreground="#367419"/>
                         </StackPanel>
                       </Grid>
                       
@@ -233,17 +230,13 @@
                      Text="{x:Bind ViewModel.TotalPriceFormatted, Mode=OneWay}"
                      FontSize="24"
                      FontWeight="Bold"
-                     Foreground="#3D5A5B"
+                     Foreground="#367419"
                      VerticalAlignment="Center"/>
         </Grid>
         
         <!-- Submit Button -->
         <Button Grid.Row="1"
-                Background="#3D5A5B"
-                Foreground="White"
-                CornerRadius="12"
-                Padding="0,14"
-                HorizontalAlignment="Stretch"
+                Style="{StaticResource NoHoverPrimaryButtonStyle}"
                 Command="{x:Bind ViewModel.SubmitOrderCommand}">
           <Grid ColumnDefinitions="Auto,*">
             <ProgressRing Grid.Column="0"
@@ -256,6 +249,7 @@
                        Text="✓ Xác nhận đặt hàng" 
                        FontSize="16" 
                        FontWeight="Bold"
+                       Foreground="White"
                        HorizontalAlignment="Center"/>
           </Grid>
         </Button>

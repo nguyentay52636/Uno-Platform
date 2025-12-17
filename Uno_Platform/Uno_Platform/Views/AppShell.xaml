@@ -69,53 +69,49 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <!-- Top AppBar with Acrylic Effect -->
+    <!-- Top AppBar with RetailStore centered -->
     <Border Grid.Row="0"
             x:Name="AppBarBorder"
-            Background="{StaticResource AcrylicBrush}"
-            Padding="{StaticResource SpacingM}"
-            CornerRadius="0,0,16,16">
-      <Border.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-          <GradientStop Color="#F0FFFFFF" Offset="0"/>
-          <GradientStop Color="#E8F0F8FF" Offset="1"/>
-        </LinearGradientBrush>
-      </Border.Background>
-      
+            Background="White"
+            Padding="12,28,12,8">
 
-      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-        <!-- Toggle Button -->
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <!-- Toggle Button (Left) -->
         <Button Grid.Column="0"
                 x:Name="SidebarToggleButton"
                 Click="SidebarToggleButton_Click"
-                Width="44"
-                Height="44"
-                Background="Transparent"
-                BorderThickness="0"
-                CornerRadius="10"
-                VerticalAlignment="Center"
-                Padding="0">
-          <FontIcon Glyph="&#xE700;" FontSize="22" Foreground="#3D5A5B"/>
+                Style="{StaticResource NoHoverIconButtonStyle}"
+                Width="36"
+                Height="36"
+                VerticalAlignment="Center">
+          <FontIcon Glyph="&#xE700;" FontSize="20" Foreground="#367419"/>
         </Button>
 
-        <!-- Hidden elements for code-behind compatibility -->
-        <StackPanel Grid.Column="1" Visibility="Collapsed">
-          <TextBlock x:Name="AppTitle"/>
-          <TextBox x:Name="GlobalSearchBox" TextChanged="GlobalSearchBox_TextChanged"/>
-        </StackPanel>
+        <!-- Brand Name (Center) -->
+        <TextBlock Grid.Column="1"
+                   x:Name="AppTitle"
+                   Text="RetailStore"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#367419"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        
+        <!-- Hidden for code-behind -->
+        <TextBox x:Name="GlobalSearchBox" 
+                 TextChanged="GlobalSearchBox_TextChanged" 
+                 Visibility="Collapsed"/>
 
-        <!-- Cart Icon (Right side) -->
+        <!-- Cart Icon (Right) -->
         <Button Grid.Column="2"
                 x:Name="HeaderCartButton"
                 Click="CartTab_Click"
-                Background="Transparent"
-                BorderThickness="0"
-                Padding="10"
-                Width="44"
-                Height="44"
+                Style="{StaticResource NoHoverIconButtonStyle}"
+                Width="36"
+                Height="36"
                 VerticalAlignment="Center">
           <Grid>
-            <SymbolIcon Symbol="Shop" Foreground="#3D5A5B"/>
+            <SymbolIcon Symbol="Shop" Foreground="#367419"/>
             <Border x:Name="HeaderCartBadge"
                     Background="{StaticResource SecondaryBrush}"
                     CornerRadius="10"
@@ -178,7 +174,7 @@
         <!-- Home Tab -->
         <Button Grid.Column="0"
                 x:Name="HomeTab"
-                Style="{StaticResource IconButtonStyle}"
+                Style="{StaticResource NoHoverIconButtonStyle}"
                 Click="HomeTab_Click"
                 Tag="Home"
                 HorizontalAlignment="Stretch"
@@ -193,7 +189,7 @@
             <Border x:Name="HomeIndicator"
                    Height="3"
                    Width="30"
-                   Background="#3D5A5B"
+                   Background="#367419"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="1"
@@ -204,7 +200,7 @@
         <!-- Cart Tab -->
         <Button Grid.Column="1"
                 x:Name="CartTab"
-                Style="{StaticResource IconButtonStyle}"
+                Style="{StaticResource NoHoverIconButtonStyle}"
                 Click="CartTab_Click"
                 Tag="Cart"
                 HorizontalAlignment="Stretch"
@@ -239,7 +235,7 @@
             <Border x:Name="CartIndicator"
                    Height="3"
                    Width="30"
-                   Background="#3D5A5B"
+                   Background="#367419"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -250,7 +246,7 @@
         <!-- Settings Tab -->
         <Button Grid.Column="2"
                 x:Name="SettingsTab"
-                Style="{StaticResource IconButtonStyle}"
+                Style="{StaticResource NoHoverIconButtonStyle}"
                 Click="SettingsTab_Click"
                 Tag="Settings"
                 HorizontalAlignment="Stretch"
@@ -265,7 +261,7 @@
             <Border x:Name="SettingsIndicator"
                    Height="3"
                    Width="30"
-                   Background="#3D5A5B"
+                   Background="#367419"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -301,7 +297,7 @@
         <!-- Sidebar Header -->
         <Border Grid.Row="0" 
                 Padding="20"
-                Background="#3D5A5B">
+                Background="#367419">
           <StackPanel Spacing="12">
             <Border Width="70" 
                     Height="70" 
@@ -309,7 +305,7 @@
                     Background="White"
                     HorizontalAlignment="Center">
               <SymbolIcon Symbol="Contact" 
-                          Foreground="#3D5A5B"
+                          Foreground="#367419"
                           RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon.RenderTransform>
                   <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -341,12 +337,9 @@
                     Click="HeaderLoginButton_Click"
                     HorizontalAlignment="Stretch"
                     Height="44"
+                    Style="{StaticResource NoHoverPrimaryButtonStyle}"
                     FontSize="14"
-                    FontWeight="SemiBold"
-                    CornerRadius="8"
-                    BorderThickness="0"
-                    Foreground="White"
-                    Background="#3D5A5B"/>
+                    Padding="16,10"/>
             
             <Button x:Name="SidebarRegisterButton"
                     Grid.Column="2"
@@ -354,13 +347,7 @@
                     Click="HeaderRegisterButton_Click"
                     HorizontalAlignment="Stretch"
                     Height="44"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Background="Transparent"
-                    Foreground="#3D5A5B"
-                    CornerRadius="8"
-                    BorderBrush="#3D5A5B"
-                    BorderThickness="2"/>
+                    Style="{StaticResource NoHoverSecondaryButtonStyle}"/>
           </Grid>
           
           <!-- Divider -->
@@ -372,42 +359,28 @@
                     Click="HomeTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Background="#E8F4F4"
-                    BorderThickness="0"
-                    Padding="16,12"
-                    CornerRadius="8"
-                    Foreground="#3D5A5B"
+                    Style="{StaticResource NoHoverGhostButtonStyle}"
+                    Background="#E8F4E8"
+                    Foreground="#367419"
                     FontWeight="SemiBold"/>
             
             <Button Content="🛍️  Sản phẩm"
                     Click="HomeTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Padding="16,12"
-                    CornerRadius="8"
-                    Foreground="#374151"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
             
             <Button Content="🛒  Giỏ hàng"
                     Click="CartTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Padding="16,12"
-                    CornerRadius="8"
-                    Foreground="#374151"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
             
             <Button Content="⚙️  Cài đặt"
                     Click="SettingsTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Padding="16,12"
-                    CornerRadius="8"
-                    Foreground="#374151"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
           </StackPanel>
         </StackPanel>
       </Grid>

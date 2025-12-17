@@ -27,44 +27,36 @@
     <!-- Filter Section - Responsive Design -->
     <Border Grid.Row="0"
             Background="White"
-            Padding="16,20,16,16"
+            Padding="12,8,12,12"
             BorderThickness="0,0,0,1"
             BorderBrush="#E8E8E8">
-      <StackPanel Spacing="16">
-        
-        <!-- Brand Name - Centered -->
-        <TextBlock Text="Tech Store"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Foreground="#3D5A5B"
-                   HorizontalAlignment="Center"
-                   Margin="0,8,0,4"/>
+      <StackPanel Spacing="10">
         
         <!-- Search Box -->
         <Border Background="#F8F9FA"
-                CornerRadius="12"
-                Padding="14,0"
-                BorderThickness="2"
+                CornerRadius="10"
+                Padding="12,0"
+                BorderThickness="1"
                 BorderBrush="#E0E0E0"
                 HorizontalAlignment="Stretch"
                 MaxWidth="600">
           <Grid ColumnDefinitions="Auto,*">
             <FontIcon Grid.Column="0"
                       Glyph="&#xE721;"
-                      FontSize="18"
+                      FontSize="16"
                       Foreground="#888"
                       VerticalAlignment="Center"
-                      Margin="0,0,12,0"/>
+                      Margin="0,0,10,0"/>
             <TextBox Grid.Column="1"
                      x:Name="SearchTextBox"
                      PlaceholderText="Tìm kiếm sản phẩm..."
                      Text="{x:Bind ViewModel.SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      BorderThickness="0"
                      Background="Transparent"
-                     FontSize="15"
+                     FontSize="14"
                      Foreground="#333"
                      VerticalAlignment="Center"
-                     MinHeight="44"/>
+                     MinHeight="36"/>
           </Grid>
         </Border>
         
@@ -121,7 +113,7 @@
                 VerticalAlignment="Center"
                 CornerRadius="20"
                 BorderThickness="2"
-                BorderBrush="#3D5A5B"
+                BorderBrush="#367419"
                 Visibility="{x:Bind ViewModel.HasNoProducts, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="20" HorizontalAlignment="Center">
             <Border Background="#F0F7F7"
@@ -137,7 +129,7 @@
             <TextBlock Text="Không tìm thấy sản phẩm"
                        FontSize="22"
                        FontWeight="Bold"
-                       Foreground="#3D5A5B"
+                       Foreground="#367419"
                        HorizontalAlignment="Center"/>
             <TextBlock Text="Thử tìm kiếm với từ khóa khác"
                        FontSize="14"

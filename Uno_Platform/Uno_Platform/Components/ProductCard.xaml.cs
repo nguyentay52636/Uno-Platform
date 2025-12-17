@@ -74,24 +74,8 @@ public sealed partial class ProductCard : UserControl
         // We only need to stop the event from bubbling to the parent Border.
     }
 
-    private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        var hoverAnimation = Resources["HoverAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        hoverAnimation?.Begin();
-    }
-
-    private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        var leaveAnimation = Resources["LeaveAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        leaveAnimation?.Begin();
-    }
-
     private void Card_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        // Play tap animation
-        var tapAnimation = Resources["TapAnimation"] as Microsoft.UI.Xaml.Media.Animation.Storyboard;
-        tapAnimation?.Begin();
-
         // Navigate to product detail page
         if (ViewDetailsCommand != null && Product != null)
         {

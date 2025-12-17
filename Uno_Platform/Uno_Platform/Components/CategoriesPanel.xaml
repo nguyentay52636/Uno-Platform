@@ -7,7 +7,7 @@
     <TextBlock Text="Danh mục"
                FontSize="16"
                FontWeight="SemiBold"
-               Foreground="#3D5A5B"/>
+               Foreground="#367419"/>
     
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Disabled"
@@ -22,19 +22,14 @@
           <DataTemplate x:DataType="models:CategoryWithCount">
             <Button Click="CategoryButton_Click"
                     Tag="{x:Bind Name}"
-                    Background="White"
-                    BorderBrush="#3D5A5B"
-                    BorderThickness="1.5"
-                    CornerRadius="18"
-                    Padding="12,6"
-                    MinHeight="36">
+                    Style="{StaticResource NoHoverCategoryButtonStyle}">
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
                            VerticalAlignment="Center"
-                           Foreground="#3D5A5B"
+                           Foreground="#367419"
                            FontSize="13"
                            FontWeight="SemiBold"/>
-                <Border Background="#3D5A5B"
+                <Border Background="#367419"
                         CornerRadius="9"
                         Padding="6,2"
                         MinWidth="22"

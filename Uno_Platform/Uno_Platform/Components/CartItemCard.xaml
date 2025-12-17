@@ -56,7 +56,7 @@
           <TextBlock Text="{x:Bind CartItem.ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                      FontSize="14"
                      FontWeight="SemiBold"
-                     Foreground="#3D5A5B"
+                     Foreground="#367419"
                      VerticalAlignment="Center"/>
         </StackPanel>
         
@@ -70,16 +70,9 @@
                   Padding="4">
             <StackPanel Orientation="Horizontal" Spacing="0">
               <!-- Decrease Button -->
-              <Button Width="36"
-                      Height="36"
-                      Background="#3D5A5B"
-                      Foreground="White"
-                      CornerRadius="8"
-                      Padding="0"
-                      MinWidth="0"
-                      MinHeight="0"
+              <Button Style="{StaticResource NoHoverSmallButtonStyle}"
                       Click="DecreaseQuantity_Click">
-                <TextBlock Text="−" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="−" FontSize="18" FontWeight="Bold" Foreground="White"/>
               </Button>
               
               <!-- Quantity Display -->
@@ -87,22 +80,15 @@
                 <TextBlock Text="{x:Bind CartItem.Quantity, Mode=OneWay}"
                            FontSize="16"
                            FontWeight="Bold"
-                           Foreground="#3D5A5B"
+                           Foreground="#367419"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
               </Border>
               
               <!-- Increase Button -->
-              <Button Width="36"
-                      Height="36"
-                      Background="#3D5A5B"
-                      Foreground="White"
-                      CornerRadius="8"
-                      Padding="0"
-                      MinWidth="0"
-                      MinHeight="0"
+              <Button Style="{StaticResource NoHoverSmallButtonStyle}"
                       Click="IncreaseQuantity_Click">
-                <TextBlock Text="+" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="+" FontSize="18" FontWeight="Bold" Foreground="White"/>
               </Button>
             </StackPanel>
           </Border>
@@ -113,18 +99,13 @@
                       VerticalAlignment="Center">
             <TextBlock FontSize="18"
                        FontWeight="Bold"
-                       Foreground="#3D5A5B"
+                       Foreground="#367419"
                        HorizontalAlignment="Right">
               <Run Text="$ "/>
               <Run Text="{x:Bind CartItem.TotalPrice, Mode=OneWay}"/>
             </TextBlock>
             <Button Content="🗑️ Xóa"
-                    Background="Transparent"
-                    Foreground="#EF4444"
-                    FontSize="12"
-                    Padding="8,4"
-                    MinWidth="0"
-                    MinHeight="0"
+                    Style="{StaticResource NoHoverDeleteButtonStyle}"
                     HorizontalAlignment="Right"
                     Click="Remove_Click"/>
           </StackPanel>

@@ -33,7 +33,7 @@
         <StackPanel Spacing="{StaticResource SpacingM}">
           <TextBlock Text="About"
                      Style="{StaticResource Heading3Style}"/>
-          <TextBlock Text="Tech Store v1.0"
+          <TextBlock Text="RetailStore v1.0"
                      Style="{StaticResource SecondaryTextStyle}"/>
           <TextBlock Text="A modern shopping app built with Uno Platform"
                      Style="{StaticResource SecondaryTextStyle}"/>

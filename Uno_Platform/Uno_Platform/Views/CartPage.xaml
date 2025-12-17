@@ -31,19 +31,16 @@
             BorderBrush="#E8E8E8">
       <Grid ColumnDefinitions="Auto,*,Auto">
         <Button Grid.Column="0"
-                Background="Transparent"
-                Padding="8"
-                MinWidth="0"
-                MinHeight="0"
+                Style="{StaticResource NoHoverIconButtonStyle}"
                 Command="{x:Bind ViewModel.GoBackCommand}">
-          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="#3D5A5B"/>
+          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="#367419"/>
         </Button>
         
         <StackPanel Grid.Column="1" Margin="12,0">
           <TextBlock Text="🛒 Giỏ hàng"
                      FontSize="20"
                      FontWeight="Bold"
-                     Foreground="#3D5A5B"/>
+                     Foreground="#367419"/>
           <TextBlock Text="{x:Bind ViewModel.TotalItemsFormatted, Mode=OneWay}"
                      FontSize="13"
                      Foreground="#666"/>
@@ -51,12 +48,8 @@
         
         <Button Grid.Column="2"
                 Content="Xóa tất cả"
-                Background="Transparent"
-                Foreground="#EF4444"
+                Style="{StaticResource NoHoverDeleteButtonStyle}"
                 FontSize="13"
-                Padding="8"
-                MinWidth="0"
-                MinHeight="0"
                 Command="{x:Bind ViewModel.ClearCartCommand}"/>
       </Grid>
     </Border>
@@ -92,7 +85,7 @@
                 VerticalAlignment="Center"
                 CornerRadius="20"
                 BorderThickness="2"
-                BorderBrush="#3D5A5B"
+                BorderBrush="#367419"
                 Visibility="{x:Bind ViewModel.IsCartEmpty, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="16" HorizontalAlignment="Center">
             <Border Background="#F0F7F7"
@@ -108,18 +101,15 @@
             <TextBlock Text="Giỏ hàng trống"
                        FontSize="20"
                        FontWeight="Bold"
-                       Foreground="#3D5A5B"
+                       Foreground="#367419"
                        HorizontalAlignment="Center"/>
             <TextBlock Text="Hãy thêm sản phẩm vào giỏ hàng"
                        FontSize="14"
                        Foreground="#666"
                        HorizontalAlignment="Center"/>
             <Button Content="🛍️ Mua sắm ngay"
-                    Background="#3D5A5B"
-                    Foreground="White"
-                    CornerRadius="12"
+                    Style="{StaticResource NoHoverPrimaryButtonStyle}"
                     Padding="24,12"
-                    FontWeight="SemiBold"
                     HorizontalAlignment="Center"
                     Command="{x:Bind ViewModel.ContinueShoppingCommand}"/>
           </StackPanel>
@@ -149,20 +139,14 @@
                      Text="{x:Bind ViewModel.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                      FontSize="24"
                      FontWeight="Bold"
-                     Foreground="#3D5A5B"
+                     Foreground="#367419"
                      VerticalAlignment="Center"/>
         </Grid>
         
         <!-- Checkout Button -->
         <Button Grid.Row="1"
                 Content="Thanh toán"
-                Background="#3D5A5B"
-                Foreground="White"
-                CornerRadius="12"
-                Padding="0,14"
-                FontSize="16"
-                FontWeight="Bold"
-                HorizontalAlignment="Stretch"
+                Style="{StaticResource NoHoverPrimaryButtonStyle}"
                 Command="{x:Bind ViewModel.CheckoutCommand}"
                 IsEnabled="{x:Bind ViewModel.HasCartItems, Mode=OneWay}"/>
       </Grid>
