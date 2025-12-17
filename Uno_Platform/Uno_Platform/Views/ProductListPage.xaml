@@ -44,17 +44,19 @@
             <FontIcon Grid.Column="0"
                       Glyph="&#xE721;"
                       FontSize="16"
-                      Foreground="#888"
+                      Foreground="#666"
                       VerticalAlignment="Center"
                       Margin="0,0,10,0"/>
             <TextBox Grid.Column="1"
                      x:Name="SearchTextBox"
                      PlaceholderText="Tìm kiếm sản phẩm..."
+                     PlaceholderForeground="#666666"
                      Text="{x:Bind ViewModel.SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     TextChanged="SearchTextBox_TextChanged"
                      BorderThickness="0"
                      Background="Transparent"
                      FontSize="14"
-                     Foreground="#333"
+                     Foreground="#1A1A1A"
                      VerticalAlignment="Center"
                      MinHeight="36"/>
           </Grid>

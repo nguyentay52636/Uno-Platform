@@ -51,4 +51,13 @@ public sealed partial class ProductListPage : Page
         ViewModel.SelectedCategory = categoryName;
         UpdateEmptyState();
     }
+
+    private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        // Manually update ViewModel to ensure it works on Android
+        if (sender is TextBox textBox)
+        {
+            ViewModel.SearchKeyword = textBox.Text;
+        }
+    }
 }

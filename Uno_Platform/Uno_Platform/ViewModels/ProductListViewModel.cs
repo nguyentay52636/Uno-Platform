@@ -12,6 +12,7 @@ public partial class ProductListViewModel : ObservableObject
     private readonly ProductService _productService;
     private readonly ICartService _cartService;
     private System.Threading.Timer? _searchDebounceTimer;
+    private readonly DispatcherQueue? _dispatcherQueue;
 
     ~ProductListViewModel()
     {
@@ -69,6 +70,7 @@ public partial class ProductListViewModel : ObservableObject
     {
         _productService = ServiceLocator.ProductService;
         _cartService = ServiceLocator.CartService;
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         LoadData();
     }
 
@@ -125,15 +127,16 @@ public partial class ProductListViewModel : ObservableObject
     [RelayCommand]
     private void Search()
     {
-        // Debounce search - increased to 500ms for better performance
+        // Debounce search - 300ms delay for responsive real-time search
         _searchDebounceTimer?.Dispose();
         _searchDebounceTimer = new System.Threading.Timer(_ =>
         {
-            DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() =>
+            // Use stored dispatcher queue to ensure UI updates work on Android
+            _dispatcherQueue?.TryEnqueue(() =>
             {
                 ApplyFilters();
             });
-        }, null, 500, Timeout.Infinite);
+        }, null, 300, Timeout.Infinite);
     }
 
     partial void OnSearchKeywordChanged(string value)
