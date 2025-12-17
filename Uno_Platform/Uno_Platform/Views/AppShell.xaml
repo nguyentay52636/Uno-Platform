@@ -271,6 +271,63 @@
       </Grid>
     </Border>
 
+    <!-- Toast Notification Container -->
+    <Grid x:Name="ToastContainer"
+          Grid.Row="0"
+          Grid.RowSpan="3"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Top"
+          Margin="0,60,0,0"
+          Canvas.ZIndex="500"
+          Visibility="Collapsed">
+      <Grid.RenderTransform>
+        <TranslateTransform x:Name="ToastTransform" Y="-100"/>
+      </Grid.RenderTransform>
+      
+      <!-- Shadow layer -->
+      <Border Background="#20000000"
+              CornerRadius="14"
+              Margin="2,4,2,0"/>
+      
+      <!-- Main toast container -->
+      <Border Background="White"
+              CornerRadius="12"
+              Padding="16,12"
+              MinWidth="280"
+              MaxWidth="400"
+              BorderThickness="1"
+              BorderBrush="#E0E0E0">
+        <Grid ColumnDefinitions="Auto,*">
+          <!-- Success/Error Icon -->
+          <Border x:Name="ToastIconBorder"
+                  Grid.Column="0"
+                  Width="32"
+                  Height="32"
+                  CornerRadius="16"
+                  Background="#E8F5E9"
+                  Margin="0,0,12,0"
+                  VerticalAlignment="Center">
+            <FontIcon x:Name="ToastIcon"
+                      Glyph="&#xE73E;"
+                      FontSize="16"
+                      Foreground="#367419"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+          </Border>
+          
+          <!-- Message -->
+          <TextBlock x:Name="ToastMessage"
+                     Grid.Column="1"
+                     Text="Đã thêm vào giỏ hàng!"
+                     FontSize="14"
+                     FontWeight="SemiBold"
+                     Foreground="#333333"
+                     VerticalAlignment="Center"
+                     TextWrapping="Wrap"/>
+        </Grid>
+      </Border>
+    </Grid>
+
     <!-- Sidebar Overlay (click to close) -->
     <Border x:Name="SidebarOverlay"
             Grid.RowSpan="3"

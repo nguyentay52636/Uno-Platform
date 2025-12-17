@@ -8,10 +8,14 @@ public sealed partial class AppShell : Page
 {
     private string _currentTab = "Home";
     private bool _isSidebarOpen = false;
+    private System.Threading.Timer? _toastTimer;
+    
+    public static AppShell? Instance { get; private set; }
 
     public AppShell()
     {
         this.InitializeComponent();
+        Instance = this;
         this.Loaded += AppShell_Loaded;
         InitializeNavigation();
     }
@@ -45,11 +49,12 @@ public sealed partial class AppShell : Page
 
     private void InitializeNavigation()
     {
-        // Listen to frame navigation to update header/tabbar visibility
+        // Listen to frame navigation to update header/tabbar visibility and tab indicators
         ContentFrame.Navigated += (s, e) => 
         {
             UpdateHeaderVisibility();
             UpdateTabBarVisibility();
+            SyncTabIndicatorsWithCurrentPage();
         };
 
         // Check authentication (Optional - removed mandatory check)
@@ -58,6 +63,26 @@ public sealed partial class AppShell : Page
         
         // Always start at Home
         NavigateToHome();
+    }
+
+    private void SyncTabIndicatorsWithCurrentPage()
+    {
+        // Sync tab indicators based on current page type
+        if (ContentFrame.Content is ProductListPage)
+        {
+            _currentTab = "Home";
+            UpdateTabIndicators("Home");
+        }
+        else if (ContentFrame.Content is CartPage)
+        {
+            _currentTab = "Cart";
+            UpdateTabIndicators("Cart");
+        }
+        else if (ContentFrame.Content is SettingsPage)
+        {
+            _currentTab = "Settings";
+            UpdateTabIndicators("Settings");
+        }
     }
 
     private void HeaderLoginButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -341,6 +366,128 @@ public sealed partial class AppShell : Page
     public Frame GetContentFrame()
     {
         return ContentFrame;
+    }
+
+    /// <summary>
+    /// Show a toast notification with animation
+    /// </summary>
+    /// <param name="message">The message to display</param>
+    /// <param name="isSuccess">True for success (green check), false for error (red X)</param>
+    /// <param name="duration">Duration in milliseconds</param>
+    public void ShowToast(string message, bool isSuccess = true, int duration = 2500)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            try
+            {
+                // Update toast content
+                ToastMessage.Text = message;
+                
+                if (isSuccess)
+                {
+                    ToastIcon.Glyph = "\uE73E"; // Checkmark
+                    ToastIcon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 54, 116, 25)); // Green
+                    ToastIconBorder.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 232, 245, 233)); // Light green
+                }
+                else
+                {
+                    ToastIcon.Glyph = "\uE711"; // X mark
+                    ToastIcon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 211, 47, 47)); // Red
+                    ToastIconBorder.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 235, 238)); // Light red
+                }
+
+                // Show toast and animate in
+                ToastContainer.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                AnimateToastIn();
+
+                // Cancel previous timer if exists
+                _toastTimer?.Dispose();
+
+                // Auto hide after duration
+                _toastTimer = new System.Threading.Timer(_ =>
+                {
+                    DispatcherQueue.TryEnqueue(() =>
+                    {
+                        AnimateToastOut();
+                    });
+                }, null, duration, System.Threading.Timeout.Infinite);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error showing toast: {ex.Message}");
+            }
+        });
+    }
+
+    private void AnimateToastIn()
+    {
+        var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+        
+        // Slide down animation
+        var slideAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = -100,
+            To = 0,
+            Duration = TimeSpan.FromMilliseconds(300),
+            EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase()
+            {
+                EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut
+            }
+        };
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(slideAnimation, ToastTransform);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(slideAnimation, "Y");
+        
+        // Fade in animation
+        var fadeAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = 0,
+            To = 1,
+            Duration = TimeSpan.FromMilliseconds(300)
+        };
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(fadeAnimation, ToastContainer);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
+        
+        storyboard.Children.Add(slideAnimation);
+        storyboard.Children.Add(fadeAnimation);
+        storyboard.Begin();
+    }
+
+    private void AnimateToastOut()
+    {
+        var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+        
+        // Slide up animation
+        var slideAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = 0,
+            To = -100,
+            Duration = TimeSpan.FromMilliseconds(250),
+            EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase()
+            {
+                EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseIn
+            }
+        };
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(slideAnimation, ToastTransform);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(slideAnimation, "Y");
+        
+        // Fade out animation
+        var fadeAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+        {
+            From = 1,
+            To = 0,
+            Duration = TimeSpan.FromMilliseconds(250)
+        };
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(fadeAnimation, ToastContainer);
+        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(fadeAnimation, "Opacity");
+        
+        storyboard.Completed += (s, e) =>
+        {
+            ToastContainer.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        };
+        
+        storyboard.Children.Add(slideAnimation);
+        storyboard.Children.Add(fadeAnimation);
+        storyboard.Begin();
     }
 }
 

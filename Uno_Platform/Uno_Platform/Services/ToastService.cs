@@ -1,3 +1,5 @@
+using Uno_Platform.Views;
+
 namespace Uno_Platform.Services;
 
 /// <summary>
@@ -26,44 +28,39 @@ public class ToastService
     /// <param name="duration">Thời gian hiển thị (ms), mặc định 3000ms</param>
     public void ShowMessage(string message, int duration = 3000)
     {
-        ShowToast(message, duration);
+        ShowToastUI(message, true, duration);
     }
 
     /// <summary>
-    /// Hiển thị toast error (với icon ❌)
+    /// Hiển thị toast error (với icon X đỏ)
     /// </summary>
     public void ShowError(string message)
     {
-        ShowToast($"❌ {message}", 4000);
+        ShowToastUI(message, false, 4000);
     }
 
     /// <summary>
-    /// Hiển thị toast success (với icon ✅)
+    /// Hiển thị toast success (với icon ✓ xanh)
     /// </summary>
     public void ShowSuccess(string message)
     {
-        ShowToast($"✅ {message}", 3000);
+        ShowToastUI(message, true, 2500);
     }
 
     /// <summary>
-    /// Internal method hiển thị toast. Hiện tại chỉ log ra Debug console.
-    /// TODO: Implement proper toast UI component.
+    /// Internal method hiển thị toast qua AppShell UI
     /// </summary>
-    private void ShowToast(string message, int duration)
+    private void ShowToastUI(string message, bool isSuccess, int duration)
     {
         try
         {
-            // For now, use debug output
-            // In a production app, you could use a proper toast notification system
             System.Diagnostics.Debug.WriteLine($"TOAST: {message}");
             
-            // Try to show in UI if possible
-            _ = Task.Run(async () =>
+            // Show via AppShell if available
+            if (AppShell.Instance != null)
             {
-                await Task.Delay(100);
-                // Could implement a proper toast UI component here
-                // For now, just log to debug
-            });
+                AppShell.Instance.ShowToast(message, isSuccess, duration);
+            }
         }
         catch (Exception ex)
         {

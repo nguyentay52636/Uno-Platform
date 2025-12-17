@@ -88,15 +88,16 @@
                 BorderBrush="#367419"
                 Visibility="{x:Bind ViewModel.IsCartEmpty, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="16" HorizontalAlignment="Center">
-            <Border Background="#F0F7F7"
+            <Border Background="#E8F4E8"
                     CornerRadius="40"
                     Width="80"
                     Height="80"
                     HorizontalAlignment="Center">
-              <TextBlock Text="🛒"
-                         FontSize="40"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"/>
+              <FontIcon Glyph="&#xE7BF;"
+                        FontSize="36"
+                        Foreground="#367419"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
             </Border>
             <TextBlock Text="Giỏ hàng trống"
                        FontSize="20"

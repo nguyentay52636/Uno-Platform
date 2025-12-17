@@ -88,12 +88,10 @@
                 Padding="6,4"
                 HorizontalAlignment="Left"
                 Margin="0,0,0,8">
-          <TextBlock Foreground="White"
+          <TextBlock Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                     Foreground="White"
                      FontSize="13"
-                     FontWeight="Bold">
-            <Run Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"/>
-            <Run Text=" đ"/>
-          </TextBlock>
+                     FontWeight="Bold"/>
         </Border>
 
         <!-- Action Buttons -->
