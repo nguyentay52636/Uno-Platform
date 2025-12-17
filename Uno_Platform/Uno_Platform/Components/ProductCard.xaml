@@ -10,7 +10,7 @@
       <DoubleAnimation Storyboard.TargetName="CardBorder"
                       Storyboard.TargetProperty="Opacity"
                       To="1"
-                      Duration="0:0:0.2"/>
+                      Duration="0:0:0.15"/>
     </Storyboard>
 
     <!-- Leave Animation -->
@@ -18,62 +18,62 @@
       <DoubleAnimation Storyboard.TargetName="CardBorder"
                       Storyboard.TargetProperty="Opacity"
                       To="0.95"
-                      Duration="0:0:0.2"/>
+                      Duration="0:0:0.15"/>
     </Storyboard>
   </UserControl.Resources>
 
   <!-- Card Container with Shadow and Gradient -->
-  <Grid Margin="4">
+  <Grid Margin="2">
     <!-- Shadow Effect -->
     <Border x:Name="CardShadow"
-           Background="#30000000"
-           CornerRadius="{StaticResource BorderRadiusLarge}"
-           Opacity="0.5"
-           Margin="0,4,0,0"/>
+           Background="#20000000"
+           CornerRadius="10"
+           Opacity="0.4"
+           Margin="0,2,0,0"/>
     
     <!-- Main Card Border with Gradient Background -->
   <Border x:Name="CardBorder"
            Background="{StaticResource CardGradientBrush}"
            Padding="0"
-           CornerRadius="{StaticResource BorderRadiusLarge}"
-           BorderThickness="2"
+           CornerRadius="10"
+           BorderThickness="1"
            BorderBrush="{StaticResource BorderBrush}"
-           Opacity="0.8"
+           Opacity="0.95"
           PointerEntered="Border_PointerEntered"
           PointerExited="Border_PointerExited"
            Tapped="Card_Tapped">
       
     <Grid>
       <Grid.RowDefinitions>
-          <RowDefinition Height="180"/>
+          <RowDefinition Height="140"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
         <!-- Product Image Section with Gradient Background -->
       <Border Grid.Row="0"
                Background="{StaticResource PrimaryGradientBrush}"
-               CornerRadius="16,16,0,0"
-               Padding="{StaticResource SpacingL}">
+               CornerRadius="10,10,0,0"
+               Padding="8">
         <Grid>
             <!-- Product Image -->
           <Image Source="Assets/img/caby.png"
                  Stretch="Uniform"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
-                  MaxHeight="200"
-                  MaxWidth="200"
+                  MaxHeight="120"
+                  MaxWidth="120"
                   Opacity="0.95"/>
             
           <!-- Category Badge Overlay -->
             <Border Background="#4A7C7D"
-                   CornerRadius="16"
-                   Padding="12,6"
+                   CornerRadius="10"
+                   Padding="8,4"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Top"
-                   Margin="{StaticResource SpacingS}">
+                   Margin="4">
             <TextBlock Text="{x:Bind Product.Category, Mode=OneWay}"
                       Foreground="White"
-                        FontSize="12"
+                        FontSize="10"
                         FontWeight="Bold"/>
           </Border>
         </Grid>
@@ -82,8 +82,8 @@
         <!-- Product Info Section -->
         <Border Grid.Row="1"
                Background="{StaticResource SurfaceBrush}"
-               CornerRadius="0,0,16,16"
-               Padding="12">
+               CornerRadius="0,0,10,10"
+               Padding="8">
           <Grid RowDefinitions="Auto,Auto,*">
             
         <!-- Product Name -->
@@ -92,31 +92,31 @@
                    TextWrapping="Wrap"
                    MaxLines="2"
                    TextTrimming="CharacterEllipsis"
-                   FontSize="16"
+                   FontSize="13"
                    FontWeight="Bold"
-                   LineHeight="22"
+                   LineHeight="18"
                    Foreground="#3D5A5B"
-                   Margin="0,0,0,6"/>
+                   Margin="0,0,0,4"/>
 
         <!-- Price -->
         <Border Grid.Row="1"
                 Background="#3D5A5B"
-                CornerRadius="8"
-                Padding="8,5"
+                CornerRadius="6"
+                Padding="6,4"
                 HorizontalAlignment="Left"
-                Margin="0,0,0,10">
+                Margin="0,0,0,8">
           <TextBlock Foreground="White"
-                     FontSize="16"
+                     FontSize="13"
                      FontWeight="Bold">
-            <Run Text="💰 "/>
             <Run Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"/>
+            <Run Text=" đ"/>
           </TextBlock>
         </Border>
 
         <!-- Action Buttons -->
         <Grid Grid.Row="2"
               ColumnDefinitions="*,*" 
-              ColumnSpacing="8" 
+              ColumnSpacing="6" 
               VerticalAlignment="Bottom">
               
               <!-- View Details Button -->
@@ -125,10 +125,10 @@
                   Background="White"
                   Foreground="#3D5A5B"
                   BorderBrush="#3D5A5B"
-                  BorderThickness="1.5"
-                  CornerRadius="8"
-                  Padding="8,8"
-                  FontSize="13"
+                  BorderThickness="1"
+                  CornerRadius="6"
+                  Padding="4,6"
+                  FontSize="11"
                   FontWeight="SemiBold"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind ViewDetailsCommand}"
@@ -136,13 +136,13 @@
               
               <!-- Add to Cart Button -->
           <Button Grid.Column="1"
-                  Content="🛒 Thêm"
+                  Content="Thêm"
                   Background="#3D5A5B"
                   Foreground="White"
                   BorderThickness="0"
-                  CornerRadius="8"
-                  Padding="8,8"
-                  FontSize="13"
+                  CornerRadius="6"
+                  Padding="4,6"
+                  FontSize="11"
                   FontWeight="Bold"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind AddToCartCommand}"

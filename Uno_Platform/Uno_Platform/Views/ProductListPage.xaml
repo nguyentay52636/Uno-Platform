@@ -68,16 +68,16 @@
                   VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled">
       <Grid>
-        <!-- Products Grid - Hiển thị dạng grid với nhiều cột -->
+        <!-- Products Grid -->
         <GridView ItemsSource="{x:Bind ViewModel.FilteredProducts, Mode=OneWay}"
                   x:Name="ProductsItemsControl"
                   SelectionMode="None"
                   IsItemClickEnabled="False"
-                  IncrementalLoadingThreshold="3"
-                  IncrementalLoadingTrigger="Edge">
+                  HorizontalAlignment="Stretch"
+                  Padding="4">
           <GridView.ItemContainerStyle>
             <Style TargetType="GridViewItem">
-              <Setter Property="Margin" Value="8"/>
+              <Setter Property="Margin" Value="6"/>
               <Setter Property="Padding" Value="0"/>
               <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
               <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -85,14 +85,12 @@
           </GridView.ItemContainerStyle>
           <GridView.ItemTemplate>
             <DataTemplate x:DataType="models:Product">
-              <Border MinWidth="280"
-                      MaxWidth="350"
-                      Height="400"
+              <Border Width="170"
+                      Height="320"
                       Background="{StaticResource SurfaceBrush}"
-                      CornerRadius="16"
+                      CornerRadius="12"
                       BorderThickness="1"
-                      BorderBrush="{StaticResource BorderBrush}"
-                      Padding="0">
+                      BorderBrush="{StaticResource BorderBrush}">
                 <components:ProductCard Product="{x:Bind}"
                                      ViewDetailsCommand="{Binding ViewModel.NavigateToProductDetailCommand, ElementName=PageRoot}"
                                      AddToCartCommand="{Binding ViewModel.AddToCartCommand, ElementName=PageRoot}"/>
