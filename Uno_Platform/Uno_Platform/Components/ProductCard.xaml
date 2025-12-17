@@ -67,9 +67,9 @@
                Background="{StaticResource SurfaceBrush}"
                CornerRadius="0,0,10,10"
                Padding="8">
-          <Grid RowDefinitions="Auto,Auto,*">
+          <Grid RowDefinitions="36,Auto,*">
             
-        <!-- Product Name -->
+        <!-- Product Name - Fixed height for 2 lines -->
         <TextBlock Grid.Row="0"
                    Text="{x:Bind Product.Name, Mode=OneWay}"
                    TextWrapping="Wrap"
@@ -79,15 +79,15 @@
                    FontWeight="Bold"
                    LineHeight="18"
                    Foreground="#367419"
-                   Margin="0,0,0,4"/>
+                   VerticalAlignment="Top"/>
 
-        <!-- Price -->
+        <!-- Price - Now at fixed position -->
         <Border Grid.Row="1"
                 Background="#367419"
                 CornerRadius="6"
                 Padding="6,4"
                 HorizontalAlignment="Left"
-                Margin="0,0,0,8">
+                Margin="0,4,0,8">
           <TextBlock Text="{x:Bind Product.Price, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                      Foreground="White"
                      FontSize="13"
