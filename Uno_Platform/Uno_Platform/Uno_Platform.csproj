@@ -6,16 +6,16 @@
     <UnoSingleProject>true</UnoSingleProject>
 
     <!-- Display name -->
-    <ApplicationTitle>Uno_Platform</ApplicationTitle>
+    <ApplicationTitle>Retail Store</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.uno-platform</ApplicationId>
+    <ApplicationId>com.retailstore.app</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <!-- Package Publisher -->
-    <ApplicationPublisher>Uno_Platform</ApplicationPublisher>
+    <ApplicationPublisher>Retail Store</ApplicationPublisher>
     <!-- Package Description -->
-    <Description>Uno_Platform powered by Uno Platform.</Description>
+    <Description>Retail Store - Ứng dụng mua sắm trực tuyến.</Description>
 
     <!--
       UnoFeatures are used to quickly add and manage features enabled for your app.
@@ -26,6 +26,18 @@
     </UnoFeatures>
     
   </PropertyGroup>
+
+  <!-- App Icon Configuration - update default icon with green background -->
+  <ItemGroup>
+    <UnoIcon Update="Assets/Icons/icon.svg"
+             Color="#367419"/>
+  </ItemGroup>
+
+  <!-- Splash Screen Configuration - update default splash with green background -->
+  <ItemGroup>
+    <UnoSplashScreen Update="Assets/Splash/splash_screen.svg"
+                     Color="#367419"/>
+  </ItemGroup>
 
   <!-- Wasm Build Optimization for Debug -->
   <PropertyGroup Condition="'$(Configuration)'=='Debug' and '$(TargetFramework)'=='net9.0-browserwasm'">
