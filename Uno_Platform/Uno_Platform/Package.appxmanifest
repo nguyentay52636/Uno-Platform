@@ -29,10 +29,10 @@
       <uap:VisualElements 
         DisplayName="Fried-Heaven"
         Description="Fried-Heaven App"
-        BackgroundColor="#367419"
+        BackgroundColor="#D68910"
         Square150x150Logo="Assets\img\logo.PNG"
         Square44x44Logo="Assets\img\logo.PNG">
-        <uap:SplashScreen Image="Assets\img\logo.PNG" BackgroundColor="#367419"/>
+        <uap:SplashScreen Image="Assets\img\logo.PNG" BackgroundColor="#D68910"/>
       </uap:VisualElements>
     </Application>
   </Applications>

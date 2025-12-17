@@ -84,7 +84,7 @@
                 Width="36"
                 Height="36"
                 VerticalAlignment="Center">
-          <FontIcon Glyph="&#xE700;" FontSize="20" Foreground="#367419"/>
+          <FontIcon Glyph="&#xE700;" FontSize="20" Foreground="#D68910"/>
         </Button>
 
         <!-- Brand Name (Center) -->
@@ -93,7 +93,7 @@
                    Text="Fried-Heaven"
                    FontSize="20"
                    FontWeight="Bold"
-                   Foreground="#367419"
+                   Foreground="#D68910"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
         
@@ -111,7 +111,7 @@
                 Height="36"
                 VerticalAlignment="Center">
           <Grid>
-            <SymbolIcon Symbol="Shop" Foreground="#367419"/>
+            <SymbolIcon Symbol="Shop" Foreground="#D68910"/>
             <Border x:Name="HeaderCartBadge"
                     Background="{StaticResource SecondaryBrush}"
                     CornerRadius="10"
@@ -189,7 +189,7 @@
             <Border x:Name="HomeIndicator"
                    Height="3"
                    Width="30"
-                   Background="#367419"
+                   Background="#D68910"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="1"
@@ -235,7 +235,7 @@
             <Border x:Name="CartIndicator"
                    Height="3"
                    Width="30"
-                   Background="#367419"
+                   Background="#D68910"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -261,7 +261,7 @@
             <Border x:Name="SettingsIndicator"
                    Height="3"
                    Width="30"
-                   Background="#367419"
+                   Background="#D68910"
                    CornerRadius="1.5"
                    HorizontalAlignment="Center"
                    Opacity="0"
@@ -310,7 +310,7 @@
             <FontIcon x:Name="ToastIcon"
                       Glyph="&#xE73E;"
                       FontSize="16"
-                      Foreground="#367419"
+                      Foreground="#D68910"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"/>
           </Border>
@@ -354,7 +354,7 @@
         <!-- Sidebar Header -->
         <Border Grid.Row="0" 
                 Padding="20"
-                Background="#367419">
+                Background="#D68910">
           <StackPanel Spacing="12">
             <Border Width="70" 
                     Height="70" 
@@ -362,7 +362,7 @@
                     Background="White"
                     HorizontalAlignment="Center">
               <SymbolIcon Symbol="Contact" 
-                          Foreground="#367419"
+                          Foreground="#D68910"
                           RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon.RenderTransform>
                   <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -417,7 +417,7 @@
                     HorizontalContentAlignment="Left"
                     Style="{StaticResource NoHoverGhostButtonStyle}"
                     Background="#E8F4E8"
-                    Foreground="#367419"
+                    Foreground="#D68910"
                     FontWeight="SemiBold">
               <StackPanel Orientation="Horizontal" Spacing="12">
                 <SymbolIcon Symbol="Home"/>

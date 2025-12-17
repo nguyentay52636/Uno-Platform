@@ -14,7 +14,7 @@
             <!-- Success Icon -->
             <Border Width="100" Height="100" 
                     CornerRadius="50" 
-                    Background="#367419"
+                    Background="#D68910"
                     HorizontalAlignment="Center">
                 <FontIcon Glyph="&#xE73E;"
                           FontSize="50"

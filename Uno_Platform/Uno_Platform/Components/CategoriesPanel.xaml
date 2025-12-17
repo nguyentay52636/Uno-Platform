@@ -7,7 +7,7 @@
     <TextBlock Text="Danh mục"
                FontSize="16"
                FontWeight="SemiBold"
-               Foreground="#367419"/>
+               Foreground="#D68910"/>
     
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Disabled"
@@ -26,10 +26,10 @@
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
                            VerticalAlignment="Center"
-                           Foreground="#367419"
+                           Foreground="#D68910"
                            FontSize="13"
                            FontWeight="SemiBold"/>
-                <Border Background="#367419"
+                <Border Background="#D68910"
                         CornerRadius="9"
                         Padding="6,2"
                         MinWidth="22"

@@ -54,14 +54,14 @@
                     Background="White"
                     Width="44" Height="44"
                     Command="{x:Bind ViewModel.GoBackCommand}">
-              <FontIcon Glyph="&#xE72B;" FontSize="18" Foreground="#367419"/>
+              <FontIcon Glyph="&#xE72B;" FontSize="18" Foreground="#D68910"/>
             </Button>
             
             <Button HorizontalAlignment="Right"
                     Style="{StaticResource NoHoverIconButtonStyle}"
                     Background="White"
                     Width="44" Height="44">
-              <FontIcon Glyph="&#xEB51;" FontSize="20" Foreground="#367419"/>
+              <FontIcon Glyph="&#xEB51;" FontSize="20" Foreground="#D68910"/>
             </Button>
           </Grid>
           
@@ -114,7 +114,7 @@
                         Text="{x:Bind ViewModel.Product.Name, Mode=OneWay}"
                         FontSize="24"
                         FontWeight="Bold"
-                        Foreground="#367419"
+                        Foreground="#D68910"
                         TextWrapping="Wrap"/>
               
               <!-- Rating Badge -->

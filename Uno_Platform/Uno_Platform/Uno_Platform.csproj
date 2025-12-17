@@ -30,13 +30,13 @@
   <!-- App Icon Configuration - update default icon with green background -->
   <ItemGroup>
     <UnoIcon Update="Assets/Icons/icon.svg"
-             Color="#367419"/>
+             Color="#D68910"/>
   </ItemGroup>
 
   <!-- Splash Screen Configuration - update default splash with green background -->
   <ItemGroup>
     <UnoSplashScreen Update="Assets/Splash/splash_screen.svg"
-                     Color="#367419"/>
+                     Color="#D68910"/>
   </ItemGroup>
 
   <!-- Wasm Build Optimization for Debug -->

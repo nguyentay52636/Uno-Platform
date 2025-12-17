@@ -33,14 +33,14 @@
         <Button Grid.Column="0"
                 Style="{StaticResource NoHoverIconButtonStyle}"
                 Command="{x:Bind ViewModel.GoBackCommand}">
-          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="#367419"/>
+          <FontIcon Glyph="&#xE72B;" FontSize="20" Foreground="#D68910"/>
         </Button>
         
         <StackPanel Grid.Column="1" Margin="12,0">
           <TextBlock Text="🛒 Giỏ hàng"
                      FontSize="20"
                      FontWeight="Bold"
-                     Foreground="#367419"/>
+                     Foreground="#D68910"/>
           <TextBlock Text="{x:Bind ViewModel.TotalItemsFormatted, Mode=OneWay}"
                      FontSize="13"
                      Foreground="#666"/>
@@ -85,7 +85,7 @@
                 VerticalAlignment="Center"
                 CornerRadius="20"
                 BorderThickness="2"
-                BorderBrush="#367419"
+                BorderBrush="#D68910"
                 Visibility="{x:Bind ViewModel.IsCartEmpty, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="16" HorizontalAlignment="Center">
             <Border Background="#E8F4E8"
@@ -95,14 +95,14 @@
                     HorizontalAlignment="Center">
               <FontIcon Glyph="&#xE7BF;"
                         FontSize="36"
-                        Foreground="#367419"
+                        Foreground="#D68910"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
             </Border>
             <TextBlock Text="Giỏ hàng trống"
                        FontSize="20"
                        FontWeight="Bold"
-                       Foreground="#367419"
+                       Foreground="#D68910"
                        HorizontalAlignment="Center"/>
             <TextBlock Text="Hãy thêm sản phẩm vào giỏ hàng"
                        FontSize="14"
@@ -140,7 +140,7 @@
                      Text="{x:Bind ViewModel.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                      FontSize="24"
                      FontWeight="Bold"
-                     Foreground="#367419"
+                     Foreground="#D68910"
                      VerticalAlignment="Center"/>
         </Grid>
         

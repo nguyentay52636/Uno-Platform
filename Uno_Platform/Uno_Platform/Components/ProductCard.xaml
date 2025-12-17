@@ -39,7 +39,7 @@
                Padding="8">
         <Grid>
             <!-- Product Image -->
-          <Image Source="Assets/img/caby.png"
+          <Image Source="{x:Bind Product.Image, Mode=OneWay}"
                  Stretch="Uniform"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
@@ -48,7 +48,7 @@
                   Opacity="0.95"/>
             
           <!-- Category Badge Overlay -->
-            <Border Background="#4A8A2D"
+            <Border Background="#D68910"
                    CornerRadius="10"
                    Padding="8,4"
                   HorizontalAlignment="Right"
@@ -78,12 +78,12 @@
                    FontSize="13"
                    FontWeight="Bold"
                    LineHeight="18"
-                   Foreground="#367419"
+                   Foreground="#D68910"
                    VerticalAlignment="Top"/>
 
         <!-- Price - Now at fixed position -->
         <Border Grid.Row="1"
-                Background="#367419"
+                Background="#D68910"
                 CornerRadius="6"
                 Padding="6,4"
                 HorizontalAlignment="Left"
@@ -105,8 +105,8 @@
                   Style="{StaticResource SimpleButtonStyle}"
                   Content="Chi tiết"
                   Background="White"
-                  Foreground="#367419"
-                  BorderBrush="#367419"
+                  Foreground="#D68910"
+                  BorderBrush="#D68910"
                   BorderThickness="1"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind ViewDetailsCommand}"
@@ -116,7 +116,7 @@
           <Button Grid.Column="1"
                   Style="{StaticResource SimpleButtonStyle}"
                   Content="Thêm"
-                  Background="#367419"
+                  Background="#D68910"
                   Foreground="White"
                   HorizontalAlignment="Stretch"
                   Command="{x:Bind AddToCartCommand}"

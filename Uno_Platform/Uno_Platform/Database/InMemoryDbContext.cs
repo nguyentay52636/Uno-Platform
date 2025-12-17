@@ -23,21 +23,29 @@ public class InMemoryDbContext
     public Product? GetProductById(int id) => _products.FirstOrDefault(p => p.Id == id);
 
     /// <summary>
-    /// Thêm sản phẩm mới vào RAM. Tự động gán ID và ảnh mặc định.
+    /// Thêm sản phẩm mới vào RAM. Tự động gán ID. Giữ nguyên ảnh từ product nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public void AddProduct(Product product)
     {
         product.Id = _nextProductId++;
-        product.Image = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(product.Image))
+        {
+            product.Image = "Assets/img/caby.png";
+        }
         _products.Add(product);
     }
 
     /// <summary>
-    /// Cập nhật thông tin sản phẩm. Giữ nguyên ngày tạo ban đầu.
+    /// Cập nhật thông tin sản phẩm. Giữ nguyên ngày tạo ban đầu. Giữ nguyên ảnh từ product nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public void UpdateProduct(Product product)
     {
-        product.Image = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(product.Image))
+        {
+            product.Image = "Assets/img/caby.png";
+        }
         var index = _products.FindIndex(p => p.Id == product.Id);
         if (index >= 0)
         {
@@ -49,7 +57,7 @@ public class InMemoryDbContext
                 Price = product.Price,
                 Description = product.Description,
                 Category = product.Category,
-                Image = "Assets/img/caby.png",
+                Image = product.Image, // Use the image from product (or default if was empty)
                 CreatedAt = _products[index].CreatedAt // Preserve original creation date
             };
         }

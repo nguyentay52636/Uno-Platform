@@ -2,12 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <!-- Modern Color Palette - Green Theme -->
-  <Color x:Key="PrimaryColor">#367419</Color>
-  <Color x:Key="PrimaryDarkColor">#285713</Color>
-  <Color x:Key="PrimaryLightColor">#4A9522</Color>
-  <Color x:Key="SecondaryColor">#4A8A2D</Color>
-  <Color x:Key="AccentColor">#367419</Color>
+  <!-- Modern Color Palette - Golden Oil Theme (Darker) -->
+  <Color x:Key="PrimaryColor">#D68910</Color>
+  <Color x:Key="PrimaryDarkColor">#B9770E</Color>
+  <Color x:Key="PrimaryLightColor">#F4A460</Color>
+  <Color x:Key="SecondaryColor">#E89A3D</Color>
+  <Color x:Key="AccentColor">#D68910</Color>
   <Color x:Key="BackgroundColor">#F8FAFC</Color>
   <Color x:Key="SurfaceColor">#FFFFFF</Color>
   <Color x:Key="SurfaceElevatedColor">#FFFFFF</Color>
@@ -18,15 +18,15 @@
   <Color x:Key="SuccessColor">#10B981</Color>
   <Color x:Key="WarningColor">#F59E0B</Color>
 
-  <!-- Gradient Brushes - Green Theme -->
+  <!-- Gradient Brushes - Golden Oil Theme (Darker) -->
   <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#367419" Offset="0"/>
-    <GradientStop Color="#4A8A2D" Offset="1"/>
+    <GradientStop Color="#D68910" Offset="0"/>
+    <GradientStop Color="#E89A3D" Offset="1"/>
   </LinearGradientBrush>
 
   <LinearGradientBrush x:Key="SecondaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#4A8A2D" Offset="0"/>
-    <GradientStop Color="#5AA03D" Offset="1"/>
+    <GradientStop Color="#E89A3D" Offset="0"/>
+    <GradientStop Color="#F4A460" Offset="1"/>
   </LinearGradientBrush>
 
   <LinearGradientBrush x:Key="BackgroundGradientBrush" StartPoint="0,0" EndPoint="1,1">
@@ -230,7 +230,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#20367419"
+                                    To="#20D68910"
                                     Duration="0:0:0.2"/>
                   </Storyboard>
                 </VisualState>
@@ -238,7 +238,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#40367419"
+                                    To="#40D68910"
                                     Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
@@ -273,7 +273,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#20367419"
+                                    To="#20D68910"
                                     Duration="0:0:0.2"/>
                   </Storyboard>
                 </VisualState>
@@ -281,7 +281,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#40367419"
+                                    To="#40D68910"
                                     Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
@@ -316,7 +316,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#20367419"
+                                    To="#20D68910"
                                     Duration="0:0:0.2"/>
                   </Storyboard>
                 </VisualState>
@@ -324,7 +324,7 @@
                    <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#40367419"
+                                    To="#40D68910"
                                     Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
@@ -364,7 +364,7 @@
                   <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#E8F4E8"
+                                    To="#FFF4E6"
                                     Duration="0:0:0.2"/>
                   </Storyboard>
                 </VisualState>
@@ -372,7 +372,7 @@
                   <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#C8E6C8"
+                                    To="#FFE4B5"
                                     Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
@@ -496,7 +496,7 @@
                   <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#E8F4E8"
+                                    To="#FFF4E6"
                                     Duration="0:0:0.2"/>
                   </Storyboard>
                 </VisualState>
@@ -504,7 +504,7 @@
                   <Storyboard>
                     <ColorAnimation Storyboard.TargetName="RootBorder"
                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="#C8E6C8"
+                                    To="#FFE4B5"
                                     Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
@@ -558,7 +558,7 @@
 
   <!-- No Hover Primary Button - Filled Green -->
   <Style x:Key="NoHoverPrimaryButtonStyle" TargetType="Button">
-    <Setter Property="Background" Value="#367419"/>
+    <Setter Property="Background" Value="#D68910"/>
     <Setter Property="Foreground" Value="White"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="12"/>
@@ -608,9 +608,9 @@
   <!-- No Hover Secondary Button - Outlined Green -->
   <Style x:Key="NoHoverSecondaryButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="#367419"/>
+    <Setter Property="Foreground" Value="#D68910"/>
     <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="BorderBrush" Value="#367419"/>
+    <Setter Property="BorderBrush" Value="#D68910"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="Padding" Value="16,10"/>
     <Setter Property="FontSize" Value="14"/>
@@ -688,7 +688,7 @@
 
   <!-- No Hover Small Button - For +/- quantity buttons -->
   <Style x:Key="NoHoverSmallButtonStyle" TargetType="Button">
-    <Setter Property="Background" Value="#367419"/>
+    <Setter Property="Background" Value="#D68910"/>
     <Setter Property="Foreground" Value="White"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="8"/>
@@ -732,9 +732,9 @@
   <!-- No Hover Category Button -->
   <Style x:Key="NoHoverCategoryButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="White"/>
-    <Setter Property="Foreground" Value="#367419"/>
+    <Setter Property="Foreground" Value="#D68910"/>
     <Setter Property="BorderThickness" Value="1.5"/>
-    <Setter Property="BorderBrush" Value="#367419"/>
+    <Setter Property="BorderBrush" Value="#D68910"/>
     <Setter Property="CornerRadius" Value="18"/>
     <Setter Property="Padding" Value="12,6"/>
     <Setter Property="MinHeight" Value="36"/>
@@ -835,7 +835,7 @@
                     <DoubleAnimation Storyboard.TargetName="RootBorder"
                                    Storyboard.TargetProperty="Opacity"
                                    To="0.6"
-                                   Duration="0:0:0.1"/>
+                                    Duration="0:0:0.1"/>
                   </Storyboard>
                 </VisualState>
               </VisualStateGroup>

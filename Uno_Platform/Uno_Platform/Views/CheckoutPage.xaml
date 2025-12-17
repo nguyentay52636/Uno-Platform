@@ -16,7 +16,7 @@
 
     <!-- Header -->
     <Border Grid.Row="0"
-            Background="#367419"
+            Background="#D68910"
             Padding="16">
       <Grid ColumnDefinitions="Auto,*">
         <Button Grid.Column="0"
@@ -51,13 +51,13 @@
               <Border Background="#E8F5E9" 
                       CornerRadius="8" 
                       Width="28" Height="28">
-                <FontIcon Glyph="&#xE77B;" FontSize="14" Foreground="#367419"
+                <FontIcon Glyph="&#xE77B;" FontSize="14" Foreground="#D68910"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
               <TextBlock Text="Thông tin giao hàng"
                          FontSize="15"
                          FontWeight="Bold"
-                         Foreground="#367419"
+                         Foreground="#D68910"
                          VerticalAlignment="Center"/>
             </StackPanel>
             
@@ -171,13 +171,13 @@
               <Border Background="#E8F5E9" 
                       CornerRadius="8" 
                       Width="28" Height="28">
-                <FontIcon Glyph="&#xE7BF;" FontSize="14" Foreground="#367419"
+                <FontIcon Glyph="&#xE7BF;" FontSize="14" Foreground="#D68910"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
               <TextBlock Text="Đơn hàng của bạn"
                          FontSize="15"
                          FontWeight="Bold"
-                         Foreground="#367419"
+                         Foreground="#D68910"
                          VerticalAlignment="Center"/>
             </StackPanel>
 
@@ -221,12 +221,12 @@
                         <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0">
                           <TextBlock Text="{x:Bind ProductPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                                      FontSize="12"
-                                     Foreground="#367419"/>
+                                     Foreground="#D68910"/>
                           <TextBlock Text="×" FontSize="12" Foreground="#888"/>
                           <TextBlock Text="{x:Bind Quantity, Mode=OneWay}"
                                      FontSize="12"
                                      FontWeight="Bold"
-                                     Foreground="#367419"/>
+                                     Foreground="#D68910"/>
                         </StackPanel>
                       </StackPanel>
                       
@@ -235,7 +235,7 @@
                                  Text="{x:Bind TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
                                  FontSize="13"
                                  FontWeight="Bold"
-                                 Foreground="#367419"
+                                 Foreground="#D68910"
                                  VerticalAlignment="Center"/>
                     </Grid>
                   </Border>
@@ -286,7 +286,7 @@
                      Text="{x:Bind ViewModel.TotalPriceFormatted, Mode=OneWay}"
                      FontSize="24"
                      FontWeight="Bold"
-                     Foreground="#367419"
+                                 Foreground="#D68910"
                      VerticalAlignment="Center"/>
         </Grid>
         

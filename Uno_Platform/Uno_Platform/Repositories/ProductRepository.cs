@@ -94,22 +94,30 @@ public class ProductRepository : IProductRepository
     }
 
     /// <summary>
-    /// Thêm sản phẩm mới vào database. Tự động set ảnh mặc định.
+    /// Thêm sản phẩm mới vào database. Giữ nguyên ảnh từ product nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public Task<bool> AddProductAsync(Product product)
     {
-        product.Image = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(product.Image))
+        {
+            product.Image = "Assets/img/caby.png";
+        }
         _dbContext.AddProduct(product);
-        System.Diagnostics.Debug.WriteLine($"=== ProductRepository: Added product {product.Name} ===");
+        System.Diagnostics.Debug.WriteLine($"=== ProductRepository: Added product {product.Name} with image {product.Image} ===");
         return Task.FromResult(true);
     }
 
     /// <summary>
-    /// Cập nhật sản phẩm. Tự động set ảnh mặc định.
+    /// Cập nhật sản phẩm. Giữ nguyên ảnh từ product nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public Task<bool> UpdateProductAsync(Product product)
     {
-        product.Image = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(product.Image))
+        {
+            product.Image = "Assets/img/caby.png";
+        }
         _dbContext.UpdateProduct(product);
         return Task.FromResult(true);
     }

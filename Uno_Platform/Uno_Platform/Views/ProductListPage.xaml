@@ -116,7 +116,7 @@
                 VerticalAlignment="Center"
                 CornerRadius="20"
                 BorderThickness="2"
-                BorderBrush="#367419"
+                BorderBrush="#D68910"
                 Visibility="{x:Bind ViewModel.HasNoProducts, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
           <StackPanel Spacing="16" HorizontalAlignment="Center">
             <Border Background="#E8F4E8"
@@ -125,7 +125,7 @@
                     Height="80"
                     HorizontalAlignment="Center">
               <SymbolIcon Symbol="Find"
-                          Foreground="#367419"
+                          Foreground="#D68910"
                           RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon.RenderTransform>
                   <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -135,7 +135,7 @@
             <TextBlock Text="Không tìm thấy sản phẩm"
                        FontSize="18"
                        FontWeight="Bold"
-                       Foreground="#367419"
+                       Foreground="#D68910"
                        HorizontalAlignment="Center"
                        TextAlignment="Center"/>
             <TextBlock Text="Thử tìm kiếm với từ khóa khác"
