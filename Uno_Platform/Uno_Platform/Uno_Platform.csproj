@@ -6,16 +6,16 @@
     <UnoSingleProject>true</UnoSingleProject>
 
     <!-- Display name -->
-    <ApplicationTitle>Retail Store</ApplicationTitle>
+    <ApplicationTitle>Fried-Heaven</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.retailstore.app</ApplicationId>
+    <ApplicationId>com.friedheaven.app</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <!-- Package Publisher -->
-    <ApplicationPublisher>Retail Store</ApplicationPublisher>
+    <ApplicationPublisher>Fried-Heaven</ApplicationPublisher>
     <!-- Package Description -->
-    <Description>Retail Store - Ứng dụng mua sắm trực tuyến.</Description>
+    <Description>Fried-Heaven - Thiên đường đồ chiên, đặt món trực tuyến.</Description>
 
     <!--
       UnoFeatures are used to quickly add and manage features enabled for your app.

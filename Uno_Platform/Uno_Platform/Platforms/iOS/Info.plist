@@ -3,9 +3,9 @@
 <plist version="1.0">
 	<dict>
 		<key>CFBundleDisplayName</key>
-		<string>Retail Store</string>
+		<string>Fried-Heaven</string>
 		<key>CFBundleName</key>
-		<string>Retail Store</string>
+		<string>Fried-Heaven</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>UIDeviceFamily</key>

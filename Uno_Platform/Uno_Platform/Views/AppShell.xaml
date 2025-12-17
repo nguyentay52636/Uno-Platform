@@ -90,7 +90,7 @@
         <!-- Brand Name (Center) -->
         <TextBlock Grid.Column="1"
                    x:Name="AppTitle"
-                   Text="RetailStore"
+                   Text="Fried-Heaven"
                    FontSize="20"
                    FontWeight="Bold"
                    Foreground="#367419"
@@ -412,32 +412,48 @@
           
           <!-- Menu Items -->
           <StackPanel Spacing="4">
-            <Button Content="🏠  Trang chủ"
-                    Click="HomeTab_Click"
+            <Button Click="HomeTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Style="{StaticResource NoHoverGhostButtonStyle}"
                     Background="#E8F4E8"
                     Foreground="#367419"
-                    FontWeight="SemiBold"/>
+                    FontWeight="SemiBold">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <SymbolIcon Symbol="Home"/>
+                <TextBlock Text="Trang chủ" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
             
-            <Button Content="🛍️  Sản phẩm"
-                    Click="HomeTab_Click"
+            <Button Click="HomeTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <SymbolIcon Symbol="Shop"/>
+                <TextBlock Text="Sản phẩm" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
             
-            <Button Content="🛒  Giỏ hàng"
-                    Click="CartTab_Click"
+            <Button Click="CartTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <SymbolIcon Symbol="Shop"/>
+                <TextBlock Text="Giỏ hàng" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
             
-            <Button Content="⚙️  Cài đặt"
-                    Click="SettingsTab_Click"
+            <Button Click="SettingsTab_Click"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
-                    Style="{StaticResource NoHoverGhostButtonStyle}"/>
+                    Style="{StaticResource NoHoverGhostButtonStyle}">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <SymbolIcon Symbol="Setting"/>
+                <TextBlock Text="Cài đặt" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
           </StackPanel>
         </StackPanel>
       </Grid>

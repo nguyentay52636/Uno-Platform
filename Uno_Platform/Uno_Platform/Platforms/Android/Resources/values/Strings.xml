@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="Hello">Hello World, Click Me!</string>
-	<string name="ApplicationName">Retail Store</string>
-	<string name="app_name">Retail Store</string>
+	<string name="ApplicationName">Fried-Heaven</string>
+	<string name="app_name">Fried-Heaven</string>
 </resources>

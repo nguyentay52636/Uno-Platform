@@ -33,9 +33,9 @@
         <StackPanel Spacing="{StaticResource SpacingM}">
           <TextBlock Text="About"
                      Style="{StaticResource Heading3Style}"/>
-          <TextBlock Text="RetailStore v1.0"
+          <TextBlock Text="Fried-Heaven v1.0"
                      Style="{StaticResource SecondaryTextStyle}"/>
-          <TextBlock Text="A modern shopping app built with Uno Platform"
+          <TextBlock Text="Thiên đường đồ chiên - Ứng dụng đặt món trực tuyến"
                      Style="{StaticResource SecondaryTextStyle}"/>
         </StackPanel>
       </Border>

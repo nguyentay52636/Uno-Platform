@@ -7,9 +7,9 @@
 
   <Identity />
   <Properties>
-    <DisplayName>Retail Store</DisplayName>
-    <PublisherDisplayName>Retail Store</PublisherDisplayName>
-    <Description>Retail Store - Ứng dụng mua sắm trực tuyến</Description>
+    <DisplayName>Fried-Heaven</DisplayName>
+    <PublisherDisplayName>Fried-Heaven</PublisherDisplayName>
+    <Description>Fried-Heaven - Thiên đường đồ chiên, đặt món trực tuyến</Description>
     <Logo>Assets\img\logo.PNG</Logo>
   </Properties>
 
@@ -27,8 +27,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements 
-        DisplayName="Retail Store"
-        Description="Retail Store App"
+        DisplayName="Fried-Heaven"
+        Description="Fried-Heaven App"
         BackgroundColor="#367419"
         Square150x150Logo="Assets\img\logo.PNG"
         Square44x44Logo="Assets\img\logo.PNG">

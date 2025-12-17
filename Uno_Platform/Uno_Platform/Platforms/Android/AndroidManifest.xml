@@ -3,6 +3,6 @@
   <application 
     android:allowBackup="true" 
     android:supportsRtl="true"
-    android:label="Retail Store">
+    android:label="Fried-Heaven">
   </application>
 </manifest>

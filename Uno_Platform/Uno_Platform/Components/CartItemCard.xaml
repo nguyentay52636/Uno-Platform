@@ -97,14 +97,12 @@
           <StackPanel Grid.Column="1" 
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center">
-            <TextBlock FontSize="18"
+            <TextBlock Text="{x:Bind CartItem.TotalPrice, Mode=OneWay, Converter={StaticResource PriceFormatConverter}}"
+                       FontSize="18"
                        FontWeight="Bold"
                        Foreground="#367419"
-                       HorizontalAlignment="Right">
-              <Run Text="$ "/>
-              <Run Text="{x:Bind CartItem.TotalPrice, Mode=OneWay}"/>
-            </TextBlock>
-            <Button Content="🗑️ Xóa"
+                       HorizontalAlignment="Right"/>
+            <Button Content="Xóa"
                     Style="{StaticResource NoHoverDeleteButtonStyle}"
                     HorizontalAlignment="Right"
                     Click="Remove_Click"/>
