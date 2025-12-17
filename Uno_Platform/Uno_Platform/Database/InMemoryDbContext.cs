@@ -82,21 +82,29 @@ public class InMemoryDbContext
     public CartItem? GetCartItemByProductId(int productId) => _cartItems.FirstOrDefault(c => c.ProductId == productId);
 
     /// <summary>
-    /// Thêm item vào giỏ hàng. Tự động gán ID và ảnh mặc định.
+    /// Thêm item vào giỏ hàng. Tự động gán ID. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public void AddCartItem(CartItem item)
     {
         item.Id = _nextCartItemId++;
-        item.ProductImage = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(item.ProductImage))
+        {
+            item.ProductImage = "Assets/img/caby.png";
+        }
         _cartItems.Add(item);
     }
 
     /// <summary>
-    /// Cập nhật số lượng hoặc thông tin item trong giỏ hàng
+    /// Cập nhật số lượng hoặc thông tin item trong giỏ hàng. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public void UpdateCartItem(CartItem item)
     {
-        item.ProductImage = "Assets/img/caby.png"; // Always use default image
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(item.ProductImage))
+        {
+            item.ProductImage = "Assets/img/caby.png";
+        }
         var index = _cartItems.FindIndex(c => c.Id == item.Id);
         if (index >= 0)
         {

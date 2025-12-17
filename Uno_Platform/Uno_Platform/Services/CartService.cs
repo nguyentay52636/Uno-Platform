@@ -68,7 +68,7 @@ public class CartService : ICartService
                 ProductId = product.Id,
                 ProductName = product.Name,
                 ProductPrice = product.Price,
-                ProductImage = "Assets/img/caby.png",
+                ProductImage = product.Image ?? "Assets/img/caby.png", // Use product image if available
                 ProductCategory = product.Category,
                 Quantity = 1
             };
@@ -159,8 +159,8 @@ public class CartService : ICartService
         {
             item.ProductName = product.Name;
             item.ProductPrice = product.Price;
+            item.ProductImage = product.Image ?? "Assets/img/caby.png"; // Update image from product
             item.ProductCategory = product.Category;
-            // item.ProductImage = product.Image; // Image is handled in repository for now
             
             await _cartRepository.UpdateCartItemAsync(item);
             System.Diagnostics.Debug.WriteLine($"=== CartService: Updated cart item for product {product.Name} ===");

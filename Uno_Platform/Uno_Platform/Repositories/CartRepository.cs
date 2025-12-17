@@ -90,14 +90,18 @@ public class CartRepository : ICartRepository
     }
 
     /// <summary>
-    /// [Android/Windows] Thêm cart item vào EF Core SQLite. Tự động set ảnh mặc định.
+    /// [Android/Windows] Thêm cart item vào EF Core SQLite. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public async Task<bool> AddCartItemAsync(CartItem item)
     {
         await EnsureDatabaseInitializedAsync();
         try
         {
-            item.ProductImage = "Assets/img/caby.png"; // Always use default image
+            // Chỉ set ảnh mặc định nếu chưa có ảnh
+            if (string.IsNullOrWhiteSpace(item.ProductImage))
+            {
+                item.ProductImage = "Assets/img/caby.png";
+            }
             _dbContext.CartItems.Add(item);
             await _dbContext.SaveChangesAsync();
             return true;
@@ -110,14 +114,18 @@ public class CartRepository : ICartRepository
     }
 
     /// <summary>
-    /// [Android/Windows] Cập nhật cart item trong EF Core SQLite. Tự động set ảnh mặc định.
+    /// [Android/Windows] Cập nhật cart item trong EF Core SQLite. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public async Task<bool> UpdateCartItemAsync(CartItem item)
     {
         await EnsureDatabaseInitializedAsync();
         try
         {
-            item.ProductImage = "Assets/img/caby.png"; // Always use default image
+            // Chỉ set ảnh mặc định nếu chưa có ảnh
+            if (string.IsNullOrWhiteSpace(item.ProductImage))
+            {
+                item.ProductImage = "Assets/img/caby.png";
+            }
             _dbContext.CartItems.Update(item);
             await _dbContext.SaveChangesAsync();
             return true;
@@ -220,21 +228,29 @@ public class CartRepository : ICartRepository
     }
 
     /// <summary>
-    /// [WASM] Thêm cart item vào RAM. Tự động set ảnh mặc định.
+    /// [WASM] Thêm cart item vào RAM. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public Task<bool> AddCartItemAsync(CartItem item)
     {
-        item.ProductImage = "Assets/img/caby.png";
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(item.ProductImage))
+        {
+            item.ProductImage = "Assets/img/caby.png";
+        }
         _dbContext.AddCartItem(item);
         return Task.FromResult(true);
     }
 
     /// <summary>
-    /// [WASM] Cập nhật cart item trong RAM. Tự động set ảnh mặc định.
+    /// [WASM] Cập nhật cart item trong RAM. Giữ nguyên ảnh từ item nếu đã có, nếu không thì dùng ảnh mặc định.
     /// </summary>
     public Task<bool> UpdateCartItemAsync(CartItem item)
     {
-        item.ProductImage = "Assets/img/caby.png";
+        // Chỉ set ảnh mặc định nếu chưa có ảnh
+        if (string.IsNullOrWhiteSpace(item.ProductImage))
+        {
+            item.ProductImage = "Assets/img/caby.png";
+        }
         _dbContext.UpdateCartItem(item);
         return Task.FromResult(true);
     }
