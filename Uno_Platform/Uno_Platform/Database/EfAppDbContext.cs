@@ -7,10 +7,15 @@ using Windows.Storage;
 namespace Uno_Platform.Database;
 
 /// <summary>
-/// Entity Framework Core database context cho Cart items. Dùng SQLite làm backend.
+/// Entity Framework Core database context cho Products và Cart items. Dùng SQLite làm backend.
 /// </summary>
 public class EfAppDbContext : DbContext
 {
+    /// <summary>
+    /// DbSet cho Product table
+    /// </summary>
+    public DbSet<Product> Products { get; set; }
+
     /// <summary>
     /// DbSet cho CartItem table
     /// </summary>
@@ -37,16 +42,16 @@ public class EfAppDbContext : DbContext
 #if __ANDROID__
         // For Android, use local app data
         string personalFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-        dbPath = Path.Combine(personalFolder, "cart.db");
+        dbPath = Path.Combine(personalFolder, "unoplatform.db");
 #elif __IOS__
         // For iOS, use documents folder
         string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
         string libraryPath = Path.Combine(documentsPath, "..", "Library");
-        dbPath = Path.Combine(libraryPath, "cart.db");
+        dbPath = Path.Combine(libraryPath, "unoplatform.db");
 #else
         // For other platforms (Windows, etc.)
         string localFolder = ApplicationData.Current.LocalFolder.Path;
-        dbPath = Path.Combine(localFolder, "cart.db");
+        dbPath = Path.Combine(localFolder, "unoplatform.db");
 #endif
 
         // Ensure the directory exists
@@ -62,11 +67,24 @@ public class EfAppDbContext : DbContext
     }
 
     /// <summary>
-    /// Cấu hình model: định nghĩa primary key, required fields, data types cho CartItem
+    /// Cấu hình model: định nghĩa primary key, required fields, data types cho Product và CartItem
     /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // Configure Product entity
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Price).HasColumnType("decimal(18,2)");
+            entity.Property(e => e.Description).IsRequired();
+            entity.Property(e => e.Image).IsRequired();
+            entity.Property(e => e.Category).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+        });
 
         // Configure CartItem entity
         modelBuilder.Entity<CartItem>(entity =>

@@ -1,5 +1,8 @@
 using Uno_Platform.Database;
 using Uno_Platform.Models;
+#if !__WASM__
+using Microsoft.EntityFrameworkCore;
+#endif
 
 namespace Uno_Platform.Services;
 
@@ -117,30 +120,22 @@ public class DatabaseService
         }
     }
 #else
-    private readonly AppDbContext _dbContext;
-
     /// <summary>
-    /// Constructor cho Android/Windows - sử dụng AppDbContext (SQLite persistent storage)
+    /// Constructor cho Android/Windows - sử dụng EF Core (SQLite persistent storage)
     /// </summary>
     public DatabaseService()
     {
-        _dbContext = new AppDbContext();
     }
 
     /// <summary>
-    /// [Android/Windows] Lấy tất cả sản phẩm từ SQLite database. Hiển thị toast nếu có lỗi.
+    /// [Android/Windows] Lấy tất cả sản phẩm từ EF Core SQLite database. Hiển thị toast nếu có lỗi.
     /// </summary>
     public List<Product> GetAllProducts()
     {
         try
         {
-            return _dbContext.Connection.Table<Product>().ToList();
-        }
-        catch (SQLite.SQLiteException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"SQLite error getting all products: {ex.Message}");
-            ToastService.Instance.ShowError("Database error. Please try again.");
-            return new List<Product>();
+            using var context = new Database.EfAppDbContext();
+            return context.Products.ToList();
         }
         catch (Exception ex)
         {
@@ -151,19 +146,14 @@ public class DatabaseService
     }
 
     /// <summary>
-    /// [Android/Windows] Tìm sản phẩm theo ID từ SQLite. Returns null nếu không tìm thấy hoặc có lỗi.
+    /// [Android/Windows] Tìm sản phẩm theo ID từ EF Core SQLite. Returns null nếu không tìm thấy hoặc có lỗi.
     /// </summary>
     public Product? GetProductById(int id)
     {
         try
         {
-            return _dbContext.Connection.Table<Product>().FirstOrDefault(p => p.Id == id);
-        }
-        catch (SQLite.SQLiteException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"SQLite error getting product by ID: {ex.Message}");
-            ToastService.Instance.ShowError("Database error.");
-            return null;
+            using var context = new Database.EfAppDbContext();
+            return context.Products.FirstOrDefault(p => p.Id == id);
         }
         catch (Exception ex)
         {
@@ -174,20 +164,16 @@ public class DatabaseService
     }
 
     /// <summary>
-    /// [Android/Windows] Thêm sản phẩm vào SQLite. Returns true nếu insert thành công (affected rows > 0).
+    /// [Android/Windows] Thêm sản phẩm vào EF Core SQLite. Returns true nếu insert thành công.
     /// </summary>
     public bool AddProduct(Product product)
     {
         try
         {
-            int result = _dbContext.Connection.Insert(product);
-            return result > 0;
-        }
-        catch (SQLite.SQLiteException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"SQLite error adding product: {ex.Message}");
-            ToastService.Instance.ShowError("Database error. Product not added.");
-            return false;
+            using var context = new Database.EfAppDbContext();
+            context.Products.Add(product);
+            context.SaveChanges();
+            return true;
         }
         catch (Exception ex)
         {
@@ -198,20 +184,16 @@ public class DatabaseService
     }
 
     /// <summary>
-    /// [Android/Windows] Cập nhật sản phẩm trong SQLite. Returns true nếu update thành công.
+    /// [Android/Windows] Cập nhật sản phẩm trong EF Core SQLite. Returns true nếu update thành công.
     /// </summary>
     public bool UpdateProduct(Product product)
     {
         try
         {
-            int result = _dbContext.Connection.Update(product);
-            return result > 0;
-        }
-        catch (SQLite.SQLiteException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"SQLite error updating product: {ex.Message}");
-            ToastService.Instance.ShowError("Database error. Product not updated.");
-            return false;
+            using var context = new Database.EfAppDbContext();
+            context.Products.Update(product);
+            context.SaveChanges();
+            return true;
         }
         catch (Exception ex)
         {
@@ -222,19 +204,20 @@ public class DatabaseService
     }
 
     /// <summary>
-    /// [Android/Windows] Xóa sản phẩm khỏi SQLite theo ID. Returns true nếu delete thành công.
+    /// [Android/Windows] Xóa sản phẩm khỏi EF Core SQLite theo ID. Returns true nếu delete thành công.
     /// </summary>
     public bool DeleteProduct(int id)
     {
         try
         {
-            int result = _dbContext.Connection.Delete<Product>(id);
-            return result > 0;
-        }
-        catch (SQLite.SQLiteException ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"SQLite error deleting product: {ex.Message}");
-            ToastService.Instance.ShowError("Database error. Product not deleted.");
+            using var context = new Database.EfAppDbContext();
+            var product = context.Products.Find(id);
+            if (product != null)
+            {
+                context.Products.Remove(product);
+                context.SaveChanges();
+                return true;
+            }
             return false;
         }
         catch (Exception ex)
@@ -246,7 +229,7 @@ public class DatabaseService
     }
 
     /// <summary>
-    /// [Android/Windows] Tạo dữ liệu mẫu nếu SQLite database trống (chỉ chạy lần đầu)
+    /// [Android/Windows] Tạo dữ liệu mẫu nếu EF Core SQLite database trống (chỉ chạy lần đầu)
     /// </summary>
     public void SeedSampleData()
     {

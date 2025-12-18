@@ -1,18 +1,16 @@
-#if !__WASM__
-using SQLite;
-#endif
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Uno_Platform.Models;
 
 /// <summary>
-/// Model cho sản phẩm. Lưu trong SQLite (Android) hoặc InMemory (WASM).
+/// Model cho sản phẩm. Lưu trong SQLite (Android/Windows) hoặc InMemory (WASM).
 /// </summary>
 public class Product
 {
-#if !__WASM__
-    [PrimaryKey, AutoIncrement]
-#endif
     /// <summary>ID tự động tăng</summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     
     /// <summary>Tên sản phẩm</summary>
@@ -32,9 +30,4 @@ public class Product
     
     /// <summary>Thời gian tạo sản phẩm</summary>
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    
-    /// <summary>
-    /// Lấy đường dẫn ảnh mặc định (luôn trả về cùng 1 ảnh)
-    /// </summary>
-    public string GetImagePath() => "Assets/img/caby.png";
 }

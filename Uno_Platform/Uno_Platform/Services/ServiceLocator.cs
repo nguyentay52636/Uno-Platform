@@ -1,7 +1,4 @@
 using Uno_Platform.Repositories;
-#if !__WASM__
-using Uno_Platform.Database;
-#endif
 
 namespace Uno_Platform.Services;
 
@@ -17,26 +14,6 @@ public static class ServiceLocator
     private static NavigationService? _navigationService;
     private static DataSeedService? _dataSeedService;
     private static ApiService? _apiService;
-
-#if !__WASM__
-    private static AppDbContext? _dbContext;
-    
-    /// <summary>
-    /// [Android/Windows Only] Singleton SQLite database context
-    /// </summary>
-    public static AppDbContext DbContext
-    {
-        get
-        {
-            if (_dbContext == null)
-            {
-                System.Diagnostics.Debug.WriteLine("=== ServiceLocator: Creating new AppDbContext ===");
-                _dbContext = new AppDbContext();
-            }
-            return _dbContext;
-        }
-    }
-#endif
 
     /// <summary>
     /// Singleton ProductRepository instance

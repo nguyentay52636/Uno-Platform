@@ -1,18 +1,16 @@
-#if !__WASM__
-using SQLite;
-#endif
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Uno_Platform.Models;
 
 /// <summary>
-/// Model cho item trong giỏ hàng. Lưu trong EF Core SQLite (Android) hoặc InMemory (WASM).
+/// Model cho item trong giỏ hàng. Lưu trong EF Core SQLite (Android/Windows) hoặc InMemory (WASM).
 /// </summary>
 public class CartItem
 {
-#if !__WASM__
-    [PrimaryKey, AutoIncrement]
-#endif
     /// <summary>ID tự động tăng của cart item</summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     
     /// <summary>ID của sản phẩm gốc (foreign key)</summary>

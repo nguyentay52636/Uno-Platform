@@ -17,7 +17,7 @@ public partial class App : Application
         this.InitializeComponent();
         
 #if __ANDROID__ || __IOS__ || __MACOS__
-        // Initialize SQLite for mobile/desktop platforms using bundle_green
+        // Initialize SQLite for EF Core on mobile/desktop platforms
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 #endif
     }
