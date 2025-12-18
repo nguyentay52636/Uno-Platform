@@ -1,0 +1,6 @@
+@Uno_Platform.Backend_HostAddress = http://localhost:5047
+
+GET {{Uno_Platform.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

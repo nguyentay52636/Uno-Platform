@@ -14,7 +14,7 @@ public class ApiService
         _httpClient = new HttpClient();
         // Cấu hình base URL - có thể thay đổi theo môi trường
         // Mặc định: localhost cho development, cần cập nhật khi deploy
-        _baseUrl = "https://localhost:5001/api"; // Thay đổi theo URL của ASP.NET MVC backend
+        _baseUrl = "https://localhost:7127/api"; // Backend ASP.NET Web API
         
         _httpClient.Timeout = TimeSpan.FromSeconds(30);
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
